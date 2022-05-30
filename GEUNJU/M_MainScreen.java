@@ -6,6 +6,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +19,19 @@ import javax.swing.JPanel;
 import DB2022TEAM03.LoginScreen;
 
 public class M_MainScreen extends JFrame {
-	public M_MainScreen() {
+	
+	public static final String URL = "jdbc:mysql://localhost/DB2022TEAM03";
+	public static final String USER = "db2022team03";
+	public static final String PASS = "db2022team03";
+	public static String ID = "M09560";
+	public Connection conn;
+	
+	public static void main(String[] args) throws SQLException {
+		Connection conn = DriverManager.getConnection(URL,USER,PASS);
+		new M_MainScreen(conn,ID);
+	}
+	
+	public M_MainScreen(Connection conn,String ID) {
 		setTitle("헬스장 PT 예약 시스템");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
 		
@@ -93,7 +109,20 @@ public class M_MainScreen extends JFrame {
 		M_GScreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_GScreen();
+				new M_GScreen(conn,ID);
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		myPageBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				try {
+					new M_myPage(conn,ID);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("마이페이지 로딩 실패:"+e1);
+				}
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}

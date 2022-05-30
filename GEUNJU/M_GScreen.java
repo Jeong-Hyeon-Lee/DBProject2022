@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class M_GScreen extends JFrame {
-	public M_GScreen() {
+	public M_GScreen(Connection conn, String ID) {
 		setTitle("헬스장 PT 예약 시스템");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
 		
@@ -78,7 +80,41 @@ public class M_GScreen extends JFrame {
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_MainScreen();
+				new M_MainScreen(conn,ID);
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		recommendGYMBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				try {
+					new M_recommendGYM(conn,ID);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		searchGYMBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				try {
+					new M_searchGYM(conn,ID);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		enrollGYMBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				new M_MainScreen(conn,ID);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}

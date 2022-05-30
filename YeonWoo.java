@@ -34,8 +34,8 @@ public class YeonWoo extends JFrame{
 			System.out.println("Error: " + sqle);
 		}
 		
-		//new StartScreen();
-		new M_MainScreen();
+		new StartScreen();
+		//new M_MainScreen();
 	}
 
 }
