@@ -2,6 +2,9 @@ package DB2022TEAM03;
 
 import java.sql.*;
 import javax.swing.*;
+
+import DB2022TEAM03.GEUNJU.M_MainScreen;
+
 import java.awt.*;
 
 public class YeonWoo extends JFrame{
@@ -31,7 +34,8 @@ public class YeonWoo extends JFrame{
 			System.out.println("Error: " + sqle);
 		}
 		
-		new StartScreen();
+		//new StartScreen();
+		new M_MainScreen();
 	}
 
 }
