@@ -37,13 +37,14 @@ public class G_changePriceInformation extends JFrame {
 			ResultSet priceRS = pStmt0.executeQuery();
 
 			JPanel text = new JPanel();
-
+			JLabel priceInfo = new JLabel();
+			
 			while (priceRS.next()) {
 				int a = priceRS.getInt(1);
 				int b = priceRS.getInt(2);
 				int c = priceRS.getInt(3);
 
-				JLabel priceInfo = new JLabel("현재가격: 1회-" + a + " 10회-" + b + " 20회-" + c);
+				priceInfo.setText("현재가격: 1회-" + a + " 10회-" + b + " 20회-" + c);
 				priceInfo.setForeground(new Color(5, 0, 153));
 				priceInfo.setFont(new Font("맑은 고딕", Font.BOLD, 10));
 				text.add(priceInfo);
@@ -73,13 +74,26 @@ public class G_changePriceInformation extends JFrame {
 			menu1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int newPrice = Integer.parseInt(JOptionPane.showInputDialog("수정할 가격 입력하기"));
+					String s = JOptionPane.showInputDialog("수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
+					
+					if(s == null || s.equals(""))
+						return;
 					
 					try {
 						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 1회가격 = ? where 헬스장번호 = ?");
+						int newPrice = Integer.parseInt(s);
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
+						
+						ResultSet priceRS2 = pStmt0.executeQuery();
+						while (priceRS2.next()) {
+							int a = priceRS2.getInt(1);
+							int b = priceRS2.getInt(2);
+							int c = priceRS2.getInt(3);
+
+							priceInfo.setText("현재가격: 1회-" + a + " 10회-" + b + " 20회-" + c);
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -91,13 +105,26 @@ public class G_changePriceInformation extends JFrame {
 
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int newPrice = Integer.parseInt(JOptionPane.showInputDialog("수정할 가격 입력하기"));
+					String s = JOptionPane.showInputDialog("수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
+					
+					if(s == null || s.equals(""))
+						return;
 					
 					try {
 						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 10회가격 = ? where 헬스장번호 = ?");
+						int newPrice = Integer.parseInt(s);
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
+						
+						ResultSet priceRS2 = pStmt0.executeQuery();
+						while (priceRS2.next()) {
+							int a = priceRS2.getInt(1);
+							int b = priceRS2.getInt(2);
+							int c = priceRS2.getInt(3);
+
+							priceInfo.setText("현재가격: 1회-" + a + " 10회-" + b + " 20회-" + c);
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -109,13 +136,26 @@ public class G_changePriceInformation extends JFrame {
 
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int newPrice = Integer.parseInt(JOptionPane.showInputDialog("수정할 가격 입력하기"));
+					String s = JOptionPane.showInputDialog("수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
+					
+					if(s == null || s.equals(""))
+						return;
 					
 					try {
 						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 20회가격 = ? where 헬스장번호 = ?");
+						int newPrice = Integer.parseInt(s);
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
+						
+						ResultSet priceRS2 = pStmt0.executeQuery();
+						while (priceRS2.next()) {
+							int a = priceRS2.getInt(1);
+							int b = priceRS2.getInt(2);
+							int c = priceRS2.getInt(3);
+
+							priceInfo.setText("현재가격: 1회-" + a + " 10회-" + b + " 20회-" + c);
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
