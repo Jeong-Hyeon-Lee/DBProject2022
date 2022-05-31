@@ -1,13 +1,9 @@
 package DB2022Team03;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,11 +31,11 @@ public class G_changePromotionInformation extends JFrame {
 			ResultSet promoRS = pStmt0.executeQuery();
 
 			JPanel text = new JPanel();
-
+			JLabel promo = new JLabel();
+			
 			while (promoRS.next()) {
 				String s = promoRS.getString(1);
-				JLabel promo = new JLabel(s);
-				System.out.println("현재 프로모션 정보: " + promo);
+				promo.setText(s);
 				promo.setForeground(new Color(5, 0, 153));
 				promo.setFont(new Font("맑은 고딕", Font.BOLD, 10));
 				text.add(promo);
@@ -64,11 +60,20 @@ public class G_changePromotionInformation extends JFrame {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					String newPromotion = JOptionPane.showInputDialog("프로모션 수정: ");
 					
+					if(newPromotion == null || newPromotion.equals(""))
+						return;
+					
 					try {
 						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 기타프로모션설명 = ? where 헬스장번호 = ?");
 						pStmt2.setString(1, newPromotion);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
+						
+						ResultSet promoRS2 = pStmt0.executeQuery();
+						while (promoRS2.next()) {
+							String s = promoRS2.getString(1);
+							promo.setText(s);
+						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
