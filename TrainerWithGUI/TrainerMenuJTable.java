@@ -5,37 +5,37 @@ import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 
 public class TrainerMenuJTable extends JFrame implements ActionListener{
-	JMenu m = new JMenu("Æ®·¹ÀÌ³Ê ¸Ş´º");
-	// Æ®·¹ÀÌ³Ê¿ë ¸Ş´º È­¸éÀÌ ¶¹´Ù´Â °ÍÀº ·Î±×ÀÎ ÇÑ »óÅÂ¶ó´Â °¡Á¤À» Æ÷ÇÔÇÑ´Ù.
-	JMenuItem myPage = new JMenuItem("¸¶ÀÌÆäÀÌÁö"); // °³ÀÎ Á¤º¸¸¦ ¸ğµÎ º¸¿©ÁÖ´Â È­¸é
-	JMenuItem logout = new JMenuItem("·Î±×¾Æ¿ô"); // ·Î±×¾Æ¿ô ÇÏ´Â ¹öÆ°
-	JMenuItem salary = new JMenuItem("¼öÀÔ °è»ê±â"); // ÃÑ ¼öÀÔ °è»ê±â (È¸¿øº°·Î ¾ó¸¶³ª ¹ö´ÂÁö +  ÃÑ ¼öÀÔÀ» º¸¿©ÁÜ)
-	JMenuItem update = new JMenuItem("¼ö¾÷ ÇöÈ² Ã¼Å©"); // ¼ö¾÷ ºÒÂü / ¿Ï·á ¿©ºÎ º¯°æ
-	JMenuItem reservation = new JMenuItem("¿¹¾à ´ë±â È®ÀÎ"); // ¼ö¶ô ´ë±âÁßÀÎ ¿¹¾à ÇöÈ²À» È®ÀÎÇÏ°í ¼ö¶ô / °ÅÀı ¿©ºÎ¸¦ °áÁ¤ÇØ¾ß ÇÑ´Ù.
-	JMenuBar mb = new JMenuBar(); // ¸ğµç ¸Ş´º¸¦ Æ÷ÇÔÇÏ°í ÀÖ´Â ¸Ş´º ¹Ù
+	JMenu m = new JMenu("íŠ¸ë ˆì´ë„ˆ ë©”ë‰´");
+	// íŠ¸ë ˆì´ë„ˆìš© ë©”ë‰´ í™”ë©´ì´ ë–´ë‹¤ëŠ” ê²ƒì€ ë¡œê·¸ì¸ í•œ ìƒíƒœë¼ëŠ” ê°€ì •ì„ í¬í•¨í•œë‹¤.
+	JMenuItem myPage = new JMenuItem("ë§ˆì´í˜ì´ì§€"); // ê°œì¸ ì •ë³´ë¥¼ ëª¨ë‘ ë³´ì—¬ì£¼ëŠ” í™”ë©´
+	JMenuItem logout = new JMenuItem("ë¡œê·¸ì•„ì›ƒ"); // ë¡œê·¸ì•„ì›ƒ í•˜ëŠ” ë²„íŠ¼
+	JMenuItem salary = new JMenuItem("ìˆ˜ì… ê³„ì‚°ê¸°"); // ì´ ìˆ˜ì… ê³„ì‚°ê¸° (íšŒì›ë³„ë¡œ ì–¼ë§ˆë‚˜ ë²„ëŠ”ì§€ +  ì´ ìˆ˜ì…ì„ ë³´ì—¬ì¤Œ)
+	JMenuItem update = new JMenuItem("ìˆ˜ì—… í˜„í™© ì²´í¬"); // ìˆ˜ì—… ë¶ˆì°¸ / ì™„ë£Œ ì—¬ë¶€ ë³€ê²½
+	JMenuItem reservation = new JMenuItem("ì˜ˆì•½ ëŒ€ê¸° í™•ì¸"); // ìˆ˜ë½ ëŒ€ê¸°ì¤‘ì¸ ì˜ˆì•½ í˜„í™©ì„ í™•ì¸í•˜ê³  ìˆ˜ë½ / ê±°ì ˆ ì—¬ë¶€ë¥¼ ê²°ì •í•´ì•¼ í•œë‹¤.
+	JMenuBar mb = new JMenuBar(); // ëª¨ë“  ë©”ë‰´ë¥¼ í¬í•¨í•˜ê³  ìˆëŠ” ë©”ë‰´ ë°”
 	
-	String[] trainer_info = {"Trainer Number", "Trainer Name", "Trainer Gym", "Member No", "Class Time"}; // Æ®·¹ÀÌ³Ê Á¤º¸ (·Î±×ÀÎÇÑ º»ÀÎÀÇ) Á¤º¸¸¦ º¸¿©ÁÖ±â À§ÇÑ Å×ÀÌºí
-	String[] class_info = {"Student Number","Class Time", "Class Status"}; // ¼ö¾÷ Á¤º¸ ÀúÀåÀ» À§ÇÑ Å×ÀÌºí (Æ®·¹ÀÌ³Ê È­¸éÀÇ ¸ŞÀÎ ºÎºĞ¿¡´Â Æ®·¹ÀÌ³ÊÀÇ ¸ğµç ¼ö¾÷ÀÌ Æ÷ÇÔµÇ¾î ÀÖ´Ù.)
+	String[] trainer_info = {"Trainer Number", "Trainer Name", "Trainer Gym", "Member No", "Class Time"}; // íŠ¸ë ˆì´ë„ˆ ì •ë³´ (ë¡œê·¸ì¸í•œ ë³¸ì¸ì˜) ì •ë³´ë¥¼ ë³´ì—¬ì£¼ê¸° ìœ„í•œ í…Œì´ë¸”
+	String[] class_info = {"Student Number","Class Time", "Class Status"}; // ìˆ˜ì—… ì •ë³´ ì €ì¥ì„ ìœ„í•œ í…Œì´ë¸” (íŠ¸ë ˆì´ë„ˆ í™”ë©´ì˜ ë©”ì¸ ë¶€ë¶„ì—ëŠ” íŠ¸ë ˆì´ë„ˆì˜ ëª¨ë“  ìˆ˜ì—…ì´ í¬í•¨ë˜ì–´ ìˆë‹¤.)
 	String[] salary_info = {"Student No", "Salary"};
 	
-	// Æ®·¹ÀÌ³Ê °³ÀÎ Á¤º¸ ÀúÀå Å×ÀÌºí
+	// íŠ¸ë ˆì´ë„ˆ ê°œì¸ ì •ë³´ ì €ì¥ í…Œì´ë¸”
 	DefaultTableModel trainer_table = new DefaultTableModel(trainer_info,0);
 	JTable trainer_jt = new JTable(trainer_table);
-	// ¼ö¾÷ Á¤º¸ Å×ÀÌºí
+	// ìˆ˜ì—… ì •ë³´ í…Œì´ë¸”
 	DefaultTableModel class_table = new DefaultTableModel(class_info, 0);
 	JTable class_jt = new JTable(class_table);
 	JScrollPane jsp = new JScrollPane(class_jt);
-	// ¼öÀÔ Á¤º¸ Å×ÀÌºí
+	// ìˆ˜ì… ì •ë³´ í…Œì´ë¸”
 	DefaultTableModel salary_table = new DefaultTableModel(salary_info, 0);
 	JTable salary_jt = new JTable(salary_table);
 	JPanel p = new JPanel();
-	String[] comboName = {"¿¹¾à¿Ï·á", "Ãë¼Ò", "ºÒÂü", "¿Ï·á", "°ÅÀı"}; // °ÅÀıÀ» ¼±ÅÃÇÏ¸é µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ Áö¿öÁü
+	String[] comboName = {"ì˜ˆì•½ì™„ë£Œ", "ì·¨ì†Œ", "ë¶ˆì°¸", "ì™„ë£Œ", "ê±°ì ˆ"}; // ê±°ì ˆì„ ì„ íƒí•˜ë©´ ë°ì´í„°ë² ì´ìŠ¤ì—ì„œ ì§€ì›Œì§
 	JComboBox combo = new JComboBox(comboName);
 	
 	
-	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ¿¬µ¿ °´Ã¼ »ı¼º
+	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ì—°ë™ ê°ì²´ ìƒì„±
 	
-	public static Boolean login_success = true; // Æ®·¹ÀÌ³Ê ¸Ş´º È­¸éÀ¸·Î ¿Ô´Ù´Â °ÍÀº ·Î±×ÀÎ ½ÂÀÎÀÌ µÇ¾ú´Ù´Â ¶æÀÌ´Ù.
+	public static Boolean login_success = true; // íŠ¸ë ˆì´ë„ˆ ë©”ë‰´ í™”ë©´ìœ¼ë¡œ ì™”ë‹¤ëŠ” ê²ƒì€ ë¡œê·¸ì¸ ìŠ¹ì¸ì´ ë˜ì—ˆë‹¤ëŠ” ëœ»ì´ë‹¤.
 	public static String trainer_pk = null;
 	public static String trainer_name = null;
 	
@@ -43,7 +43,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 		new TrainerMenuJTable(trainer_pk);
 	}
 	public TrainerMenuJTable(String trainer_id) {
-		super("Æ®·¹ÀÌ³Ê ¸Ş´º");
+		super("íŠ¸ë ˆì´ë„ˆ ë©”ë‰´");
 		trainer_pk = trainer_id;
 		
 		m.add(myPage);
@@ -51,13 +51,13 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 		m.add(salary);
 		m.add(update);
 		m.add(reservation);
-		mb.add(m); // ¸Ş´º¹Ù¿¡ ¸Ş´º Ãß°¡
-		setJMenuBar(mb); // À©µµ¿ì¿¡ ¸Ş´º¹Ù ¼¼ÆÃ
+		mb.add(m); // ë©”ë‰´ë°”ì— ë©”ë‰´ ì¶”ê°€
+		setJMenuBar(mb); // ìœˆë„ìš°ì— ë©”ë‰´ë°” ì„¸íŒ…
 		
 		
 		p.add(combo);
 		add(p, "South");
-		tmdb.trainerInfoAll(trainer_table, trainer_id); // ¸¶ÀÌ ÆäÀÌÁö ±â´ÉÀ» À§ÇØ¼­ ·Î±×ÀÎÇÑ Æ®·¹ÀÌ³ÊÀÇ ¸ğµç Á¤º¸¸¦ ÀúÀåÇÑ´Ù.
+		tmdb.trainerInfoAll(trainer_table, trainer_id); // ë§ˆì´ í˜ì´ì§€ ê¸°ëŠ¥ì„ ìœ„í•´ì„œ ë¡œê·¸ì¸í•œ íŠ¸ë ˆì´ë„ˆì˜ ëª¨ë“  ì •ë³´ë¥¼ ì €ì¥í•œë‹¤.
 		tmdb.classInfoAll(class_table, trainer_id);
 		tmdb.calculateSalary(salary_table, trainer_id);
 		
@@ -71,12 +71,12 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 		
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setVisible(true);
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (class_table.getRowCount() > 0) {
-			class_jt.setRowSelectionInterval(0, 0); // Ã¹¹øÂ° ¼ö¾÷¿¡ ´ëÇØ¼­ Ä¿¼­ ¼³Á¤ 
+			class_jt.setRowSelectionInterval(0, 0); // ì²«ë²ˆì§¸ ìˆ˜ì—…ì— ëŒ€í•´ì„œ ì»¤ì„œ ì„¤ì • 
 		}
 	}
 	
@@ -84,29 +84,30 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == logout) {
-			new TrainerJDialogGUI(this, "·Î±×¾Æ¿ô");
+			new TrainerJDialogGUI(this, "ë¡œê·¸ì•„ì›ƒ");
 			dispose();
 		}
 		else if (e.getSource() == myPage) {
-			new TrainerJDialogGUI(this, "¸¶ÀÌ ÆäÀÌÁö");
+			new TrainerJDialogGUI(this, "ë§ˆì´ í˜ì´ì§€");
 		}
 		else if (e.getSource() == salary) {
-			new TrainerJDialogGUI(this, "¼öÀÔ °è»ê±â");
+			new TrainerJDialogGUI(this, "ìˆ˜ì… ê³„ì‚°ê¸°");
 		}
 		else if( (e.getSource() == reservation) || (e.getSource() == update) ){
 			int row = class_jt.getSelectedRow();
 			
-			System.out.println("¼±ÅÃÇÑ Çà : " + row);
+			System.out.println("ì„ íƒí•œ í–‰ : " + row);
 			String student_no = (String) class_jt.getValueAt(row, 0);
 			String class_t = (String) class_jt.getValueAt(row, 1);
 			String status = (String) class_jt.getValueAt(row, 2);
 			String fieldName = combo.getSelectedItem().toString();
 			tmdb.changeClassStatus(student_no, class_t, status, trainer_pk, fieldName);
-			for (int i = 0;i<class_table.getRowCount();i++) {
+			int length = class_table.getRowCount();
+			for (int i = 0;i<length;i++) {
 				class_table.removeRow(0);
 			}
 			tmdb.classInfoAll(class_table, trainer_pk);
-			TrainerJDialogGUI.MessageBox(this, "¿¹¾à ÇöÈ² º¯°æ µÇ¾ú½À´Ï´Ù.");
+			TrainerJDialogGUI.MessageBox(this, "ì˜ˆì•½ í˜„í™© ë³€ê²½ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 	
 	}
