@@ -1,4 +1,4 @@
-package DB2022Team03;
+package DB2022TEAM03;
 
 
 import java.sql.SQLException;

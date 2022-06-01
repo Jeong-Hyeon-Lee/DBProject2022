@@ -35,7 +35,6 @@ public class YeonWoo extends JFrame{
 		}
 		
 		new StartScreen();
-		//new M_MainScreen();
 	}
 
 }

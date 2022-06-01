@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import DB2022TEAM03.LoginScreen;
+import DB2022TEAM03.StartScreen;
 
 public class M_MainScreen extends JFrame {
 	
@@ -83,7 +84,7 @@ public class M_MainScreen extends JFrame {
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("뒤로가기");
+		JButton undo = new JButton("로그아웃");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 
@@ -123,6 +124,14 @@ public class M_MainScreen extends JFrame {
 					// TODO Auto-generated catch block
 					System.out.println("마이페이지 로딩 실패:"+e1);
 				}
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		undo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				new StartScreen();
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}

@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import com.mysql.cj.protocol.Resultset;
 
+import DB2022TEAM03.GEUNJU.M_MainScreen;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -11,6 +13,12 @@ import java.sql.*;
 
 public class LoginScreen extends JFrame {
 
+	public static final String URL = "jdbc:mysql://localhost/DB2022TEAM03";
+	public static final String USER = "db2022team03";
+	public static final String PASS = "db2022team03";
+	public static String ID = "M09560";
+	public Connection conn;
+	
 	public LoginScreen(String userType) {
 
 		setTitle("로그인");
@@ -102,6 +110,17 @@ public class LoginScreen extends JFrame {
 
 				//팝업 창 띄워 확인 시켜주기
 				JOptionPane.showMessageDialog(null, "아이디 : " + myId + ", 비밀번호 : " + myPwd);
+				
+				//회원MENU창 띄우기
+				Connection conn;
+				try {
+					conn = DriverManager.getConnection(URL,USER,PASS);
+					new M_MainScreen(conn,ID);
+					dispose();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				//DB연결 (미완성)
 				/*
