@@ -21,14 +21,15 @@ public class G_selectMenu extends JFrame {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03";
 
+	/*
 	// Database user, password
 	static final String USER = "root";
 	static final String PASSWORD = "0000";
+	*/
 
-	/*
-	 * //Database user, password static final String USER = "DB2022Team03"; static
-	 * final String PASSWORD= "DB2022Team03";
-	 */
+	//Database user, password
+	static final String USER = "DB2022Team03";
+	static final String PASSWORD= "DB2022Team03";
 
 	static Connection conn;
 	
@@ -51,7 +52,7 @@ public class G_selectMenu extends JFrame {
 
 		JButton menu1 = new JButton("가격 정보 수정하기");
 		JButton menu2 = new JButton("프로모션 정보 수정하기");
-		JButton menu3 = new JButton("소속 트레이너 출력하기");
+		JButton menu3 = new JButton("트레이너 정보 출력하기");
 		JButton menu4 = new JButton("회원 수 출력하기");
 
 		btnpanel.add(menu1);

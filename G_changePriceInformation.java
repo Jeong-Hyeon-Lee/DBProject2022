@@ -46,7 +46,8 @@ public class G_changePriceInformation extends JFrame {
 
 				priceInfo.setText("현재가격: 1회-" + a + " 10회-" + b + " 20회-" + c);
 				priceInfo.setForeground(new Color(5, 0, 153));
-				priceInfo.setFont(new Font("맑은 고딕", Font.BOLD, 10));
+				priceInfo.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+				
 				text.add(priceInfo);
 			}
 
@@ -65,8 +66,6 @@ public class G_changePriceInformation extends JFrame {
 			add(btnpanel, BorderLayout.CENTER);
 
 			setBounds(200, 200, 400, 250);
-
-			setResizable(false); // 화면 크기 고정하는 작업
 
 			setVisible(true);
 

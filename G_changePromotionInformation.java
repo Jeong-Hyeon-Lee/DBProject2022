@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class G_changePromotionInformation extends JFrame {
 	public G_changePromotionInformation(Connection conn, String gymID) throws SQLException {
@@ -30,27 +33,27 @@ public class G_changePromotionInformation extends JFrame {
 			pStmt0.setString(1, gymID);
 			ResultSet promoRS = pStmt0.executeQuery();
 
-			JPanel text = new JPanel();
-			JLabel promo = new JLabel();
+			JTextArea promo = new JTextArea(8,20);
+			JScrollPane scroll = new JScrollPane(promo,
+					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+			promo.setLineWrap(true); // 자동 줄바꿈 기능
 			
 			while (promoRS.next()) {
 				String s = promoRS.getString(1);
 				promo.setText(s);
 				promo.setForeground(new Color(5, 0, 153));
-				promo.setFont(new Font("맑은 고딕", Font.BOLD, 10));
-				text.add(promo);
+				promo.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+				add(promo);
 			}
 
 			JButton button = new JButton("수정하기");
-
-			add(text);
 			add(button);
 
 			setLayout(new FlowLayout());
 
 			setBounds(200, 200, 400, 250);
-
-			setResizable(false); // 화면 크기 고정하는 작업
 
 			setVisible(true);
 
