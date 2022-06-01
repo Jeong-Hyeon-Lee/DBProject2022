@@ -15,27 +15,28 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+// LoginScreenìœ¼ë¡œ ë´ë„ ë¬´ë°©
 
 public class TrainerLoginScreen extends JFrame {
-	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ¿¬µ¿ °´Ã¼ »ı¼º
+	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ì—°ë™ ê°ì²´ ìƒì„±
 	
 	public TrainerLoginScreen(String userType) {
 
-		setTitle("·Î±×ÀÎ");
+		setTitle("ë¡œê·¸ì¸");
 
 		JPanel title = new JPanel();
 		TrainerMenuJDBC tmdb = new TrainerMenuJDBC();
-		JLabel login = new JLabel(userType + " ·Î±×ÀÎ"); 
+		JLabel login = new JLabel(userType + " ë¡œê·¸ì¸"); 
 		login.setForeground(new Color(5, 0, 153));
-		login.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		login.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		title.add(login);
 
-		// ¾ÆÀÌµğ text field
+		// ì•„ì´ë”” text field
 		JPanel jp1 = new JPanel();
 		jp1.setLayout(new GridLayout(2, 2));
 
 		JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JLabel jlb1 = new JLabel("¾ÆÀÌµğ : ", JLabel.CENTER);
+		JLabel jlb1 = new JLabel("ì•„ì´ë”” : ", JLabel.CENTER);
 
 		idPanel.add(jlb1);
 
@@ -47,9 +48,9 @@ public class TrainerLoginScreen extends JFrame {
 		jp1.add(idPanel);
 		jp1.add(idPanel2);
 
-		// ºñ¹Ğ¹øÈ£ text field
+		// ë¹„ë°€ë²ˆí˜¸ text field
 		JPanel pwdPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JLabel jlb2 = new JLabel("ºñ¹Ğ¹øÈ£ : ", JLabel.CENTER);
+		JLabel jlb2 = new JLabel("ë¹„ë°€ë²ˆí˜¸ : ", JLabel.CENTER);
 
 		JPanel pwdPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPasswordField jtf2 = new JPasswordField(10);
@@ -59,17 +60,17 @@ public class TrainerLoginScreen extends JFrame {
 		jp1.add(pwdPanel);
 		jp1.add(pwdPanel2);
 
-		// ¹öÆ°
+		// ë²„íŠ¼
 		JPanel jp2 = new JPanel();
 		jp2.setLayout(new FlowLayout());
 		JPanel loginPanel = new JPanel(new FlowLayout());
-		JButton jLogin = new JButton("·Î±×ÀÎ");
+		JButton jLogin = new JButton("ë¡œê·¸ì¸");
 
 		JPanel joinPanel = new JPanel(new FlowLayout());
-		JButton join = new JButton("È¸¿ø°¡ÀÔ");
+		JButton join = new JButton("íšŒì›ê°€ì…");
 
 		JPanel backPanel = new JPanel(new FlowLayout());
-		JButton back = new JButton("½ÃÀÛÈ­¸é");
+		JButton back = new JButton("ì‹œì‘í™”ë©´");
 
 		loginPanel.add(jLogin);
 		joinPanel.add(join);
@@ -78,7 +79,7 @@ public class TrainerLoginScreen extends JFrame {
 		jp2.add(joinPanel);
 		jp2.add(backPanel);
 
-		// jp3¿¡ ¹èÄ¡
+		// jp3ì— ë°°ì¹˜
 		JPanel jp3 = new JPanel();
 		jp3.setLayout(new FlowLayout());
 		jp3.add(jp1);
@@ -92,29 +93,32 @@ public class TrainerLoginScreen extends JFrame {
 
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setVisible(true);
 
-		// ÀÌº¥Æ® Ã³¸®
-		//·Î±×ÀÎ ¹öÆ° Å¬¸¯½Ã
+		// ì´ë²¤íŠ¸ ì²˜ë¦¬
+		//ë¡œê·¸ì¸ ë²„íŠ¼ í´ë¦­ì‹œ
 		jLogin.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//ÀÔ·ÂµÈ °ª ¹Ş¾Æ¿À±â
+				//ì…ë ¥ëœ ê°’ ë°›ì•„ì˜¤ê¸°
 				String myId = jtf1.getText();
 				String myPwd = new String(jtf2.getPassword());
 
-				//ÆË¾÷ Ã¢ ¶ç¿ö È®ÀÎ ½ÃÄÑÁÖ±â
-				JOptionPane.showMessageDialog(null, "¾ÆÀÌµğ : " + myId + ", ºñ¹Ğ¹øÈ£ : " + myPwd);
+				//íŒì—… ì°½ ë„ì›Œ í™•ì¸ ì‹œì¼œì£¼ê¸°
+				JOptionPane.showMessageDialog(null, "ì•„ì´ë”” : " + myId + ", ë¹„ë°€ë²ˆí˜¸ : " + myPwd);
 			
-				if(userType.equals("È¸¿ø")) {
-					
+				if(userType.equals("íšŒì›")) {
+					// íšŒì› ë¡œê·¸ì¸ í•¨ìˆ˜ í˜¸ì¶œ
 				}
-				else if(userType.equals("Æ®·¹ÀÌ³Ê")) {
+				else if(userType.equeals("ê´€ì¥"){
+					// ê´€ì¥ ë¡œê·¸ì¸ í•¨ìˆ˜ í˜¸ì¶œ
+				}
+				else if(userType.equals("íŠ¸ë ˆì´ë„ˆ")) {
 					int success = tmdb.checkLogin(myId, myPwd);
 					if (success == 1) {
 						new TrainerMenuJTable(myId);
@@ -128,25 +132,25 @@ public class TrainerLoginScreen extends JFrame {
 			}
 		});
 		
-		//È¸¿ø°¡ÀÔ ¹öÆ° Å¬¸¯½Ã
+		//íšŒì›ê°€ì… ë²„íŠ¼ í´ë¦­ì‹œ
 		join.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				new TrainerJoinScreen(userType);
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				new TrainerJoinScreen(userType); // JoinScreen(userType);
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
 
-		//½ÃÀÛÈ­¸é ¹öÆ° Å¬¸¯½Ã
+		//ì‹œì‘í™”ë©´ ë²„íŠ¼ í´ë¦­ì‹œ
 		back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				new ServiceStartScreen();
+				new ServiceStartScreen(); // ì²˜ìŒ ê´€ì¥, íŠ¸ë ˆì´ë„ˆ, íšŒì› ì„ íƒí•˜ëŠ” ë¶€ë¶„
 				dispose();
 
 			}
