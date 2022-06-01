@@ -60,7 +60,7 @@ public class M_MainScreen extends JFrame {
 		JPanel jp1 = new JPanel();
 		jp1.setLayout(new FlowLayout());
 		JPanel Menu1 = new JPanel();
-		JButton M_GScreen = new JButton("헬스장 관리");
+		JButton M_GScreen = new JButton("헬스장 찾기");
 		Menu1.add(M_GScreen);
 		jp1.add(Menu1);
 		
@@ -107,14 +107,6 @@ public class M_MainScreen extends JFrame {
 		setVisible(true);
 	
 		//Btn click 이벤트
-		M_GScreen.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_GScreen(conn,ID);
-				dispose(); // 현재의 frame을 종료시키는 메서드.
-
-			}
-		});
 		myPageBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -128,6 +120,27 @@ public class M_MainScreen extends JFrame {
 
 			}
 		});
+		M_GScreen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				try {
+					new M_searchGYM(conn,ID);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		M_TScreen.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				new M_TScreen(conn,ID);
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});		
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {

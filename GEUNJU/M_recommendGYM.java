@@ -107,7 +107,7 @@ public class M_recommendGYM extends JFrame {
 		JButton enrollBtn = new JButton("등록하기");
 		enroll.add(enrollBtn);
 		jp0.add(enroll);
-		
+
 		btnGroup.add(jp0);
 		
 		setLayout(new BorderLayout());

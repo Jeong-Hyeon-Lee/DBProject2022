@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/*searchGYM으로 추천, 검색, 등록 전부 통합.
+ * 필요없는 파일*/
 public class M_GScreen extends JFrame {
 	public M_GScreen(Connection conn, String ID) {
 		setTitle("헬스장 PT 예약 시스템");

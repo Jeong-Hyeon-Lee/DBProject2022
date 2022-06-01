@@ -33,6 +33,7 @@ public class M_searchGYM extends JFrame {
 	static String str = null;
 	static JLabel infoText;
 	static JPanel btnGroup;
+	static String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"};
 	
 	public M_searchGYM(Connection conn, String ID) throws SQLException {
 		setTitle("헬스장 PT 예약 시스템");
@@ -40,17 +41,17 @@ public class M_searchGYM extends JFrame {
 		
 		//상단 - 회원 MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("헬스장 검색");
+		JLabel subtitle = new JLabel("헬스장 찾기");
 		subtitle.setForeground(new Color(5,0,153));
 		subtitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
-		//search
+		//search - 헬스장 지역으로 찾기
 		JPanel input = new JPanel();
 		input.setLayout(new FlowLayout());
 		
 		JPanel i1 = new JPanel();
-		JLabel inputDesc = new JLabel("헬스장 이름 : ");
+		JLabel inputDesc = new JLabel("검색어 : ");
 		i1.add(inputDesc);
 		input.add(i1);
 		
@@ -60,21 +61,45 @@ public class M_searchGYM extends JFrame {
 		input.add(i2);
 		
 		JPanel i3 = new JPanel();
-		JButton searchGYMBtn = new JButton("검색"); //btn클릭시 원하는 정보만 조회하도록
+		JButton searchGYMBtn = new JButton("지역 검색"); //btn클릭시 원하는 정보만 조회하도록
 		i3.add(searchGYMBtn);
 		input.add(i3);
-		//btnGroup.add(input);
+		
+		JPanel i4 = new JPanel();
+		JButton searchGYMBtn2 = new JButton("이름 검색"); //btn클릭시 원하는 정보만 조회하도록
+		i4.add(searchGYMBtn2);
+		input.add(i4);
+		
+		/*
+		//search - 헬스장 이름으로 찾기
+		JPanel input2 = new JPanel();
+		input2.setLayout(new FlowLayout());
+		
+		JPanel i4 = new JPanel();
+		JLabel inputDesc2 = new JLabel("헬스장 이름 : ");
+		i4.add(inputDesc2);
+		input2.add(i4);
+		
+		JPanel i5 = new JPanel();
+		JTextField inputText2 = new JTextField(25);
+		i5.add(inputText2);
+		input2.add(i5);
+		
+		JPanel i6 = new JPanel();
+		JButton searchGYMBtn2 = new JButton("헬스장 검색"); //btn클릭시 원하는 정보만 조회하도록
+		i6.add(searchGYMBtn2);
+		input2.add(i6);
+		*/
 
 		//Table
 		JPanel table = new JPanel();
 		table.setLayout(new GridLayout(1,1));
-		String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //headers
 		tableModel = new DefaultTableModel(columnNames,0);
 		jt = new JTable(tableModel);
 		
 		//query for table
 		Statement stmt = conn.createStatement();
-		String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격";
+		str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격";
 		rset = stmt.executeQuery(str);
 		
 		//for err & undo 
@@ -124,6 +149,12 @@ public class M_searchGYM extends JFrame {
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		
+		//recommend
+		JPanel recommend = new JPanel();
+		JButton recommendBtn = new JButton("추천받기");
+		recommend.add(recommendBtn);
+		jp0.add(recommend);
+		
 		//enroll
 		JPanel enroll = new JPanel();
 		JButton enrollBtn = new JButton("등록하기");
@@ -147,17 +178,60 @@ public class M_searchGYM extends JFrame {
 
 		setVisible(true);
 		
-		searchGYMBtn.addActionListener(new ActionListener() {
+		searchGYMBtn.addActionListener(new ActionListener() { //지역으로 검색
 			@Override //btn클릭시 원하는 정보만 조회하도록
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				String searchText = inputText.getText();
 
 				//Table 
-				String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //columnname 중복 관리 필요
 				tableModel.setNumRows(0);
 				
 				//query for table
 				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 like ?";
+				PreparedStatement pstmt;
+				try {
+					pstmt = conn.prepareStatement(str);
+					pstmt.setString(1, "%"+searchText+"%");
+					rset = pstmt.executeQuery();
+					//table data
+					if(!rset.isBeforeFirst()) {
+						JPanel jpErr = new JPanel();
+						jpErr.setLayout(new FlowLayout());
+						jpErr.add(new JLabel("헬스장정보를 불러오는데 실패했습니다.")); //입력한 지역에서 헬스장을 찾지 못했습니다.
+						btnGroup.add(jpErr);
+					}
+					else {
+						while(rset.next()) {
+							String gym = rset.getString(1);
+							String location = rset.getString(2);
+							String price1 = rset.getString(3);
+							String price10 = rset.getString(4);
+							String price20 = rset.getString(5);
+							String promotion = rset.getString(6);
+							
+							String[] data = {gym,location,price1,price10,price20,promotion};
+							
+							tableModel.addRow(data);
+						}
+						jt.setModel(tableModel);					
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		searchGYMBtn2.addActionListener(new ActionListener() { //이름으로 검색
+			@Override //btn클릭시 원하는 정보만 조회하도록
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				String searchText = inputText.getText();
+
+				//Table 
+				tableModel.setNumRows(0);
+				
+				//query for table
+				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 이름 like ?";
 				PreparedStatement pstmt;
 				try {
 					pstmt = conn.prepareStatement(str);
@@ -196,11 +270,54 @@ public class M_searchGYM extends JFrame {
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_GScreen(conn,ID);
+				new M_MainScreen(conn,ID);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}
 		});
+	
+		recommendBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//Table 
+				String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //columnname 중복 관리 필요
+				tableModel.setNumRows(0);
+				
+				//query for table
+				str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 IN (SELECT 지역 FROM db2022_회원 WHERE 회원번호=?)";
+				try {
+					pstmt = conn.prepareStatement(str);
+					pstmt.setString(1, ID);
+					rset = pstmt.executeQuery();
+					
+					//table data
+					if(!rset.isBeforeFirst()) {
+						JPanel jpErr = new JPanel();
+						jpErr.setLayout(new FlowLayout());
+						jpErr.add(new JLabel("추천 헬스장을 찾지 못했습니다."));
+						btnGroup.add(jpErr);
+					}
+					else {
+						while(rset.next()) {
+							String gym = rset.getString(1);
+							String location = rset.getString(2);
+							String price1 = rset.getString(3);
+							String price10 = rset.getString(4);
+							String price20 = rset.getString(5);
+							String promotion = rset.getString(6);
+							
+							String[] data = {gym,location,price1,price10,price20,promotion};
+							
+							tableModel.addRow(data);
+						}
+							jt.setModel(tableModel);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});		
 		
 		enrollBtn.addActionListener(new ActionListener() {
 			@Override
