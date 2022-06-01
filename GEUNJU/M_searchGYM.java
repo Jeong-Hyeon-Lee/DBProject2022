@@ -28,28 +28,29 @@ import javax.swing.table.DefaultTableModel;
 public class M_searchGYM extends JFrame {
 	public static JTable jt;
 	public static DefaultTableModel tableModel;
+	static PreparedStatement pstmt = null;
+	static ResultSet rset = null;
+	static String str = null;
+	static JLabel infoText;
+	static JPanel btnGroup;
 	
 	public M_searchGYM(Connection conn, String ID) throws SQLException {
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //í”„ë ˆì„ ìœˆë„ìš°ë¥¼ ë‹«ìœ¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 		
-		//»ó´Ü - È¸¿ø MENU
+		//ìƒë‹¨ - íšŒì› MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("Çï½ºÀå °Ë»ö");
+		JLabel subtitle = new JLabel("í—¬ìŠ¤ì¥ ê²€ìƒ‰");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
 		M_main.add(subtitle);
-		
-		//
-		JPanel btnGroup = new JPanel();
-		btnGroup.setLayout(new GridLayout(2,1));
 		
 		//search
 		JPanel input = new JPanel();
 		input.setLayout(new FlowLayout());
 		
 		JPanel i1 = new JPanel();
-		JLabel inputDesc = new JLabel("Çï½ºÀå ÀÌ¸§ : ");
+		JLabel inputDesc = new JLabel("í—¬ìŠ¤ì¥ ì´ë¦„ : ");
 		i1.add(inputDesc);
 		input.add(i1);
 		
@@ -59,7 +60,7 @@ public class M_searchGYM extends JFrame {
 		input.add(i2);
 		
 		JPanel i3 = new JPanel();
-		JButton searchGYMBtn = new JButton("°Ë»ö"); //btnÅ¬¸¯½Ã ¿øÇÏ´Â Á¤º¸¸¸ Á¶È¸ÇÏµµ·Ï
+		JButton searchGYMBtn = new JButton("ê²€ìƒ‰"); //btní´ë¦­ì‹œ ì›í•˜ëŠ” ì •ë³´ë§Œ ì¡°íšŒí•˜ë„ë¡
 		i3.add(searchGYMBtn);
 		input.add(i3);
 		//btnGroup.add(input);
@@ -67,20 +68,24 @@ public class M_searchGYM extends JFrame {
 		//Table
 		JPanel table = new JPanel();
 		table.setLayout(new GridLayout(1,1));
-		String columnNames[]= {"Çï½ºÀå","Áö¿ª","1È¸°¡°İ","10È¸°¡°İ","20È¸°¡°İ","±âÅ¸ÇÁ·Î¸ğ¼Ç"}; //headers
+		String columnNames[]= {"í—¬ìŠ¤ì¥","ì§€ì—­","1íšŒê°€ê²©","10íšŒê°€ê²©","20íšŒê°€ê²©","ê¸°íƒ€í”„ë¡œëª¨ì…˜"}; //headers
 		tableModel = new DefaultTableModel(columnNames,0);
 		jt = new JTable(tableModel);
 		
 		//query for table
 		Statement stmt = conn.createStatement();
-		String str = "select ÀÌ¸§,Áö¿ª,1È¸°¡°İ,10È¸°¡°İ,20È¸°¡°İ,±âÅ¸ÇÁ·Î¸ğ¼Ç¼³¸í from db2022_Çï½ºÀå natural join db2022_°¡°İ";
-		ResultSet rset = stmt.executeQuery(str);
+		String str = "select ì´ë¦„,ì§€ì—­,1íšŒê°€ê²©,10íšŒê°€ê²©,20íšŒê°€ê²©,ê¸°íƒ€í”„ë¡œëª¨ì…˜ì„¤ëª… from db2022_í—¬ìŠ¤ì¥ natural join db2022_ê°€ê²©";
+		rset = stmt.executeQuery(str);
+		
+		//for err & undo 
+		btnGroup = new JPanel();
+		btnGroup.setLayout(new GridLayout(2,1));
 		
 		//table data
 		if(!rset.isBeforeFirst()) {
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("Çï½ºÀåÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù."));
+			jpErr.add(new JLabel("í—¬ìŠ¤ì¥ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤."));
 			btnGroup.add(jpErr);
 		}
 		else {
@@ -98,60 +103,71 @@ public class M_searchGYM extends JFrame {
 			}
 			jt = new JTable(tableModel);
 			
-			//½ºÅ©·Ñ&column¸íÀ» À§ÇØ JScrollPane Àû¿ë
+			//ìŠ¤í¬ë¡¤&columnëª…ì„ ìœ„í•´ JScrollPane ì ìš©
 			JScrollPane scrollpane=new JScrollPane(jt);
 			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
 		
 			table.add(scrollpane);
 		}
 		
-		//btn
+		//ì•ˆë‚´ë¬¸êµ¬
+		JPanel info = new JPanel();
+		infoText = new JLabel("í—¬ìŠ¤ì¥ ë“±ë¡ì„ ì›í•˜ì‹œë©´ ì›í•˜ëŠ” í—¬ìŠ¤ì¥ì„ í´ë¦­í•œ ë’¤, í‹ë¡í•˜ê¸° ë²„íŠ¼ì„ ëˆŒëŸ¬ì£¼ì„¸ìš”.");
+		info.add(infoText);
+		btnGroup.add(info);
+		
+		//undo
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("µÚ·Î°¡±â");
+		JButton undo = new JButton("ë’¤ë¡œê°€ê¸°");
 		Menu9.add(undo);
 		jp0.add(Menu9);
+		
+		//enroll
+		JPanel enroll = new JPanel();
+		JButton enrollBtn = new JButton("ë“±ë¡í•˜ê¸°");
+		enroll.add(enrollBtn);
+		jp0.add(enroll);
 		
 		btnGroup.add(jp0);
 		
 		setLayout(new BorderLayout());
-		;
+		
 		JPanel center = new JPanel(new BorderLayout());
 		center.add(input,BorderLayout.NORTH);
 		center.add(table,BorderLayout.CENTER);
-
 		
 		add(M_main,BorderLayout.NORTH);
 		add(center,BorderLayout.CENTER);
 		add(btnGroup,BorderLayout.SOUTH);
 		setBounds(200,200,700,400);
 		
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setVisible(true);
 		
 		searchGYMBtn.addActionListener(new ActionListener() {
-			@Override //btnÅ¬¸¯½Ã ¿øÇÏ´Â Á¤º¸¸¸ Á¶È¸ÇÏµµ·Ï
+			@Override //btní´ë¦­ì‹œ ì›í•˜ëŠ” ì •ë³´ë§Œ ì¡°íšŒí•˜ë„ë¡
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				String searchText = inputText.getText();
 
 				//Table 
-				String columnNames[]= {"Çï½ºÀå","Áö¿ª","1È¸°¡°İ","10È¸°¡°İ","20È¸°¡°İ","±âÅ¸ÇÁ·Î¸ğ¼Ç"}; //columnname Áßº¹ °ü¸® ÇÊ¿ä
+				String columnNames[]= {"í—¬ìŠ¤ì¥","ì§€ì—­","1íšŒê°€ê²©","10íšŒê°€ê²©","20íšŒê°€ê²©","ê¸°íƒ€í”„ë¡œëª¨ì…˜"}; //columnname ì¤‘ë³µ ê´€ë¦¬ í•„ìš”
 				tableModel.setNumRows(0);
 				
 				//query for table
-				String str = "select ÀÌ¸§,Áö¿ª,1È¸°¡°İ,10È¸°¡°İ,20È¸°¡°İ,±âÅ¸ÇÁ·Î¸ğ¼Ç¼³¸í from db2022_Çï½ºÀå natural join db2022_°¡°İ WHERE Áö¿ª like ?";
+				String str = "select ì´ë¦„,ì§€ì—­,1íšŒê°€ê²©,10íšŒê°€ê²©,20íšŒê°€ê²©,ê¸°íƒ€í”„ë¡œëª¨ì…˜ì„¤ëª… from db2022_í—¬ìŠ¤ì¥ natural join db2022_ê°€ê²© WHERE ì§€ì—­ like ?";
 				PreparedStatement pstmt;
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
-					ResultSet rset = pstmt.executeQuery();
+					rset = pstmt.executeQuery();
 					//table data
 					if(!rset.isBeforeFirst()) {
 						JPanel jpErr = new JPanel();
 						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("Çï½ºÀåÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù."));
+						jpErr.add(new JLabel("í—¬ìŠ¤ì¥ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤."));
 						btnGroup.add(jpErr);
 					}
 					else {
@@ -176,17 +192,65 @@ public class M_searchGYM extends JFrame {
 			}
 		});
 		
-		//Btn click ÀÌº¥Æ®
+		//Btn click ì´ë²¤íŠ¸
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new M_GScreen(conn,ID);
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
 		
-		//talbe Å¬¸¯ ½Ã, Çï½ºÀå µî·ÏÇÏ±â Çï½ºÀåÀ» µî·ÏÇÏ½Ã°Ú½À´Ï±î? -> µî·Ï¿Ï·á ·Î ¹Ù·Î ³Ñ¾î°¨
+		enrollBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				int row = jt.getSelectedRow();
+				String GYMname = (String) jt.getValueAt(row, 0);
+				//System.out.println(GYMname);
+				
+				M_totalLeft chk = new M_totalLeft();
+				try {
+					int check[] = chk.M_totalLeft(conn, ID);
+					if(check[1]==0) { //ë‚¨ì€ìˆ˜ì—…íšŸìˆ˜ == 0
+						//í—¬ìŠ¤ì¥ ì´ë¦„ìœ¼ë¡œ ë²ˆí˜¸ì°¾ê¸°
+						String str = "SELECT í—¬ìŠ¤ì¥ë²ˆí˜¸ FROM DB2022_í—¬ìŠ¤ì¥ WHERE ì´ë¦„=?";
+						pstmt = conn.prepareStatement(str);
+						pstmt.setString(1, GYMname);
+						rset = pstmt.executeQuery();
+						String GYMid = null;
+						
+						rset.next();
+						GYMid = rset.getString(1);
+						
+						//í—¬ìŠ¤ì¥ ë“±ë¡í•˜ê¸°
+						str = "UPDATE DB2022_íšŒì› SET ì†Œì†í—¬ìŠ¤ì¥=? WHERE íšŒì›ë²ˆí˜¸=?";
+						pstmt = conn.prepareStatement(str);
+						pstmt.setString(1, GYMid);
+						pstmt.setString(2, ID);
+						pstmt.executeUpdate();
+						
+						infoText.setText(GYMname+"ì— íšŒì›ìœ¼ë¡œ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+						System.out.println(GYMname+"ì— íšŒì›ìœ¼ë¡œ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+						infoText.setForeground(new Color(5,0,153));
+						btnGroup.revalidate();
+						btnGroup.repaint();
+						
+					} else {
+						//textfieldë„ìš°ê¸°
+						infoText.setText("ì•„ì§ ìˆ˜ì—…íšŸìˆ˜ê°€ ë‚¨ì•„ì„œ í—¬ìŠ¤ì¥ì„ ë³€ê²½í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
+					}
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 	
 	}	
 }

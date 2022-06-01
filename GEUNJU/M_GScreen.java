@@ -45,13 +45,6 @@ public class M_GScreen extends JFrame {
 		Menu2.add(searchGYMBtn);
 		jp1.add(Menu2);
 		
-		//JPanel jp3 = new JPanel();
-		//jp3.setLayout(new FlowLayout());
-		JPanel Menu3 = new JPanel();
-		JButton enrollGYMBtn = new JButton("헬스장 등록하기");
-		Menu3.add(enrollGYMBtn);
-		jp1.add(Menu3);
-		
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
@@ -70,7 +63,7 @@ public class M_GScreen extends JFrame {
 		add(M_main,BorderLayout.NORTH);
 		add(btnGroup,BorderLayout.CENTER);
 		
-		setBounds(200,200,600,200);
+		setBounds(200,200,400,200);
 		
 		setResizable(false); // 화면 크기 고정하는 작업
 
@@ -107,14 +100,6 @@ public class M_GScreen extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				dispose(); // 현재의 frame을 종료시키는 메서드.
-
-			}
-		});
-		enrollGYMBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_MainScreen(conn,ID);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}

@@ -47,7 +47,7 @@ public class M_myPage extends JFrame {
 		JPanel btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
 		
-		//table data
+		//table data -> null 값 처리 어떻게 할 지
 		if(!rset.isBeforeFirst()) {
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
