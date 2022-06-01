@@ -37,7 +37,7 @@ public class G_changePromotionInformation extends JFrame {
 				String s = promoRS.getString(1);
 				promo.setText(s);
 				promo.setForeground(new Color(5, 0, 153));
-				promo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 10));
+				promo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
 				text.add(promo);
 			}
 
@@ -49,8 +49,6 @@ public class G_changePromotionInformation extends JFrame {
 			setLayout(new FlowLayout());
 
 			setBounds(200, 200, 400, 250);
-
-			setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
 
 			setVisible(true);
 

@@ -21,14 +21,15 @@ public class G_selectMenu extends JFrame {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03";
 
+	/*
 	// Database user, password
 	static final String USER = "root";
 	static final String PASSWORD = "0000";
+	*/
 
-	/*
-	 * //Database user, password static final String USER = "DB2022Team03"; static
-	 * final String PASSWORD= "DB2022Team03";
-	 */
+	//Database user, password
+	static final String USER = "DB2022Team03";
+	static final String PASSWORD= "DB2022Team03";
 
 	static Connection conn;
 	
