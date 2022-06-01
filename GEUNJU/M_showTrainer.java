@@ -126,7 +126,7 @@ public class M_showTrainer extends JFrame {
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_GScreen(conn,ID);
+				new M_TScreen(conn,ID);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}
