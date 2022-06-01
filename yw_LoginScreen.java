@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 import DB2022TEAM03.GEUNJU.M_MainScreen;
+import TrainerWithGUI.TrainerMenuJTable;
 
 public class LoginScreen extends JFrame {
 	
@@ -176,7 +177,7 @@ public class LoginScreen extends JFrame {
 							trainer_id = rs.getString("강사번호");
 							trainer_name = rs.getString("이름");
 							trainer_gym = rs.getString("헬스장번호");
-							
+							new TrainerMenuJTable(trainer_id);
 							/*
 							 * 
 							 * 트레이너 페이지 뜨게 불러와야함
