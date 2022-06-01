@@ -33,6 +33,8 @@ public class M_searchTrainer extends JFrame {
 	static String str = null;
 	static JLabel infoText;
 	static JPanel btnGroup;
+	static String columnNames[]= {"헬스장","트레이너","지역","담당회원수"}; //headers
+	static Statement stmt; 
 	
 	public M_searchTrainer(Connection conn, String ID) throws SQLException {
 		setTitle("헬스장 PT 예약 시스템");
@@ -40,7 +42,7 @@ public class M_searchTrainer extends JFrame {
 		
 		//상단 - 회원 MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("트레이너 검색하기(전체 헬스장)");
+		JLabel subtitle = new JLabel("트레이너 찾기");
 		subtitle.setForeground(new Color(5,0,153));
 		subtitle.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		M_main.add(subtitle);
@@ -50,7 +52,7 @@ public class M_searchTrainer extends JFrame {
 		input.setLayout(new FlowLayout());
 		
 		JPanel i1 = new JPanel();
-		JLabel inputDesc = new JLabel("헬스장 이름 : ");
+		JLabel inputDesc = new JLabel("검색어 : ");
 		i1.add(inputDesc);
 		input.add(i1);
 		
@@ -60,21 +62,25 @@ public class M_searchTrainer extends JFrame {
 		input.add(i2);
 		
 		JPanel i3 = new JPanel();
-		JButton searchGYMBtn = new JButton("검색"); //btn클릭시 원하는 정보만 조회하도록
-		i3.add(searchGYMBtn);
+		JButton searchTBtn = new JButton("헬스장 이름으로 검색"); //btn클릭시 원하는 정보만 조회하도록
+		i3.add(searchTBtn);
 		input.add(i3);
+		
+		JPanel i4 = new JPanel();
+		JButton searchTBtn2 = new JButton("트레이너 이름으로 검색"); //btn클릭시 원하는 정보만 조회하도록
+		i4.add(searchTBtn2);
+		input.add(i4);
 		//btnGroup.add(input);
 
 		//Table
 		JPanel table = new JPanel();
 		table.setLayout(new GridLayout(1,1));
-		String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //headers
 		tableModel = new DefaultTableModel(columnNames,0);
 		jt = new JTable(tableModel);
 		
 		//query for table
-		Statement stmt = conn.createStatement();
-		String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격";
+		stmt = conn.createStatement();
+		str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호;";
 		rset = stmt.executeQuery(str);
 		
 		//for err & undo 
@@ -85,19 +91,17 @@ public class M_searchTrainer extends JFrame {
 		if(!rset.isBeforeFirst()) {
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("헬스장정보를 불러오는데 실패했습니다."));
+			jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
 			btnGroup.add(jpErr);
 		}
 		else {
 			while(rset.next()) {
-				String gym = rset.getString(1);
-				String location = rset.getString(2);
-				String price1 = rset.getString(3);
-				String price10 = rset.getString(4);
-				String price20 = rset.getString(5);
-				String promotion = rset.getString(6);
+				String Gname = rset.getString(1);
+				String Tname = rset.getString(2);
+				String location = rset.getString(3);
+				String member = rset.getString(4);
 				
-				String[] data = {gym,location,price1,price10,price20,promotion};
+				String[] data = {Gname,Tname,location,member};
 				
 				tableModel.addRow(data);
 			}
@@ -112,7 +116,7 @@ public class M_searchTrainer extends JFrame {
 		
 		//안내문구
 		JPanel info = new JPanel();
-		infoText = new JLabel("헬스장 등록을 원하시면 원하는 헬스장을 클릭한 뒤, 틍록하기 버튼을 눌러주세요.");
+		infoText = new JLabel("트레이너 등록을 원하시면 원하는 트레이너를 클릭한 뒤, 틍록하기 버튼을 눌러주세요. \n(소속헬스장의 트레이너만 등록 가능합니다.)");
 		info.add(infoText);
 		btnGroup.add(info);
 		
@@ -123,6 +127,12 @@ public class M_searchTrainer extends JFrame {
 		JButton undo = new JButton("뒤로가기");
 		Menu9.add(undo);
 		jp0.add(Menu9);
+		
+		//show
+		JPanel showT = new JPanel();
+		JButton showTBtn = new JButton("소속헬스장 트레이너 확인");
+		showT.add(showTBtn);
+		jp0.add(showT);
 		
 		//enroll
 		JPanel enroll = new JPanel();
@@ -141,45 +151,134 @@ public class M_searchTrainer extends JFrame {
 		add(M_main,BorderLayout.NORTH);
 		add(center,BorderLayout.CENTER);
 		add(btnGroup,BorderLayout.SOUTH);
-		setBounds(200,200,700,400);
+		setBounds(200,200,800,400);
 		
 		setResizable(false); // 화면 크기 고정하는 작업
 
 		setVisible(true);
 		
-		searchGYMBtn.addActionListener(new ActionListener() {
-			@Override //btn클릭시 원하는 정보만 조회하도록
+		searchTBtn.addActionListener(new ActionListener() { //헬스장 이름으로 검색
+			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				String searchText = inputText.getText();
-
-				//Table 
-				String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //columnname 중복 관리 필요
+				
+				//Table
 				tableModel.setNumRows(0);
 				
 				//query for table
-				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 like ?";
-				PreparedStatement pstmt;
+				str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and G.이름 like ?";
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
 					rset = pstmt.executeQuery();
+					
 					//table data
 					if(!rset.isBeforeFirst()) {
 						JPanel jpErr = new JPanel();
 						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("헬스장정보를 불러오는데 실패했습니다."));
+						jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
 						btnGroup.add(jpErr);
 					}
 					else {
 						while(rset.next()) {
-							String gym = rset.getString(1);
-							String location = rset.getString(2);
-							String price1 = rset.getString(3);
-							String price10 = rset.getString(4);
-							String price20 = rset.getString(5);
-							String promotion = rset.getString(6);
+							String Gname = rset.getString(1);
+							String Tname = rset.getString(2);
+							String location = rset.getString(3);
+							String member = rset.getString(4);
 							
-							String[] data = {gym,location,price1,price10,price20,promotion};
+							String[] data = {Gname,Tname,location,member};
+							
+							tableModel.addRow(data);
+						}
+						jt.setModel(tableModel);					
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		searchTBtn2.addActionListener(new ActionListener() { //트레이너 이름으로 검색
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				String searchText = inputText.getText();
+			
+				//Table
+				tableModel.setNumRows(0);
+				
+				//query for table
+				str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and T.이름 like ?";
+				try {
+					pstmt = conn.prepareStatement(str);
+					pstmt.setString(1, "%"+searchText+"%");
+					rset = pstmt.executeQuery();
+					
+					//table data
+					if(!rset.isBeforeFirst()) {
+						JPanel jpErr = new JPanel();
+						jpErr.setLayout(new FlowLayout());
+						jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
+						btnGroup.add(jpErr);
+					}
+					else {
+						while(rset.next()) {
+							String Gname = rset.getString(1);
+							String Tname = rset.getString(2);
+							String location = rset.getString(3);
+							String member = rset.getString(4);
+							
+							String[] data = {Gname,Tname,location,member};
+							
+							tableModel.addRow(data);
+						}
+						jt.setModel(tableModel);					
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		undo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				new M_MainScreen(conn,ID);
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		
+		showTBtn.addActionListener(new ActionListener() { //소속헬스장 트레이너 확인
+			@Override 
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//Table 
+				tableModel.setNumRows(0);
+				
+				//query for table
+				str = "select G.이름,T.이름,G.지역,T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and T.헬스장번호 IN (SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?);";
+				try {
+					//소속헬스장 트레이너 보여주기
+					pstmt = conn.prepareStatement(str);
+					pstmt.setString(1, ID);
+					rset = pstmt.executeQuery();
+					
+					//table data
+					if(!rset.isBeforeFirst()) {
+						JPanel jpErr = new JPanel();
+						jpErr.setLayout(new FlowLayout());
+						jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
+						btnGroup.add(jpErr);
+					}
+					else {
+						while(rset.next()) {
+							String Gname = rset.getString(1);
+							String Tname = rset.getString(2);
+							String location = rset.getString(3);
+							String member = rset.getString(4);
+							
+							String[] data = {Gname,Tname,location,member};
 							
 							tableModel.addRow(data);
 						}
@@ -192,46 +291,39 @@ public class M_searchTrainer extends JFrame {
 			}
 		});
 		
-		//Btn click 이벤트
-		undo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_TScreen(conn,ID);
-				dispose(); // 현재의 frame을 종료시키는 메서드.
-
-			}
-		});
-		
 		enrollBtn.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+			public void actionPerformed(java.awt.event.ActionEvent e) { //소속헬스장의 트레이너만 등록가능하도록
 				int row = jt.getSelectedRow();
-				String GYMname = (String) jt.getValueAt(row, 0);
-				//System.out.println(GYMname);
 				
-				M_totalLeft chk = new M_totalLeft();
-				try {
-					int check[] = chk.M_totalLeft(conn, ID);
+				String Tname = (String) jt.getValueAt(row, 1);
+				System.out.println(Tname);
+				//소속헬스장인지 확인
+				String Gname = (String) jt.getValueAt(row, 0);
+				
+				try { //남은수업횟수가 0인지 확인
+					int check[] = M_totalLeft.M_totalLeft(conn, ID);
+					
 					if(check[1]==0) { //남은수업횟수 == 0
-						//헬스장 이름으로 번호찾기
-						String str = "SELECT 헬스장번호 FROM DB2022_헬스장 WHERE 이름=?";
+						//트레이너 이름으로 번호찾기
+						str = "SELECT 강사번호 FROM DB2022_트레이너 WHERE 이름=?";
 						pstmt = conn.prepareStatement(str);
-						pstmt.setString(1, GYMname);
+						pstmt.setString(1, Tname);
 						rset = pstmt.executeQuery();
-						String GYMid = null;
+						String Tid = null;
 						
 						rset.next();
-						GYMid = rset.getString(1);
+						Tid = rset.getString(1);	
+						System.out.println(Tid);
 						
-						//헬스장 등록하기
-						str = "UPDATE DB2022_회원 SET 소속헬스장=? WHERE 회원번호=?";
+						//담당 트레이너 등록하기
+						str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
 						pstmt = conn.prepareStatement(str);
-						pstmt.setString(1, GYMid);
+						pstmt.setString(1, Tid);
 						pstmt.setString(2, ID);
 						pstmt.executeUpdate();
 						
-						infoText.setText(GYMname+"에 회원으로 등록되었습니다.");
-						System.out.println(GYMname+"에 회원으로 등록되었습니다.");
+						infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
 						infoText.setForeground(new Color(5,0,153));
 						btnGroup.revalidate();
 						btnGroup.repaint();

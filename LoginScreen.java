@@ -16,7 +16,7 @@ public class LoginScreen extends JFrame {
 	public static final String URL = "jdbc:mysql://localhost/DB2022TEAM03";
 	public static final String USER = "db2022team03";
 	public static final String PASS = "db2022team03";
-	public static String ID = "M09560";
+	public static String ID = "tttttt";
 	public Connection conn;
 	
 	public LoginScreen(String userType) {

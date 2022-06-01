@@ -34,6 +34,7 @@ public class M_searchGYM extends JFrame {
 	static JLabel infoText;
 	static JPanel btnGroup;
 	static String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"};
+	static Statement stmt; 
 	
 	public M_searchGYM(Connection conn, String ID) throws SQLException {
 		setTitle("헬스장 PT 예약 시스템");
@@ -98,7 +99,7 @@ public class M_searchGYM extends JFrame {
 		jt = new JTable(tableModel);
 		
 		//query for table
-		Statement stmt = conn.createStatement();
+		stmt = conn.createStatement();
 		str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격";
 		rset = stmt.executeQuery(str);
 		
@@ -187,8 +188,7 @@ public class M_searchGYM extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 like ?";
-				PreparedStatement pstmt;
+				str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 like ?";
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -231,8 +231,7 @@ public class M_searchGYM extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 이름 like ?";
-				PreparedStatement pstmt;
+				str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 이름 like ?";
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -280,12 +279,12 @@ public class M_searchGYM extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				//Table 
-				String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //columnname 중복 관리 필요
 				tableModel.setNumRows(0);
 				
 				//query for table
 				str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 IN (SELECT 지역 FROM db2022_회원 WHERE 회원번호=?)";
 				try {
+					//소속헬스장 트레이너 보여주기
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
@@ -324,11 +323,9 @@ public class M_searchGYM extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				int row = jt.getSelectedRow();
 				String GYMname = (String) jt.getValueAt(row, 0);
-				//System.out.println(GYMname);
 				
-				M_totalLeft chk = new M_totalLeft();
-				try {
-					int check[] = chk.M_totalLeft(conn, ID);
+				try { //남은수업횟수가 0인지 확인
+					int check[] = M_totalLeft.M_totalLeft(conn, ID);
 					if(check[1]==0) { //남은수업횟수 == 0
 						//헬스장 이름으로 번호찾기
 						String str = "SELECT 헬스장번호 FROM DB2022_헬스장 WHERE 이름=?";

@@ -68,7 +68,7 @@ public class M_MainScreen extends JFrame {
 		JPanel jp2 = new JPanel();
 		jp2.setLayout(new FlowLayout());
 		JPanel Menu2 = new JPanel();
-		JButton M_TScreen = new JButton("트레이너 관리");
+		JButton M_TScreen = new JButton("트레이너 찾기");
 		Menu2.add(M_TScreen);
 		jp2.add(Menu2);
 		
@@ -136,7 +136,12 @@ public class M_MainScreen extends JFrame {
 		M_TScreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_TScreen(conn,ID);
+				try {
+					new M_searchTrainer(conn,ID);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}
