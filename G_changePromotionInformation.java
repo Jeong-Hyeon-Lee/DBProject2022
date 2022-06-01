@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class G_changePromotionInformation extends JFrame {
 	public G_changePromotionInformation(Connection conn, String gymID) throws SQLException {
@@ -30,20 +33,22 @@ public class G_changePromotionInformation extends JFrame {
 			pStmt0.setString(1, gymID);
 			ResultSet promoRS = pStmt0.executeQuery();
 
-			JPanel text = new JPanel();
-			JLabel promo = new JLabel();
+			JTextArea promo = new JTextArea(8,20);
+			JScrollPane scroll = new JScrollPane(promo,
+					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+			promo.setLineWrap(true); // ÀÚµ¿ ÁÙ¹Ù²Þ ±â´É
 			
 			while (promoRS.next()) {
 				String s = promoRS.getString(1);
 				promo.setText(s);
 				promo.setForeground(new Color(5, 0, 153));
 				promo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
-				text.add(promo);
+				add(promo);
 			}
 
 			JButton button = new JButton("¼öÁ¤ÇÏ±â");
-
-			add(text);
 			add(button);
 
 			setLayout(new FlowLayout());
