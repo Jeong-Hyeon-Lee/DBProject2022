@@ -70,28 +70,7 @@ public class M_searchGYM extends JFrame {
 		JButton searchGYMBtn2 = new JButton("이름 검색"); //btn클릭시 원하는 정보만 조회하도록
 		i4.add(searchGYMBtn2);
 		input.add(i4);
-		
-		/*
-		//search - 헬스장 이름으로 찾기
-		JPanel input2 = new JPanel();
-		input2.setLayout(new FlowLayout());
-		
-		JPanel i4 = new JPanel();
-		JLabel inputDesc2 = new JLabel("헬스장 이름 : ");
-		i4.add(inputDesc2);
-		input2.add(i4);
-		
-		JPanel i5 = new JPanel();
-		JTextField inputText2 = new JTextField(25);
-		i5.add(inputText2);
-		input2.add(i5);
-		
-		JPanel i6 = new JPanel();
-		JButton searchGYMBtn2 = new JButton("헬스장 검색"); //btn클릭시 원하는 정보만 조회하도록
-		i6.add(searchGYMBtn2);
-		input2.add(i6);
-		*/
-
+	
 		//Table
 		JPanel table = new JPanel();
 		table.setLayout(new GridLayout(1,1));
@@ -345,7 +324,6 @@ public class M_searchGYM extends JFrame {
 						pstmt.executeUpdate();
 						
 						infoText.setText(GYMname+"에 회원으로 등록되었습니다.");
-						System.out.println(GYMname+"에 회원으로 등록되었습니다.");
 						infoText.setForeground(new Color(5,0,153));
 						btnGroup.revalidate();
 						btnGroup.repaint();
