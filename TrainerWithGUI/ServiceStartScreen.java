@@ -15,21 +15,21 @@ import javax.swing.JPanel;
 
 public class ServiceStartScreen extends JFrame {
 
-	public static String userType; //È¸¿ø, Æ®·¹ÀÌ³Ê, °üÀå Áß ÇÏ³ª
+	public static String userType; //íšŒì›, íŠ¸ë ˆì´ë„ˆ, ê´€ì¥ ì¤‘ í•˜ë‚˜
 	
 	public static void main(String[] args) {
 		new ServiceStartScreen();
 	}
 	public ServiceStartScreen() {
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //í”„ë ˆì„ ìœˆë„ìš°ë¥¼ ë‹«ìœ¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 
 		JPanel title = new JPanel();
 
-		// title ÄÁÅ×ÀÌ³Ê¿¡ µé¾î°¥ ÄÄÆ÷³ÍÆ®¸¦ ¸¸µé¾î º¸ÀÚ.
-		JLabel login = new JLabel("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
+		// title ì»¨í…Œì´ë„ˆì— ë“¤ì–´ê°ˆ ì»´í¬ë„ŒíŠ¸ë¥¼ ë§Œë“¤ì–´ ë³´ì.
+		JLabel login = new JLabel("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
 		login.setForeground(new Color(5, 0, 153));
-		login.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		login.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
 		title.add(login);
 
 		JPanel jp1 = new JPanel();
@@ -37,13 +37,13 @@ public class ServiceStartScreen extends JFrame {
 
 
 		JPanel MemberPanel = new JPanel();
-		JButton member = new JButton("È¸¿ø");
+		JButton member = new JButton("íšŒì›");
 
 		JPanel TrainerPanel = new JPanel();
-		JButton trainer = new JButton("Æ®·¹ÀÌ³Ê");
+		JButton trainer = new JButton("íŠ¸ë ˆì´ë„ˆ");
 
 		JPanel OwnerPanel = new JPanel();
-		JButton owner = new JButton("°üÀå");
+		JButton owner = new JButton("ê´€ì¥");
 		
 		MemberPanel.add(member);
 		TrainerPanel.add(trainer);
@@ -64,20 +64,23 @@ public class ServiceStartScreen extends JFrame {
 
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setVisible(true);
-
-		// ÀÌº¥Æ® Ã³¸®
+		
+		/*
+		TrainerLoginScreenì´ë¼ê³  í–ˆì§€ë§Œ ê²°êµ­ì—ëŠ” LoginScreen(userType)ë¡œ íŒŒì¼ëª…ì„ ë°”ê¾¸ì–´ì„œ ì‚¬ìš©í•˜ë©´ ë  ê²ƒ ê°™ìŠµë‹ˆë‹¤.
+		*/
+		// ì´ë²¤íŠ¸ ì²˜ë¦¬
 		member.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				userType = "È¸¿ø";
+				userType = "íšŒì›";
 				
-				new TrainerLoginScreen(userType);
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				new TrainerLoginScreen(userType); // íšŒì› ë¡œê·¸ì¸ ë²„íŠ¼
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
@@ -87,9 +90,9 @@ public class ServiceStartScreen extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				userType = "Æ®·¹ÀÌ³Ê";
-				new TrainerLoginScreen(userType); // Æ®·¹ÀÌ³Ê ·Î±×ÀÎ ¹öÆ°
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				userType = "íŠ¸ë ˆì´ë„ˆ";
+				new TrainerLoginScreen(userType); // íŠ¸ë ˆì´ë„ˆ ë¡œê·¸ì¸ ë²„íŠ¼
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
@@ -99,9 +102,9 @@ public class ServiceStartScreen extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				userType = "°üÀå";
-				new TrainerLoginScreen(userType);
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				userType = "ê´€ì¥"; 
+				new TrainerLoginScreen(userType); // ê´€ì¥ ë¡œê·¸ì¸ ë²„íŠ¼
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
