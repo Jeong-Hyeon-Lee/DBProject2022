@@ -18,6 +18,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,7 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class M_searchGYM extends JFrame {
-
+	public static JTable jt;
+	public static DefaultTableModel tableModel;
+	
 	public M_searchGYM(Connection conn, String ID) throws SQLException {
 		setTitle("헬스장 PT 예약 시스템");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
@@ -39,7 +42,7 @@ public class M_searchGYM extends JFrame {
 		
 		//
 		JPanel btnGroup = new JPanel();
-		btnGroup.setLayout(new GridLayout(3,1));
+		btnGroup.setLayout(new GridLayout(2,1));
 		
 		//search
 		JPanel input = new JPanel();
@@ -59,12 +62,14 @@ public class M_searchGYM extends JFrame {
 		JButton searchGYMBtn = new JButton("검색"); //btn클릭시 원하는 정보만 조회하도록
 		i3.add(searchGYMBtn);
 		input.add(i3);
-		btnGroup.add(input);
+		//btnGroup.add(input);
 
-		//Table 
-		String columnNames[] = {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //headers
-		DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
-		JTable jt = new JTable(tableModel);
+		//Table
+		JPanel table = new JPanel();
+		table.setLayout(new GridLayout(1,1));
+		String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //headers
+		tableModel = new DefaultTableModel(columnNames,0);
+		jt = new JTable(tableModel);
 		
 		//query for table
 		Statement stmt = conn.createStatement();
@@ -96,7 +101,8 @@ public class M_searchGYM extends JFrame {
 			//스크롤&column명을 위해 JScrollPane 적용
 			JScrollPane scrollpane=new JScrollPane(jt);
 			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
-			btnGroup.add(scrollpane);
+		
+			table.add(scrollpane);
 		}
 		
 		//btn
@@ -110,10 +116,15 @@ public class M_searchGYM extends JFrame {
 		btnGroup.add(jp0);
 		
 		setLayout(new BorderLayout());
+		;
+		JPanel center = new JPanel(new BorderLayout());
+		center.add(input,BorderLayout.NORTH);
+		center.add(table,BorderLayout.CENTER);
+
 		
 		add(M_main,BorderLayout.NORTH);
-		add(btnGroup,BorderLayout.CENTER);
-		
+		add(center,BorderLayout.CENTER);
+		add(btnGroup,BorderLayout.SOUTH);
 		setBounds(200,200,700,400);
 		
 		setResizable(false); // 화면 크기 고정하는 작업
@@ -124,18 +135,17 @@ public class M_searchGYM extends JFrame {
 			@Override //btn클릭시 원하는 정보만 조회하도록
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				String searchText = inputText.getText();
-				
+
 				//Table 
-				String columnNames[] = {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //headers
-				DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
-				JTable jt = new JTable(tableModel);
+				String columnNames[]= {"헬스장","지역","1회가격","10회가격","20회가격","기타프로모션"}; //columnname 중복 관리 필요
+				tableModel.setNumRows(0);
 				
 				//query for table
-				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역=?";
+				String str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격 WHERE 지역 like ?";
 				PreparedStatement pstmt;
 				try {
 					pstmt = conn.prepareStatement(str);
-					pstmt.setString(1, searchText);
+					pstmt.setString(1, "%"+searchText+"%");
 					ResultSet rset = pstmt.executeQuery();
 					//table data
 					if(!rset.isBeforeFirst()) {
@@ -157,12 +167,7 @@ public class M_searchGYM extends JFrame {
 							
 							tableModel.addRow(data);
 						}
-						jt = new JTable(tableModel);
-						
-						//스크롤&column명을 위해 JScrollPane 적용
-						JScrollPane scrollpane=new JScrollPane(jt);
-						scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
-						btnGroup.add(scrollpane);
+						jt.setModel(tableModel);					
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
