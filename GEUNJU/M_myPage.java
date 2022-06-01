@@ -47,7 +47,7 @@ public class M_myPage extends JFrame {
 		JPanel btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
 		
-		//table data -> null 값 처리 어떻게 할 지
+		//table data -> 헬스장이 null이면 회원정보 불러오는데 실패함
 		if(!rset.isBeforeFirst()) {
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
@@ -74,9 +74,6 @@ public class M_myPage extends JFrame {
 			JScrollPane scrollpane=new JScrollPane(jt);
 			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
 			btnGroup.add(scrollpane);
-
-			//jt.setPreferredScrollableViewportSize(new Dimension(500, 100));
-            //jt.setFillsViewportHeight(true);
 		}
 		
 		//btn
