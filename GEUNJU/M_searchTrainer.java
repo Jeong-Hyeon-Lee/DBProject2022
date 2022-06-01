@@ -2,13 +2,11 @@ package DB2022TEAM03.GEUNJU;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -291,9 +288,10 @@ public class M_searchTrainer extends JFrame {
 			}
 		});
 		
-		enrollBtn.addActionListener(new ActionListener() {
+		//지금 트레이너와 헬스장정보 비교 -> 남은 횟수인데 / 남은횟수->헬스장비교로 바꾸기
+		enrollBtn.addActionListener(new ActionListener() { 
 			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) { //소속헬스장의 트레이너만 등록가능하도록
+			public void actionPerformed(java.awt.event.ActionEvent e) { 
 				int row = jt.getSelectedRow();
 				
 				String Tname = (String) jt.getValueAt(row, 1);

@@ -33,7 +33,7 @@ public class M_myPage extends JFrame {
 		M_main.add(subtitle);
 		
 		//Table
-		String columnNames[] = {"이름","헬스장","지역","전체횟수","남은횟수","트레이너","현재회원권"}; //headers
+		String columnNames[] = {"이름","헬스장","지역","전체결제회차","남은수업회차","트레이너","현재회원권"}; //headers
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
 		JTable jt = new JTable(tableModel);
 		
@@ -56,21 +56,22 @@ public class M_myPage extends JFrame {
 			btnGroup.add(jpErr);
 		}
 		else {
-			while(rset.next()) {
-				String name = rset.getString(1);
-				String gym = rset.getString(2);
-				if(rset.wasNull()) gym="미등록";
-				String location = rset.getString(3);
-				String total = rset.getString(4);
-				String left = rset.getString(5);
-				String trainer = rset.getString(6);
-				if(rset.wasNull()) trainer="미등록";
-				String membership = rset.getString(7);
-				
-				String[] data = {name,gym,location,total,left,trainer,membership};
-				
-				tableModel.addRow(data);
-			}
+			rset.next();
+			
+			String name = rset.getString(1);
+			String gym = rset.getString(2);
+			if(rset.wasNull()) gym="미등록";
+			String location = rset.getString(3);
+			String total = rset.getString(4);
+			String left = rset.getString(5);
+			String trainer = rset.getString(6);
+			if(rset.wasNull()) trainer="미등록";
+			String membership = rset.getString(7);
+			
+			String[] data = {name,gym,location,total,left,trainer,membership};
+			
+			tableModel.addRow(data);
+			
 			jt = new JTable(tableModel);
 			
 			//스크롤&column명을 위해 JScrollPane 적용
@@ -94,7 +95,7 @@ public class M_myPage extends JFrame {
 		add(M_main,BorderLayout.NORTH);;
 		add(btnGroup,BorderLayout.CENTER);
 		
-		setBounds(200,200,500,200);
+		setBounds(200,200,600,200);
 		
 		setResizable(false); // 화면 크기 고정하는 작업
 

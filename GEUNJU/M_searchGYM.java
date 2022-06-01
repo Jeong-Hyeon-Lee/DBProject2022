@@ -2,13 +2,11 @@ package DB2022TEAM03.GEUNJU;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -97,12 +94,12 @@ public class M_searchGYM extends JFrame {
 			while(rset.next()) {
 				String gym = rset.getString(1);
 				String location = rset.getString(2);
-				String price1 = rset.getString(3);
-				String price10 = rset.getString(4);
-				String price20 = rset.getString(5);
+				int price1 = rset.getInt(3);
+				int price10 = rset.getInt(4);
+				int price20 = rset.getInt(5);
 				String promotion = rset.getString(6);
 				
-				String[] data = {gym,location,price1,price10,price20,promotion};
+				String[] data = {gym,location,String.valueOf(price1),String.valueOf(price10),String.valueOf(price20),promotion};
 				
 				tableModel.addRow(data);
 			}

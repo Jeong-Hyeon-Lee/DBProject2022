@@ -9,14 +9,12 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DB2022TEAM03.LoginScreen;
 import DB2022TEAM03.StartScreen;
 
 public class M_MainScreen extends JFrame {
@@ -150,6 +148,19 @@ public class M_MainScreen extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new StartScreen();
+				dispose(); // 현재의 frame을 종료시키는 메서드.
+
+			}
+		});
+		enrollMembership.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				try {
+					new M_enrollMembership(conn,ID);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}
