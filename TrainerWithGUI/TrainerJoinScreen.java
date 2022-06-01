@@ -17,38 +17,38 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
-
+// JoinScreen (íšŒì›ê°€ì… í™”ë©´)
 public class TrainerJoinScreen extends JFrame {
-	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ¿¬µ¿ °´Ã¼ »ı¼º
+	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ì—°ë™ ê°ì²´ ìƒì„±
 	public TrainerJoinScreen(String userType) {
 		
-		setTitle("È¸¿ø°¡ÀÔ");
+		setTitle("íšŒì›ê°€ì…");
 		
-		// 1. ÄÄÆ÷³ÍÆ®µéÀ» ¸¸µé¾î º¸ÀÚ.
-		JLabel title = new JLabel(userType + " È¸¿ø°¡ÀÔ", JLabel.CENTER);
+		// 1. ì»´í¬ë„ŒíŠ¸ë“¤ì„ ë§Œë“¤ì–´ ë³´ì.
+		JLabel title = new JLabel(userType + " íšŒì›ê°€ì…", JLabel.CENTER);
 		
 		title.setForeground(new Color(5, 0, 153));
-		title.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		title.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		
-		JButton join = new JButton("È¸¿ø°¡ÀÔ");
-		JButton cancel = new JButton("Ãë¼Ò");
+		JButton join = new JButton("íšŒì›ê°€ì…");
+		JButton cancel = new JButton("ì·¨ì†Œ");
 		
 		JTextField id = new JTextField(10); 
 		JPasswordField pwd = new JPasswordField(10);
 		JTextField name = new JTextField(10);
 		JTextField gym = new JTextField(6);
-		JTextField address1 = new JTextField(10); address1.setText("ex) ¼­¿ï");
-		JTextField address2 = new JTextField(10); address2.setText("ex) ¼­´ë¹®±¸");
-		JTextField address3 = new JTextField(10); address3.setText("ex) ÀÌÈ­¿©´ë±æ 52");
+		JTextField address1 = new JTextField(10); address1.setText("ex) ì„œìš¸");
+		JTextField address2 = new JTextField(10); address2.setText("ex) ì„œëŒ€ë¬¸êµ¬");
+		JTextField address3 = new JTextField(10); address3.setText("ex) ì´í™”ì—¬ëŒ€ê¸¸ 52");
 		
-		//°¡°İÀº 1~500»çÀÌ Á¤¼ö°ª °¡Áöµµ·Ï Ã³¸®
-		NumberFormatter ¹üÀ§ = new NumberFormatter();
-		¹üÀ§.setValueClass(Integer.class);
-		¹üÀ§.setMinimum(new Integer(1));
-		¹üÀ§.setMaximum(new Integer(500));
-		JFormattedTextField price1 = new JFormattedTextField(¹üÀ§);
-		JFormattedTextField price10 = new JFormattedTextField(¹üÀ§);
-		JFormattedTextField price20 = new JFormattedTextField(¹üÀ§);
+		//ê°€ê²©ì€ 1~500ì‚¬ì´ ì •ìˆ˜ê°’ ê°€ì§€ë„ë¡ ì²˜ë¦¬
+		NumberFormatter ë²”ìœ„ = new NumberFormatter();
+		ë²”ìœ„.setValueClass(Integer.class);
+		ë²”ìœ„.setMinimum(new Integer(1));
+		ë²”ìœ„.setMaximum(new Integer(500));
+		JFormattedTextField price1 = new JFormattedTextField(ë²”ìœ„);
+		JFormattedTextField price10 = new JFormattedTextField(ë²”ìœ„);
+		JFormattedTextField price20 = new JFormattedTextField(ë²”ìœ„);
 		price1.setColumns(10);
 		price10.setColumns(10);
 		price20.setColumns(10);
@@ -56,105 +56,105 @@ public class TrainerJoinScreen extends JFrame {
 	
 		// form panel
 		JPanel formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(9, 1)); //°üÀåÀÌ ÃÖ´ë 9Çà °¡Á®¼­ 9,1·Î µÒ
+		formPanel.setLayout(new GridLayout(9, 1)); //ê´€ì¥ì´ ìµœëŒ€ 9í–‰ ê°€ì ¸ì„œ 9,1ë¡œ ë‘ 
 		
-		//°øÅë1. ÀüÈ­¹øÈ£ µŞÀÚ¸® 4ÀÚ¸®
+		//ê³µí†µ1. ì „í™”ë²ˆí˜¸ ë’·ìë¦¬ 4ìë¦¬
 		JPanel idPanel = new JPanel();
 		idPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		idPanel.add(new JLabel("ÀüÈ¸¹øÈ£ µÚ4ÀÚ¸® : "));
+		idPanel.add(new JLabel("ì „íšŒë²ˆí˜¸ ë’¤4ìë¦¬ : "));
 		idPanel.add(id);
 		
 		formPanel.add(idPanel);
 		
-		//°øÅë2. ÆĞ½º¿öµå
+		//ê³µí†µ2. íŒ¨ìŠ¤ì›Œë“œ
 		JPanel pwdPanel = new JPanel();
 		pwdPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		pwdPanel.add(new JLabel("ºñ¹Ğ¹øÈ£ : "));
+		pwdPanel.add(new JLabel("ë¹„ë°€ë²ˆí˜¸ : "));
 		pwdPanel.add(pwd);
 		
 		formPanel.add(pwdPanel);
 		
-		//È¸¿øÀÌ¸é, ÀÌ¸§ , Áö¿ª Ãß°¡
-		if(userType.equals("È¸¿ø")) {
-			//ÀÌ¸§
+		//íšŒì›ì´ë©´, ì´ë¦„ , ì§€ì—­ ì¶”ê°€
+		if(userType.equals("íšŒì›")) {
+			//ì´ë¦„
 			JPanel namePanel = new JPanel();
 			namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			namePanel.add(new JLabel("ÀÌ    ¸§ : "));
+			namePanel.add(new JLabel("ì´    ë¦„ : "));
 			namePanel.add(name);
 			
 			formPanel.add(namePanel);
 			
-			//Áö¿ª
+			//ì§€ì—­
 			JPanel address2Panel = new JPanel();
 			address2Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address2Panel.add(new JLabel("Áö    ¿ª : "));
+			address2Panel.add(new JLabel("ì§€    ì—­ : "));
 			address2Panel.add(address2);
 			
 			formPanel.add(address2Panel);
 		}
 		
-		//Æ®·¹ÀÌ³Ê¸é, ÀÌ¸§ Ãß°¡
-		if(userType.equals("Æ®·¹ÀÌ³Ê")) {
-			//ÀÌ¸§
+		//íŠ¸ë ˆì´ë„ˆë©´, ì´ë¦„ ì¶”ê°€
+		if(userType.equals("íŠ¸ë ˆì´ë„ˆ")) {
+			//ì´ë¦„
 			JPanel namePanel = new JPanel();
 			namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			namePanel.add(new JLabel("ÀÌ    ¸§ : "));
+			namePanel.add(new JLabel("ì´    ë¦„ : "));
 			namePanel.add(name);
 			
 			formPanel.add(namePanel);
-			// ¼Ò¼Ó Çï½ºÀå
+			// ì†Œì† í—¬ìŠ¤ì¥
 			JPanel gymPanel = new JPanel();
 			gymPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			gymPanel.add(new JLabel("¼Ò¼Ó Çï½ºÀå : "));
+			gymPanel.add(new JLabel("ì†Œì† í—¬ìŠ¤ì¥ : "));
 			gymPanel.add(gym);
 			
 			formPanel.add(gymPanel);
 		}
 		
-		//°üÀåÀÌ¸é, Çï½ºÀåÀÌ¸§, µµ½Ã, Áö¿ª, µµ·Î¸íÁÖ¼Ò, 1È¸°¡°İ, 10È¸°¡°İ, 20È¸ °¡°İ Ãß°¡.
-		if(userType.equals("°üÀå")) {
-			//Çï½ºÀåÀÌ¸§
+		//ê´€ì¥ì´ë©´, í—¬ìŠ¤ì¥ì´ë¦„, ë„ì‹œ, ì§€ì—­, ë„ë¡œëª…ì£¼ì†Œ, 1íšŒê°€ê²©, 10íšŒê°€ê²©, 20íšŒ ê°€ê²© ì¶”ê°€.
+		if(userType.equals("ê´€ì¥")) {
+			//í—¬ìŠ¤ì¥ì´ë¦„
 			JPanel namePanel = new JPanel();
 			namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			namePanel.add(new JLabel("Çï½ºÀå ÀÌ¸§ : "));
+			namePanel.add(new JLabel("í—¬ìŠ¤ì¥ ì´ë¦„ : "));
 			namePanel.add(name);
 			
 			formPanel.add(namePanel);
 			
-			//µµ½Ã, Áö¿ª, µµ·Î¸í ÁÖ¼Ò
+			//ë„ì‹œ, ì§€ì—­, ë„ë¡œëª… ì£¼ì†Œ
 			JPanel address1Panel = new JPanel();
 			address1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address1Panel.add(new JLabel("µµ    ½Ã : "));
+			address1Panel.add(new JLabel("ë„    ì‹œ : "));
 			address1Panel.add(address1);
 			formPanel.add(address1Panel);
 			
 			JPanel address2Panel = new JPanel();
 			address2Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address2Panel.add(new JLabel("Áö    ¿ª : "));
+			address2Panel.add(new JLabel("ì§€    ì—­ : "));
 			address2Panel.add(address2);
 			formPanel.add(address2Panel);
 			
 			JPanel address3Panel = new JPanel();
 			address3Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address3Panel.add(new JLabel("µµ·Î¸í ÁÖ¼Ò : "));
+			address3Panel.add(new JLabel("ë„ë¡œëª… ì£¼ì†Œ : "));
 			address3Panel.add(address3);
 			formPanel.add(address3Panel);
 			
 			JPanel price1Panel = new JPanel();
 			price1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			price1Panel.add(new JLabel("PT 1È¸ °¡°İ : "));
+			price1Panel.add(new JLabel("PT 1íšŒ ê°€ê²© : "));
 			price1Panel.add(price1);
 			formPanel.add(price1Panel);
 			
 			JPanel price10Panel = new JPanel();
 			price10Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			price10Panel.add(new JLabel("PT 10È¸ °¡°İ : "));
+			price10Panel.add(new JLabel("PT 10íšŒ ê°€ê²© : "));
 			price10Panel.add(price10);
 			formPanel.add(price10Panel);
 			
 			JPanel price20Panel = new JPanel();
 			price20Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			price20Panel.add(new JLabel("PT 20È¸ °¡°İ : "));
+			price20Panel.add(new JLabel("PT 20íšŒ ê°€ê²© : "));
 			price20Panel.add(price20);
 			formPanel.add(price20Panel);
 		}
@@ -177,7 +177,7 @@ public class TrainerJoinScreen extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		// È¸¿ø°¡ÀÔ ¹öÆ° ´­·¶À» ¶§ ÀÌº¥Æ®Ã³¸®
+		// íšŒì›ê°€ì… ë²„íŠ¼ ëˆŒë €ì„ ë•Œ ì´ë²¤íŠ¸ì²˜ë¦¬
 		join.addActionListener(new ActionListener() {
 			
 			@Override
@@ -191,21 +191,21 @@ public class TrainerJoinScreen extends JFrame {
 				String myAddress2 = address2.getText();
 				String myAddress3 = address3.getText();
 				
-				/* price1.getText()¿¡¼­ ¿À·ù³²
+				/* price1.getText()ì—ì„œ ì˜¤ë¥˜ë‚¨
 				try {
 					int price1 = Integer.parseInt(price1.getText());
 				}
 				catch(NumberFormatException n) {
-					JOptionPane.showMessageDialog(null, "°¡°İ¿¡ 1~500»çÀÌÀÇ Á¤¼ö¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					JOptionPane.showMessageDialog(null, "ê°€ê²©ì— 1~500ì‚¬ì´ì˜ ì •ìˆ˜ë§Œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				}
 				*/
 				
-				if(userType.equals("È¸¿ø")) JOptionPane.showMessageDialog(null, "ÀüÈ­¹øÈ£ µÚ4ÀÚ¸® : "+myId+", ºñ¹Ğ¹øÈ£ : "+myPwd+", ÀÌ ¸§ : "+myName + ", Áö ¿ª : "+address2);
-				else if(userType.equals("Æ®·¹ÀÌ³Ê")) JOptionPane.showMessageDialog(null, "ÀüÈ¸¹øÈ£ µÚ4ÀÚ¸® : "+myId+", ºñ¹Ğ¹øÈ£ : "+myPwd+", ÀÌ ¸§ : "+myName+ "¼Ò¼Ó Çï½ºÀå : " +myGym);
-				else if(userType.equals("°üÀå")) JOptionPane.showMessageDialog(null, "ÀüÈ­¹øÈ£ µÚ4ÀÚ¸® : "+myId+", ºñ¹Ğ¹øÈ£ : "+myPwd+", Çï½ºÀå ÀÌ¸§ : "+myName 
-						+ "\nÁÖ¼Ò : "+ myAddress1 +" " + myAddress2 +" "+ myAddress3);
+				if(userType.equals("íšŒì›")) JOptionPane.showMessageDialog(null, "ì „í™”ë²ˆí˜¸ ë’¤4ìë¦¬ : "+myId+", ë¹„ë°€ë²ˆí˜¸ : "+myPwd+", ì´ ë¦„ : "+myName + ", ì§€ ì—­ : "+address2);
+				else if(userType.equals("íŠ¸ë ˆì´ë„ˆ")) JOptionPane.showMessageDialog(null, "ì „íšŒë²ˆí˜¸ ë’¤4ìë¦¬ : "+myId+", ë¹„ë°€ë²ˆí˜¸ : "+myPwd+", ì´ ë¦„ : "+myName+ "ì†Œì† í—¬ìŠ¤ì¥ : " +myGym);
+				else if(userType.equals("ê´€ì¥")) JOptionPane.showMessageDialog(null, "ì „í™”ë²ˆí˜¸ ë’¤4ìë¦¬ : "+myId+", ë¹„ë°€ë²ˆí˜¸ : "+myPwd+", í—¬ìŠ¤ì¥ ì´ë¦„ : "+myName 
+						+ "\nì£¼ì†Œ : "+ myAddress1 +" " + myAddress2 +" "+ myAddress3);
 				
-				if (userType.equals("Æ®·¹ÀÌ³Ê")) {
+				if (userType.equals("íŠ¸ë ˆì´ë„ˆ")) {
 					int idNo = tmdb.checkPhoneNum(myId);
 					String newpk = "T" + myId + Integer.toString(idNo);
 					System.out.println(newpk);
@@ -218,13 +218,36 @@ public class TrainerJoinScreen extends JFrame {
 					}
 					
 				}
+				/*
+				gymIdì™€ member_IDì˜ ê²½ìš°ì—ëŠ” íšŒì› ê°€ì…í•˜ëŠ” ê³¼ì •ì—ì„œ í° ë’· 4ìë¦¬ë¥¼ ì…ë ¥í•˜ë©´ ë™ì¼ ë²ˆí˜¸ ê°œìˆ˜ ê²€ìƒ‰í•˜ë©´ì„œ ìƒì„±ì„ í•´ì„œ ì €ì¥í•˜ë©´ ë©”ë‰´ í™”ë©´ìœ¼ë¡œ ì´ë™ ê°€ëŠ¥
+			
+				*/
+				else if (userType.equals("ê´€ì¥")){
+					// ê´€ì¥ íšŒì› ê°€ì… í•¨ìˆ˜ í˜¸ì¶œ 
+					// íšŒì› ê°€ì… ë§ˆë¬´ë¦¬ ë˜ë©´ ìë™ ë¡œê·¸ì¸
+					/*
+					new G_selectMenu(gymId);
+					*/
+					// ì´í›„ ê´€ì¥ìš© ë©”ë‰´ í™”ë©´ìœ¼ë¡œ ë„˜ì–´ê° (G_selectMenu.java)
+				};
+				else if (userType.equals("íšŒì›")){
+					// ë©¤ë²„ íšŒì› ê°€ì… í•¨ìˆ˜ í˜¸ì¶œ 
+					// íšŒì› ê°€ì… ë§ˆë¬´ë¦¬ ë˜ë©´ ìë™ ë¡œê·¸ì¸
+					// ì´í›„ ë©¤ë²„ìš© ë©”ë‰´ í™”ë©´ìœ¼ë¡œ ë„˜ì–´ê° (M_MainScreen.java)
+					/*
+					Connection conn = DriverManager.getConnection(URL,USER,PASS);
+					new M_MainScreen(conn,member_ID);
+					*/
+				};
+			
+				   
 				
 			}
 		});
 		
 		
 		
-		// Ãë¼Ò ¹öÆ°À» Å¬¸¯ÇßÀ» ¶§ ÀÌº¥Æ® Ã³¸®
+		// ì·¨ì†Œ ë²„íŠ¼ì„ í´ë¦­í–ˆì„ ë•Œ ì´ë²¤íŠ¸ ì²˜ë¦¬
 		cancel.addActionListener(new ActionListener() {
 			
 			@Override
