@@ -52,7 +52,7 @@ public class G_selectMenu extends JFrame {
 
 		JButton menu1 = new JButton("가격 정보 수정하기");
 		JButton menu2 = new JButton("프로모션 정보 수정하기");
-		JButton menu3 = new JButton("소속 트레이너 출력하기");
+		JButton menu3 = new JButton("트레이너 정보 출력하기");
 		JButton menu4 = new JButton("회원 수 출력하기");
 
 		btnpanel.add(menu1);
