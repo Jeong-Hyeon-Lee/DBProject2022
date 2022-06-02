@@ -1,6 +1,6 @@
 package TrainerWithGUI;
 // TrainerMenuJDBC.java
-// trainer °ü·Ã ¸Ş´º ÇÚµé¸µÀ» À§ÇÑ JDBC ¿¬µ¿ °´Ã¼
+// trainer ê´€ë ¨ ë©”ë‰´ í•¸ë“¤ë§ì„ ìœ„í•œ JDBC ì—°ë™ ê°ì²´
 
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,44 +10,44 @@ import java.awt.event.*;
 
 
 public class TrainerMenuJDBC {
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; // java-sql ¿¬°á ¼­¹ö
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; // java-sql ì—°ê²° ì„œë²„
 	static final String DB_URL = "jdbc:mysql://localhost/DB2022Team03"; // database url
-	static final String USER = "root";     // ÀÛ¼ºÀÚ ÀÌ¸§
-	static final String PASS = "penguin1109"; // sql ¿¬°á ºñ¹Ğ¹øÈ£
+	static final String USER = "root";     // ì‘ì„±ì ì´ë¦„
+	static final String PASS = "penguin1109"; // sql ì—°ê²° ë¹„ë°€ë²ˆí˜¸
 	
-	// ÇÊ¿äÇÑ º¯¼ö ¼±¾ğ
+	// í•„ìš”í•œ ë³€ìˆ˜ ì„ ì–¸
 	Connection con;
 	Statement st;
 	PreparedStatement pst;
 	ResultSet rs;
 	
-	// JDBC ¿¬µ¿À» À§ÇÑ °´Ã¼ »ı¼ºÀÚ
+	// JDBC ì—°ë™ì„ ìœ„í•œ ê°ì²´ ìƒì„±ì
 	public TrainerMenuJDBC() {
 		try {
 			con = DriverManager.getConnection(DB_URL, USER, PASS);
-			System.out.println("µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á ¼º°ø");
+			System.out.println("ë°ì´í„°ë² ì´ìŠ¤ ì—°ê²° ì„±ê³µ");
 		}catch(SQLException e) {
-			System.out.println(e + "=> ¿¬°á ¾ÈµÊ");
+			System.out.println(e + "=> ì—°ê²° ì•ˆë¨");
 		}
 	}
 
 	public int checkLogin(String tID, String tPW) {
-		String loginquery = "SELECT ºñ¹Ğ¹øÈ£, ÀÌ¸§, °­»ç¹øÈ£, Çï½ºÀå¹øÈ£, ´ã´çÈ¸¿ø¼ö, ÃÑ±Ù¹«½Ã°£ "
-				+ "FROM DB2022_Æ®·¹ÀÌ³Ê" + " WHERE (°­»ç¹øÈ£=?)";
+		String loginquery = "SELECT ë¹„ë°€ë²ˆí˜¸, ì´ë¦„, ê°•ì‚¬ë²ˆí˜¸, í—¬ìŠ¤ì¥ë²ˆí˜¸, ë‹´ë‹¹íšŒì›ìˆ˜, ì´ê·¼ë¬´ì‹œê°„ "
+				+ "FROM DB2022_íŠ¸ë ˆì´ë„ˆ" + " WHERE (ê°•ì‚¬ë²ˆí˜¸=?)";
 		boolean login_success = false;
 		try {
 			pst = con.prepareStatement(loginquery);
 			pst.setString(1,  tID);
 			rs = pst.executeQuery();
 			if (rs.getRow() == -1) {
-				JOptionPane.showMessageDialog(null, "¾ÆÀÌµğ°¡ ¾ø°Å³ª, ¿Ã¹Ù¸£Áö ¾ÊÀº ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù. ´Ù½Ã ·Î±×ÀÎÇØÁÖ¼¼¿ä.");
+				JOptionPane.showMessageDialog(null, "ì•„ì´ë””ê°€ ì—†ê±°ë‚˜, ì˜¬ë°”ë¥´ì§€ ì•Šì€ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤. ë‹¤ì‹œ ë¡œê·¸ì¸í•´ì£¼ì„¸ìš”.");
 			}
 			while (rs.next()) {
 				if (rs.getString(1).equals(tPW)) {
 					login_success = true;
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "¾ÆÀÌµğ°¡ ¾ø°Å³ª, ¿Ã¹Ù¸£Áö ¾ÊÀº ºñ¹Ğ¹øÈ£ÀÔ´Ï´Ù. ´Ù½Ã ·Î±×ÀÎÇØÁÖ¼¼¿ä.");
+					JOptionPane.showMessageDialog(null, "ì•„ì´ë””ê°€ ì—†ê±°ë‚˜, ì˜¬ë°”ë¥´ì§€ ì•Šì€ ë¹„ë°€ë²ˆí˜¸ì…ë‹ˆë‹¤. ë‹¤ì‹œ ë¡œê·¸ì¸í•´ì£¼ì„¸ìš”.");
 				}
 			}
 		}catch(SQLException e){
@@ -56,7 +56,7 @@ public class TrainerMenuJDBC {
 		if (login_success)return 1;
 		else return 0;
 	}
-	// JDBC ¿¬°áÀ» ²÷±â À§ÇØ¼­ »ç¿ë
+	// JDBC ì—°ê²°ì„ ëŠê¸° ìœ„í•´ì„œ ì‚¬ìš©
 	public void closeDB() {
 		try {
 			if (rs!=null)rs.close();
@@ -69,8 +69,8 @@ public class TrainerMenuJDBC {
 	}
 	public void classInfoAll(DefaultTableModel class_table, String trainer_id) {
 		try {
-			pst = con.prepareStatement("SELECT È¸¿ø¹øÈ£, ¼ö¾÷½Ã°£, ¼ö¾÷ÁøÇàÇöÈ² FROM DB2022_¼ö¾÷ WHERE(°­»ç¹øÈ£=?) ORDER BY ¼ö¾÷ÁøÇàÇöÈ², ¼ö¾÷½Ã°£"); // ¼ö¾÷ ÁøÇà ÇöÈ²ÀÌ °°Àº °Í ³¢¸®¹¶ÃÄ¼­ ¹İÈ¯
-			// ¼ö¾÷ ½Ã°£ÀÌ ºü¸¥ °Í ¸ÕÀú º¸¿©ÁÜ
+			pst = con.prepareStatement("SELECT íšŒì›ë²ˆí˜¸, ìˆ˜ì—…ì‹œê°„, ìˆ˜ì—…ì§„í–‰í˜„í™© FROM DB2022_ìˆ˜ì—… WHERE(ê°•ì‚¬ë²ˆí˜¸=?) ORDER BY ìˆ˜ì—…ì§„í–‰í˜„í™©, ìˆ˜ì—…ì‹œê°„"); // ìˆ˜ì—… ì§„í–‰ í˜„í™©ì´ ê°™ì€ ê²ƒ ë¼ë¦¬ë­‰ì³ì„œ ë°˜í™˜
+			// ìˆ˜ì—… ì‹œê°„ì´ ë¹ ë¥¸ ê²ƒ ë¨¼ì € ë³´ì—¬ì¤Œ
 			pst.setString(1, trainer_id);
 			rs = pst.executeQuery();
 		
@@ -82,26 +82,26 @@ public class TrainerMenuJDBC {
 			e.getStackTrace();
 		}
 	}
-	// ·Î±×ÀÎÇÑ trainerÀÇ ¸ğµç Á¤º¸¸¦ º¸¿©ÁÜ
+	// ë¡œê·¸ì¸í•œ trainerì˜ ëª¨ë“  ì •ë³´ë¥¼ ë³´ì—¬ì¤Œ
 	public void trainerInfoAll(DefaultTableModel trainer_table, String trainer_id) {
 		try {
-			pst = con.prepareStatement("SELECT °­»ç¹øÈ£, ÀÌ¸§, Çï½ºÀå¹øÈ£, ´ã´çÈ¸¿ø¼ö, ÃÑ±Ù¹«½Ã°£ FROM DB2022_Æ®·¹ÀÌ³Ê WHERE(°­»ç¹øÈ£=?)");
+			pst = con.prepareStatement("SELECT ê°•ì‚¬ë²ˆí˜¸, ì´ë¦„, í—¬ìŠ¤ì¥ë²ˆí˜¸, ë‹´ë‹¹íšŒì›ìˆ˜, ì´ê·¼ë¬´ì‹œê°„ FROM DB2022_íŠ¸ë ˆì´ë„ˆ WHERE(ê°•ì‚¬ë²ˆí˜¸=?)");
 			
 			pst.setString(1, trainer_id);
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				Object info[] = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)};
-				trainer_table.addRow(info); // DefaultTableModel¿¡ row Ãß°¡ (µ¥ÀÌÅÍ º¸¿©ÁÖ±â À§ÇØ¼­)
+				trainer_table.addRow(info); // DefaultTableModelì— row ì¶”ê°€ (ë°ì´í„° ë³´ì—¬ì£¼ê¸° ìœ„í•´ì„œ)
 			}
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}
 	}
-	// trainer °íÀ¯ ¹øÈ£ »ı¼ºÀ» À§ÇØ¼­ °øÅë µŞ¹øÈ£ 4ÀÚ¸®¸¦ °®´Â Æ®·¹ÀÌ³Ê°¡ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
+	// trainer ê³ ìœ  ë²ˆí˜¸ ìƒì„±ì„ ìœ„í•´ì„œ ê³µí†µ ë’·ë²ˆí˜¸ 4ìë¦¬ë¥¼ ê°–ëŠ” íŠ¸ë ˆì´ë„ˆê°€ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸
 	public int checkPhoneNum(String num) {
 		int cnt = 0;
 		try {
-			pst = con.prepareStatement("SELECT COUNT (*) FROM (SELECT substring(È­¿ø¹øÈ£, 2, 4) AS 'µŞÀÚ¸®' FROM DB2022_È¸¿ø) µŞÀÚ¸® WHERE(µŞÀÚ¸®=?)");
+			pst = con.prepareStatement("SELECT COUNT (*) FROM (SELECT substring(í™”ì›ë²ˆí˜¸, 2, 4) AS 'ë’·ìë¦¬' FROM DB2022_íšŒì›) ë’·ìë¦¬ WHERE(ë’·ìë¦¬=?)");
 			pst.setString(1, num);
 			rs = pst.executeQuery();
 			if (rs.next()) {
@@ -110,11 +110,11 @@ public class TrainerMenuJDBC {
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}
-		return cnt+1; // ÇØ´ç ¹øÈ£ µŞ 4ÀÚ¸®¿¡ ÇØ´çÇÏ´Â µî·ÏµÈ Æ®·¹ÀÌ³Ê°¡ ¸î¸íÀÎÁö integerÀÇ ÇüÅÂ·Î ¹İÈ¯ÇÑ´Ù.
+		return cnt+1; // í•´ë‹¹ ë²ˆí˜¸ ë’· 4ìë¦¬ì— í•´ë‹¹í•˜ëŠ” ë“±ë¡ëœ íŠ¸ë ˆì´ë„ˆê°€ ëª‡ëª…ì¸ì§€ integerì˜ í˜•íƒœë¡œ ë°˜í™˜í•œë‹¤.
 	}
-	// È¸¿ø°¡ÀÔ
+	// íšŒì›ê°€ì…
 	public int Join(String myGym, String id, String name, String pwd) {
-		String q = "INSERT INTO DB2022_Æ®·¹ÀÌ³Ê(Çï½ºÀå¹øÈ£, °­»ç¹øÈ£, ÀÌ¸§, ºñ¹Ğ¹øÈ£) VALUES (?,?,?,?)";
+		String q = "INSERT INTO DB2022_íŠ¸ë ˆì´ë„ˆ(í—¬ìŠ¤ì¥ë²ˆí˜¸, ê°•ì‚¬ë²ˆí˜¸, ì´ë¦„, ë¹„ë°€ë²ˆí˜¸) VALUES (?,?,?,?)";
 		boolean success = false;
 		try {
 			pst = con.prepareStatement(q);
@@ -134,39 +134,39 @@ public class TrainerMenuJDBC {
 	
 	
 	
-	// trainerÀÇ ¸ğµç ¿¹¾à ¿Ï·á ¼ö¾÷ ³»¿ª Á¶È¸ (ºÒÂü / ¿Ï·á ·Î ¹Ù²Ù±â À§ÇØ)
+	// trainerì˜ ëª¨ë“  ì˜ˆì•½ ì™„ë£Œ ìˆ˜ì—… ë‚´ì—­ ì¡°íšŒ (ë¶ˆì°¸ / ì™„ë£Œ ë¡œ ë°”ê¾¸ê¸° ìœ„í•´)
 	public void trainerClassAll(DefaultTableModel class_table, String tID) {
-		String query1 = "SELECT È¸¿ø¹øÈ£, ¼ö¾÷½Ã°£, ¼ö¾÷ÁøÇàÇöÈ² FROM DB2022_¼ö¾÷ " + 
-				"WHERE(°­»ç¹øÈ£=? AND ¼ö¾÷ÁøÇàÇöÈ²='¿¹¾àÈ®ÀÎÁß')";
-		String query2 = "UPDATE DB2022_¼ö¾÷ SET ¼ö¾÷ÁøÇàÇöÈ²='¿¹¾à¿Ï·á'";
+		String query1 = "SELECT íšŒì›ë²ˆí˜¸, ìˆ˜ì—…ì‹œê°„, ìˆ˜ì—…ì§„í–‰í˜„í™© FROM DB2022_ìˆ˜ì—… " + 
+				"WHERE(ê°•ì‚¬ë²ˆí˜¸=? AND ìˆ˜ì—…ì§„í–‰í˜„í™©='ì˜ˆì•½í™•ì¸ì¤‘')";
+		String query2 = "UPDATE DB2022_ìˆ˜ì—… SET ìˆ˜ì—…ì§„í–‰í˜„í™©='ì˜ˆì•½ì™„ë£Œ'";
 		try {
 			pst = con.prepareStatement(query1);
 			pst.setString(1, tID);
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				Object info[] = {rs.getString(1), rs.getString(2), rs.getString(3),};
-				class_table.addRow(info); // DefaultTableModel¿¡ row Ãß°¡ (µ¥ÀÌÅÍ º¸¿©ÁÖ±â À§ÇØ¼­)
+				class_table.addRow(info); // DefaultTableModelì— row ì¶”ê°€ (ë°ì´í„° ë³´ì—¬ì£¼ê¸° ìœ„í•´ì„œ)
 			}
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}
 	}
-	// trainerÀÇ ¸ğµç ¼öÀÔ °è»ê
+	// trainerì˜ ëª¨ë“  ìˆ˜ì… ê³„ì‚°
 	public void calculateSalary(DefaultTableModel salary_table, String tID) {
-		ResultSet students = null; // ´ã´çÇÏ°í ÀÖ´Â ¸ğµç ÇĞ»ı
-		String q1 = "SELECT È¸¿ø¹øÈ£, ÇöÀçÈ¸¿ø±Ç, ¼Ò¼ÓÇï½ºÀå FROM DB2022_È¸¿ø WHERE(´ã´çÆ®·¹ÀÌ³Ê=?)";
-		int total = 0; // ÃÑ ±İ¾× °è»ê
-		String results[][] = new String[100][3]; // È¸¿ø¹øÈ£, È¸¿ø±Ç, ¼Ò¼ÓÇï½ºÀå ÀúÀå
+		ResultSet students = null; // ë‹´ë‹¹í•˜ê³  ìˆëŠ” ëª¨ë“  í•™ìƒ
+		String q1 = "SELECT íšŒì›ë²ˆí˜¸, í˜„ì¬íšŒì›ê¶Œ, ì†Œì†í—¬ìŠ¤ì¥ FROM DB2022_íšŒì› WHERE(ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ=?)";
+		int total = 0; // ì´ ê¸ˆì•¡ ê³„ì‚°
+		String results[][] = new String[100][3]; // íšŒì›ë²ˆí˜¸, íšŒì›ê¶Œ, ì†Œì†í—¬ìŠ¤ì¥ ì €ì¥
 		int cnt = 0;
 		try {
 			PreparedStatement st = con.prepareStatement(q1);
 			st.setString(1, tID);
 			ResultSet rs = st.executeQuery();
 			if (rs.getRow() == -1) {
-				System.out.println("´ã´çÇÏ°í ÀÖ´Â ÇĞ»ıÀÌ ¾ø½À´Ï´Ù.");
+				System.out.println("ë‹´ë‹¹í•˜ê³  ìˆëŠ” í•™ìƒì´ ì—†ìŠµë‹ˆë‹¤.");
 			}
 			else {
-				System.out.println("´ã´çÇÏ°í ÀÖ´Â È¸¿øÀÌ ÀÖ½À´Ï´Ù.");
+				System.out.println("ë‹´ë‹¹í•˜ê³  ìˆëŠ” íšŒì›ì´ ìˆìŠµë‹ˆë‹¤.");
 			}
 			while (rs.next()) {
 				String stu_id = rs.getString(1); 
@@ -180,7 +180,7 @@ public class TrainerMenuJDBC {
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}
-		String q2 = "SELECT 1È¸°¡°İ, 10È¸°¡°İ, 20È¸°¡°İ FROM DB2022_°¡°İ WHERE(Çï½ºÀå¹øÈ£=?)";
+		String q2 = "SELECT 1íšŒê°€ê²©, 10íšŒê°€ê²©, 20íšŒê°€ê²© FROM DB2022_ê°€ê²© WHERE(í—¬ìŠ¤ì¥ë²ˆí˜¸=?)";
 		for (int i = 0;i<cnt;i++) {
 			try {
 				PreparedStatement st1 = con.prepareStatement(q2);
@@ -188,11 +188,11 @@ public class TrainerMenuJDBC {
 				students = st1.executeQuery();
 				int cost = 0;
 				while (students.next()) {
-					if (results[i][1].equals("1È¸±Ç"))cost= students.getInt(1);
-					else if (results[i][1].equals("10È¸±Ç"))cost = students.getInt(1) * 10;
+					if (results[i][1].equals("1íšŒê¶Œ"))cost= students.getInt(1);
+					else if (results[i][1].equals("10íšŒê¶Œ"))cost = students.getInt(1) * 10;
 					else cost = students.getInt(2) * 20;
 					total += cost;
-					// System.out.println(results[i][0] + " ÇĞ»ı¿¡°Ô " + Integer.toString(cost) + "¿ø ¸¸Å­ ¹Ş½À´Ï´Ù.");
+					// System.out.println(results[i][0] + " í•™ìƒì—ê²Œ " + Integer.toString(cost) + "ì› ë§Œí¼ ë°›ìŠµë‹ˆë‹¤.");
 					String[] data = {results[i][0], Integer.toString(cost)};
 					salary_table.addRow(data);
 				}
@@ -200,22 +200,22 @@ public class TrainerMenuJDBC {
 				e.getStackTrace();
 			}
 		}
-		String[] data = {"¸ğµç ¼öÀÔ", Integer.toString(total)}; // ¸¶Áö¸·À¸·Î ¸ğµç ÃÑ ¼öÀÔ Á¤º¸¸¦ Ãß°¡ÇÑ´Ù.
+		String[] data = {"ëª¨ë“  ìˆ˜ì…", Integer.toString(total)}; // ë§ˆì§€ë§‰ìœ¼ë¡œ ëª¨ë“  ì´ ìˆ˜ì… ì •ë³´ë¥¼ ì¶”ê°€í•œë‹¤.
 		salary_table.addRow(data);
 	}
-	// trainerÀÇ ¿¹¾à ¿Ï·á ¼ö¾÷ ³»¿ª Áß ¼±ÅÃÇÑ ¼ö¾÷ÀÇ ÁøÇà ÇöÈ² ¼öÁ¤
+	// trainerì˜ ì˜ˆì•½ ì™„ë£Œ ìˆ˜ì—… ë‚´ì—­ ì¤‘ ì„ íƒí•œ ìˆ˜ì—…ì˜ ì§„í–‰ í˜„í™© ìˆ˜ì •
 	public void changeClassStatus(String student_no, String class_t, String status, String trainer_pk, String fieldName) {
 		String q = null;
 		System.out.println(fieldName);
-		if (fieldName.equals("°ÅÀı") || fieldName.equals("Ãë¼Ò")) {
-			q = "DELETE FROM DB2022_¼ö¾÷ WHERE(È¸¿ø¹øÈ£=? AND ¼ö¾÷½Ã°£=? AND °­»ç¹øÈ£=?)";
+		if (fieldName.equals("ê±°ì ˆ") || fieldName.equals("ì·¨ì†Œ")) {
+			q = "DELETE FROM DB2022_ìˆ˜ì—… WHERE(íšŒì›ë²ˆí˜¸=? AND ìˆ˜ì—…ì‹œê°„=? AND ê°•ì‚¬ë²ˆí˜¸=?)";
 		}
 		else {
-			q = "UPDATE DB2022_¼ö¾÷ SET ¼ö¾÷ÁøÇàÇöÈ²=? WHERE(È¸¿ø¹øÈ£=? AND ¼ö¾÷½Ã°£=? AND °­»ç¹øÈ£=?)";
+			q = "UPDATE DB2022_ìˆ˜ì—… SET ìˆ˜ì—…ì§„í–‰í˜„í™©=? WHERE(íšŒì›ë²ˆí˜¸=? AND ìˆ˜ì—…ì‹œê°„=? AND ê°•ì‚¬ë²ˆí˜¸=?)";
 		}
 		try {
 			pst = con.prepareStatement(q);
-			if (fieldName.equals("°ÅÀı") || fieldName.equals("Ãë¼Ò")) {
+			if (fieldName.equals("ê±°ì ˆ") || fieldName.equals("ì·¨ì†Œ")) {
 				pst.setString(1, student_no);
 				pst.setString(2, class_t);
 				pst.setString(3,  trainer_pk);
@@ -233,7 +233,7 @@ public class TrainerMenuJDBC {
 		}
 		
 	}
-	// trainerÀÇ ¸ğµç ¿¹¾à ´ë±â Áß ¼ö¾÷ ³»¿ª Á¶È¸ (¼ö¶ô / °ÅÀı ÇÏ±â À§ÇØ)
+	// trainerì˜ ëª¨ë“  ì˜ˆì•½ ëŒ€ê¸° ì¤‘ ìˆ˜ì—… ë‚´ì—­ ì¡°íšŒ (ìˆ˜ë½ / ê±°ì ˆ í•˜ê¸° ìœ„í•´)
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
