@@ -1,4 +1,4 @@
-package DB2022TEAM03.TrainerWithGUI;
+package DB2022Team03.TrainerWithGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
