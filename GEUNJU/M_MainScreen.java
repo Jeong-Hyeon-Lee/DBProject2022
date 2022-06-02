@@ -16,82 +16,98 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import DB2022TEAM03.StartScreen;
+import DB2022TEAM03.EUNSOO.M_manageClass;
 
 public class M_MainScreen extends JFrame {
 	
-	public static final String URL = "jdbc:mysql://localhost/DB2022TEAM03";
-	public static final String USER = "db2022team03";
-	public static final String PASS = "db2022team03";
-	public static String ID = "tttttt";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; 
+	public static final String USER = "root";
+	public static final String PASS = "sharon98";
+	public static String ID = "M22380";
 	public Connection conn;
 	
 	public static void main(String[] args) throws SQLException {
-		Connection conn = DriverManager.getConnection(URL,USER,PASS);
+		Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		new M_MainScreen(conn,ID);
 	}
 	
 	public M_MainScreen(Connection conn,String ID) {
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //í”„ë ˆì„ ìœˆë„ìš°ë¥¼ ë‹«ìœ¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 		
-		//»ó´Ü - È¸¿ø MENU
+		//ìƒë‹¨ - íšŒì› MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("È¸¿øMENU");
+		JLabel subtitle = new JLabel("íšŒì›MENU");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
-		//¸Ş´ºÆÇ
+		//ë©”ë‰´íŒ
 		JPanel btnGroup = new JPanel();
-		btnGroup.setLayout(new GridLayout(5,1));
+		btnGroup.setLayout(new GridLayout(6,1));
 		
-		//»ó¼¼ ¸Ş´º
-		//È¸¿øÁ¤º¸
+		//ìƒì„¸ ë©”ë‰´
+		//íšŒì›ì •ë³´
 		JPanel jp4 = new JPanel();
 		jp4.setLayout(new FlowLayout());
 		JPanel Menu8 = new JPanel();
-		JButton myPageBtn = new JButton("È¸¿øÁ¤º¸È®ÀÎÇÏ±â");
+		JButton myPageBtn = new JButton("íšŒì›ì •ë³´í™•ì¸í•˜ê¸°");
 		Menu8.add(myPageBtn);
 		jp4.add(Menu8);
 		
-		//Çï½ºÀå
+		//í—¬ìŠ¤ì¥
 		JPanel jp1 = new JPanel();
 		jp1.setLayout(new FlowLayout());
 		JPanel Menu1 = new JPanel();
-		JButton M_GScreen = new JButton("Çï½ºÀå Ã£±â");
+		JButton M_GScreen = new JButton("í—¬ìŠ¤ì¥ ì°¾ê¸°");
 		Menu1.add(M_GScreen);
 		jp1.add(Menu1);
 		
-		//Æ®·¹ÀÌ³Ê		
+		//íŠ¸ë ˆì´ë„ˆ		
 		JPanel jp2 = new JPanel();
 		jp2.setLayout(new FlowLayout());
 		JPanel Menu2 = new JPanel();
-		JButton M_TScreen = new JButton("Æ®·¹ÀÌ³Ê Ã£±â");
+		JButton M_TScreen = new JButton("íŠ¸ë ˆì´ë„ˆ ì°¾ê¸°");
 		Menu2.add(M_TScreen);
 		jp2.add(Menu2);
 		
-		//È¸¿ø±Ç
+		//íšŒì›ê¶Œ
 		JPanel jp3 = new JPanel();
 		jp3.setLayout(new FlowLayout());
 		
 		JPanel Menu3 = new JPanel();
-		JButton enrollMembership = new JButton("È¸¿ø±Ç µî·Ï/º¯°æ");
+		JButton enrollMembership = new JButton("íšŒì›ê¶Œ ë“±ë¡/ë³€ê²½");
 		Menu3.add(enrollMembership);
 		jp3.add(Menu3);
+		
+		
+		/* *********************************************************************
+		 * Eunsoo Part
+		 ***********************************************************************/
+		JPanel jp5 = new JPanel();
+		jp5.setLayout(new FlowLayout());
+		JPanel Menu5 = new JPanel();
+		JButton M_mangeClass = new JButton("ìˆ˜ì—… ê´€ë¦¬í•˜ê¸°");
+		Menu5.add(M_mangeClass);
+		jp5.add(Menu5);
+		 /* *********************************************************************/
+		
 		
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("·Î±×¾Æ¿ô");
+		JButton undo = new JButton("ë¡œê·¸ì•„ì›ƒ");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 
-		//¸Ş´ºÆÇ¿¡ ¸Ş´ººÙÀÌ±â
+		//ë©”ë‰´íŒì— ë©”ë‰´ë¶™ì´ê¸°
 		btnGroup.add(jp4);
 		btnGroup.add(jp1);
 		btnGroup.add(jp2);
 		btnGroup.add(jp3);
+		btnGroup.add(jp5);
 		btnGroup.add(jp0);
+				
 		
 		setLayout(new BorderLayout());
 		
@@ -100,11 +116,11 @@ public class M_MainScreen extends JFrame {
 		
 		setBounds(200,200,300,400);
 		
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setVisible(true);
 	
-		//Btn click ÀÌº¥Æ®
+		//Btn click ì´ë²¤íŠ¸
 		myPageBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -112,9 +128,9 @@ public class M_MainScreen extends JFrame {
 					new M_myPage(conn,ID);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
-					System.out.println("¸¶ÀÌÆäÀÌÁö ·Îµù ½ÇÆĞ:"+e1);
+					System.out.println("ë§ˆì´í˜ì´ì§€ ë¡œë”© ì‹¤íŒ¨:"+e1);
 				}
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
@@ -127,7 +143,7 @@ public class M_MainScreen extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
@@ -140,7 +156,7 @@ public class M_MainScreen extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});		
@@ -148,7 +164,7 @@ public class M_MainScreen extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new StartScreen();
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
@@ -161,9 +177,24 @@ public class M_MainScreen extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 
 			}
 		});
+		
+		
+		/* *********************************************************************
+		 * Eunsoo Part
+		 ***********************************************************************/
+		M_mangeClass.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				new M_manageClass(conn,ID);
+				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
+			}
+		});		
+		 /* *********************************************************************/
+
+		
 	}	
 }
