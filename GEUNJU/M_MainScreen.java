@@ -1,3 +1,9 @@
+/*
+* 수정사항 (EUNSOO)
+* 1) 헬스장, 트레이너, 회원권을 등록하지 않은 회원은 '수업 관리하기' 메뉴를 사용할 수 없다.
+*  => 해당 버튼을 누르면 회원권을 등록하지 않았다는 메세지창이 뜬다.
+*/
+
 package DB2022Team03.GEUNJU;
 
 import java.awt.BorderLayout;
@@ -8,11 +14,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import DB2022Team03.StartScreen;
@@ -190,10 +199,32 @@ public class M_MainScreen extends JFrame {
 		 * Eunsoo Part
 		 ***********************************************************************/
 		M_mangeClass.addActionListener(new ActionListener() {
-			@Override
+			String query_test;
+			PreparedStatement pstm_test;
+			ResultSet rs_test;
+			
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new M_manageClass(conn,ID);
-				dispose(); // 현재의 frame을 종료시키는 메서드.
+				query_test = "SELECT 소속헬스장, 담당트레이너, 현재회원권 FROM DB2022_회원 WHERE 회원번호 = ?";				
+				try {
+					pstm_test = conn.prepareStatement(query_test);
+					pstm_test.setString(1, ID);
+					rs_test = pstm_test.executeQuery(); 
+					
+					// Can manage classes only if the current member has a gym, a trainer, and membership.
+					if(rs_test.next()) {
+						if(rs_test.getString(1) != null && rs_test.getString(2) != null && rs_test.getString(3) != null) {
+							new M_manageClass(conn,ID);
+							dispose(); // 현재의 frame을 종료시키는 메서드.
+						}
+						else
+							JOptionPane.showMessageDialog(null, "아직 회원권을 등록하지 않았습니다.");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "등록되지 않은 회원입니다.");
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});		
 		 /* *********************************************************************/
