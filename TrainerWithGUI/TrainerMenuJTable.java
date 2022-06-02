@@ -15,8 +15,8 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	JMenuBar mb = new JMenuBar(); // 모든 메뉴를 포함하고 있는 메뉴 바
 	
 	String[] trainer_info = {"Trainer Number", "Trainer Name", "Trainer Gym", "Member No", "Class Time"}; // 트레이너 정보 (로그인한 본인의) 정보를 보여주기 위한 테이블
-	String[] class_info = {"Student Number","Class Time", "Class Status"}; // 수업 정보 저장을 위한 테이블 (트레이너 화면의 메인 부분에는 트레이너의 모든 수업이 포함되어 있다.)
-	String[] salary_info = {"Student No", "Salary"};
+	String[] class_info = {"Student Name","Class Time", "Class Status", "Student Number"}; // 수업 정보 저장을 위한 테이블 (트레이너 화면의 메인 부분에는 트레이너의 모든 수업이 포함되어 있다.)
+	String[] salary_info = {"Student Name", "Salary"};
 	
 	// 트레이너 개인 정보 저장 테이블
 	DefaultTableModel trainer_table = new DefaultTableModel(trainer_info,0);
@@ -44,6 +44,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	}
 	public TrainerMenuJTable(String trainer_id) {
 		super("트레이너 메뉴");
+		
 		trainer_pk = trainer_id;
 		
 		m.add(myPage);
@@ -97,22 +98,23 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 			int row = class_jt.getSelectedRow();
 			
 			System.out.println("선택한 행 : " + row);
-			String student_no = (String) class_jt.getValueAt(row, 0);
+			String student_name = (String) class_jt.getValueAt(row, 0);
 			String class_t = (String) class_jt.getValueAt(row, 1);
 			String status = (String) class_jt.getValueAt(row, 2);
 			String fieldName = combo.getSelectedItem().toString();
+			String student_no = (String) class_jt.getValueAt(row, 3);
 			tmdb.changeClassStatus(student_no, class_t, status, trainer_pk, fieldName);
+	
 			int length = class_table.getRowCount();
 			for (int i = 0;i<length;i++) {
 				class_table.removeRow(0);
 			}
 			tmdb.classInfoAll(class_table, trainer_pk);
+		
 			TrainerJDialogGUI.MessageBox(this, "예약 현황 변경 되었습니다.");
 		}
 	
 	}
 		
 }
-
-
 
