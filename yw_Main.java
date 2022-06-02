@@ -2,9 +2,6 @@ package DB2022Team03;
 import java.sql.*;
 import javax.swing.*;
 
-import java.awt.*;
-import DB2022TEAM03.GEUNJU.M_MainScreen;
-
 public class yw_Main extends JFrame{
 
 	//JDBC driver name and database URL

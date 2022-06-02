@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 
-import DB2022TeamM03.GEUNJU.M_MainScreen;
-import TrainerWithGUI.TrainerMenuJTable;
+import DB2022Team03.GEUNJU.M_MainScreen;
+import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
 
 public class LoginScreen extends JFrame {
 	
@@ -132,14 +132,9 @@ public class LoginScreen extends JFrame {
 							member_name = rs.getString("이름");
 							member_gym = rs.getString("소속헬스장");
 							
-							/*
-							 * 
-							 *회원 페이지 뜨게 불러와야함
-							 *로그인한 회원의 아이디, 이름, 소속 헬스장 값도 같이 넘어감. 다 String임.
-							 *new M_MainScreen(conn, member_id, member_name, member_gym);
-							 * 
-							 * 
-							 */
+							//회원 페이지와 연결
+							new M_MainScreen(conn,member_id);
+							dispose();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");

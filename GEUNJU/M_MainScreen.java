@@ -20,6 +20,9 @@ import DB2022Team03.EUNSOO.M_manageClass;
 
 public class M_MainScreen extends JFrame {
 	
+
+	/*
+	StartScreen에 연결하면 필요없는 부분
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; 
 	public static final String USER = "DB2022Team03";
 	public static final String PASS = "DB2022Team03";
@@ -30,6 +33,7 @@ public class M_MainScreen extends JFrame {
 		Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		new M_MainScreen(conn,ID);
 	}
+	*/
 	
 	public M_MainScreen(Connection conn,String ID) {
 		setTitle("헬스장 PT 예약 시스템");
