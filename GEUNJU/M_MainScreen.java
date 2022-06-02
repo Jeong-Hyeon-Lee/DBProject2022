@@ -21,8 +21,8 @@ import DB2022TEAM03.EUNSOO.M_manageClass;
 public class M_MainScreen extends JFrame {
 	
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; 
-	public static final String USER = "root";
-	public static final String PASS = "sharon98";
+	public static final String USER = "DB2022Team03";
+	public static final String PASS = "DB2022Team03";
 	public static String ID = "M22380";
 	public Connection conn;
 	
