@@ -1,15 +1,15 @@
-package TrainerWithGUI;
+package DB2022TEAM03.TrainerWithGUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class TrainerJDialogGUI extends JDialog implements ActionListener{
-	// Æù¹øÈ£ µŞÀÚ¸®(id´ë½ÅÀ¸·Î »ı°¢), pw, ÀÌ¸§, ¼Ò¼Ó Çï½ºÀå ¹øÈ£ (¼Ò¼Ó Çï½ºÀåÀÌ ¾ø´Ù¸é °¡ÀÔÁ¶Â÷ ¸øÇÏ°Ô µÇ¾î ÀÖÀ½)
+	// í°ë²ˆí˜¸ ë’·ìë¦¬(idëŒ€ì‹ ìœ¼ë¡œ ìƒê°), pw, ì´ë¦„, ì†Œì† í—¬ìŠ¤ì¥ ë²ˆí˜¸ (ì†Œì† í—¬ìŠ¤ì¥ì´ ì—†ë‹¤ë©´ ê°€ì…ì¡°ì°¨ ëª»í•˜ê²Œ ë˜ì–´ ìˆìŒ)
 	JPanel pw = new JPanel(new GridLayout(6,1));
 	JPanel pc = new JPanel(new GridLayout(6,1));
 	JPanel ps = new JPanel();
 	
-	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ¿¬µ¿ °´Ã¼ »ı¼º
+	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC ì—°ë™ ê°ì²´ ìƒì„±
 	
 	TrainerMenuJTable tm;
 	public static String trainer_no = null;
@@ -18,22 +18,22 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 	
 	public TrainerJDialogGUI(TrainerMenuJTable tm, String index) {
 		
-		super(tm, "Æ®·¹ÀÌ³Ê ¸Ş´º");
+		super(tm, "íŠ¸ë ˆì´ë„ˆ ë©”ë‰´");
 		
-		trainer_no = (String) tm.trainer_table.getValueAt(0,0); // trainer_table °´Ã¼¿¡¼­ ·Î±×ÀÎÇÑ Æ®·¹ÀÌ³ÊÀÇ Æ®·¹ÀÌ³Ê ¹øÈ£¸¦ ºÒ·¯¿Â´Ù.
-		trainer_name = (String) tm.trainer_table.getValueAt(0, 1); // trainer_table °´Ã¼¿¡¼­ ·Î±×ÀÎÇÑ Æ®·¹ÀÌ³ÊÀÇ Æ®·¹ÀÌ³Ê ÀÌ¸§À» ºÒ·¯¿Â´Ù.
-		trainer_gym = (String) tm.trainer_table.getValueAt(0, 2); // trainer_table °´Ã¼¿¡¼­ ·Î±×ÀÎÇÑ Æ®·¹ÀÌ³ÊÀÇ ¼Ò¼Ó Çï½ºÀå ÀÌ¸§À» ºÒ·¯¿Â´Ù.
-		int student_num = (int) tm.trainer_table.getValueAt(0, 3); // trainer_table °´Ã¼¿¡¼­ ·Î±×ÀÎÇÑ Æ®·¹ÀÌ³ÊÀÇ ÃÑ ÇĞ»ı ¼ö¸¦ ºÒ·¯¿Â´Ù.
+		trainer_no = (String) tm.trainer_table.getValueAt(0,0); // trainer_table ê°ì²´ì—ì„œ ë¡œê·¸ì¸í•œ íŠ¸ë ˆì´ë„ˆì˜ íŠ¸ë ˆì´ë„ˆ ë²ˆí˜¸ë¥¼ ë¶ˆëŸ¬ì˜¨ë‹¤.
+		trainer_name = (String) tm.trainer_table.getValueAt(0, 1); // trainer_table ê°ì²´ì—ì„œ ë¡œê·¸ì¸í•œ íŠ¸ë ˆì´ë„ˆì˜ íŠ¸ë ˆì´ë„ˆ ì´ë¦„ì„ ë¶ˆëŸ¬ì˜¨ë‹¤.
+		trainer_gym = (String) tm.trainer_table.getValueAt(0, 2); // trainer_table ê°ì²´ì—ì„œ ë¡œê·¸ì¸í•œ íŠ¸ë ˆì´ë„ˆì˜ ì†Œì† í—¬ìŠ¤ì¥ ì´ë¦„ì„ ë¶ˆëŸ¬ì˜¨ë‹¤.
+		int student_num = (int) tm.trainer_table.getValueAt(0, 3); // trainer_table ê°ì²´ì—ì„œ ë¡œê·¸ì¸í•œ íŠ¸ë ˆì´ë„ˆì˜ ì´ í•™ìƒ ìˆ˜ë¥¼ ë¶ˆëŸ¬ì˜¨ë‹¤.
 		int class_t = (int)tm.trainer_table.getValueAt(0, 4);
 		
 		
 		this.tm = tm;
-		if (index.equals("·Î±×¾Æ¿ô")) {
-			MessageBox(this, trainer_name + "Æ®·¹ÀÌ³Ê ´ÔÀÌ ·Î±×¾Æ¿ô ÇÕ´Ï´Ù.");
+		if (index.equals("ë¡œê·¸ì•„ì›ƒ")) {
+			MessageBox(this, trainer_name + "íŠ¸ë ˆì´ë„ˆ ë‹˜ì´ ë¡œê·¸ì•„ì›ƒ í•©ë‹ˆë‹¤.");
 			tm.dispose();
 			return;
 		}
-		else if (index.equals("¼öÀÔ °è»ê±â")) {
+		else if (index.equals("ìˆ˜ì… ê³„ì‚°ê¸°")) {
 			JTable salary_table = tm.salary_jt;
 			JScrollPane jsp = new JScrollPane(salary_table);
 			add(jsp, "Center");
@@ -41,12 +41,12 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 			setVisible(true);
 			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		}
-		else if (index.equals("¸¶ÀÌ ÆäÀÌÁö")) {
-			JLabel label_trainerid = new JLabel("Æ®·¹ÀÌ³Ê ¹øÈ£ : " + trainer_no);
-			JLabel label_name = new JLabel("Æ®·¹ÀÌ³Ê ÀÌ¸§ : " + trainer_name);
-			JLabel label_gym = new JLabel("¼Ò¼Ó Çï½ºÀå ¹øÈ£ : " + trainer_gym);
-			JLabel label_studentN = new JLabel("´ã´ç È¸¿ø ¼ö : " + Integer.toString(student_num));
-			JLabel label_classT = new JLabel("¼ö¾÷ ½Ã°£ : " + Integer.toString(class_t));
+		else if (index.equals("ë§ˆì´ í˜ì´ì§€")) {
+			JLabel label_trainerid = new JLabel("íŠ¸ë ˆì´ë„ˆ ë²ˆí˜¸ : " + trainer_no);
+			JLabel label_name = new JLabel("íŠ¸ë ˆì´ë„ˆ ì´ë¦„ : " + trainer_name);
+			JLabel label_gym = new JLabel("ì†Œì† í—¬ìŠ¤ì¥ ë²ˆí˜¸ : " + trainer_gym);
+			JLabel label_studentN = new JLabel("ë‹´ë‹¹ íšŒì› ìˆ˜ : " + Integer.toString(student_num));
+			JLabel label_classT = new JLabel("ìˆ˜ì—… ì‹œê°„ : " + Integer.toString(class_t));
 			
 			pw.add(label_trainerid);
 			pw.add(label_name);
@@ -65,8 +65,8 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String btnLabel = e.getActionCommand();
-		if (btnLabel.equals("·Î±×¾Æ¿ô")) {
-			MessageBox(this, "·Î±×¾Æ¿ô ÇÕ´Ï´Ù.");
+		if (btnLabel.equals("ë¡œê·¸ì•„ì›ƒ")) {
+			MessageBox(this, "ë¡œê·¸ì•„ì›ƒ í•©ë‹ˆë‹¤.");
 			tm.dispose();
 			System.exit(0);
 		}

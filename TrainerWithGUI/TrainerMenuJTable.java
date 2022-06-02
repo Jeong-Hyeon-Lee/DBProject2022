@@ -1,4 +1,4 @@
-package TrainerWithGUI;
+package DB2022TEAM03.TrainerWithGUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
