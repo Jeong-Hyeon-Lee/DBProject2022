@@ -1,4 +1,4 @@
-package DB2022Team03;
+package DB2022Team03.Gym;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

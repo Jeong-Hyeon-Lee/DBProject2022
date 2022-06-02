@@ -1,4 +1,4 @@
-package DB2022Team03;
+package DB2022Team03.Gym;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import DB2022Team03.StartScreen;
 
 public class G_selectMenu extends JFrame {
 	
@@ -32,6 +34,7 @@ public class G_selectMenu extends JFrame {
 		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 		
 		setTitle("헬스장 PT 예약 시스템 - " + gymName);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
 
 		JPanel title = new JPanel();
 
@@ -39,6 +42,9 @@ public class G_selectMenu extends JFrame {
 		selectMenu.setForeground(new Color(5, 0, 153));
 		selectMenu.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		title.add(selectMenu);
+		JButton logout = new JButton("로그아웃");
+		title.add(selectMenu);
+		title.setLayout(new FlowLayout());
 
 		JPanel btnpanel = new JPanel();
 		btnpanel.setLayout(new GridLayout(4, 1));
@@ -108,6 +114,20 @@ public class G_selectMenu extends JFrame {
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						try {
 							new G_countTrainees(conn, gymID);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+
+				logout.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						try {
+							new M_manageClass(conn,ID);
+							dispose();
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
