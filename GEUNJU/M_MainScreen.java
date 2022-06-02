@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DB2022TEAM03.StartScreen;
+import DB2022Team03.StartScreen;
 import DB2022Team03.EUNSOO.M_manageClass;
 
 public class M_MainScreen extends JFrame {
@@ -163,7 +163,7 @@ public class M_MainScreen extends JFrame {
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new StartScreen();
+				new StartScreen(conn);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}
