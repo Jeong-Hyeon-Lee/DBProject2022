@@ -9,6 +9,7 @@ import java.sql.*;
 
 import DB2022Team03.GEUNJU.M_MainScreen;
 import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
+import DB2022Team03.Gym.G_selectMenu;
 
 public class LoginScreen extends JFrame {
 	
@@ -217,6 +218,7 @@ public class LoginScreen extends JFrame {
 							owner_name = rs.getString("이름");
 							
 							new G_selectMenu(owner_gym, owner_name);
+							dispose();
 
 						}
 						else {
