@@ -288,14 +288,14 @@ public class M_searchTrainer extends JFrame {
 			}
 		});
 		
-		//지금 트레이너와 헬스장정보 비교 -> 남은 횟수인데 / 남은횟수->헬스장비교로 바꾸기
+		//지금 트레이너와 헬스장정보 비교 -> 남은 횟수(현재) / 남은횟수->헬스장비교로 바꾸기
 		enrollBtn.addActionListener(new ActionListener() { 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) { 
 				int row = jt.getSelectedRow();
 				
 				String Tname = (String) jt.getValueAt(row, 1);
-
+				
 				//선택한 트레이너의 헬스장 이름
 				String Gname = (String) jt.getValueAt(row, 0);
 
@@ -313,18 +313,28 @@ public class M_searchTrainer extends JFrame {
 					e2.printStackTrace();
 				}
 				
-				//소속헬스장 번호찾기
+				//소속헬스장 번호찾기 -> 소속헬스장이 null이라면 등록X되도록 구현
 				String GYMid_M = null;
 				try {
 					str = "SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
+					
 					rset.next();
 					GYMid_M = rset.getString(1);
+			
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
+				}
+				
+				if(GYMid_M==null) {
+					infoText.setText("헬스장을 먼저 등록해주세요.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
+					return;
 				}
 				
 				//소속헬스장과 트레이너의 헬스장이 같은지 비교

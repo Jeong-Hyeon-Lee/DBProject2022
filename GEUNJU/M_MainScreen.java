@@ -110,8 +110,7 @@ public class M_MainScreen extends JFrame {
 		btnGroup.add(jp2);
 		btnGroup.add(jp3);
 		btnGroup.add(jp5);
-		btnGroup.add(jp0);
-				
+		btnGroup.add(jp0);		
 		
 		setLayout(new BorderLayout());
 		
