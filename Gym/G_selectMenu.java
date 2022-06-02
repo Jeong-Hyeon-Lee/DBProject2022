@@ -126,7 +126,7 @@ public class G_selectMenu extends JFrame {
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						try {
-							new M_manageClass(conn,ID);
+							new StartScreen(conn);
 							dispose();
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
