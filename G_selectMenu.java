@@ -1,4 +1,4 @@
-package DB2022TEAM03;
+package DB2022Team03;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,39 +21,32 @@ public class G_selectMenu extends JFrame {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03";
 
-	/*
-	// Database user, password
-	static final String USER = "root";
-	static final String PASSWORD = "0000";
-	*/
-
 	//Database user, password
 	static final String USER = "DB2022Team03";
 	static final String PASSWORD= "DB2022Team03";
-
+	
 	static Connection conn;
 	
-	public G_selectMenu(String gymID) throws SQLException{
+	public G_selectMenu(String gymID, String gymName) throws SQLException{
 		// TODO Auto-generated constructor stub
 		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 		
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ (°üÀå)");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ã¢ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ - " + gymName);
 
 		JPanel title = new JPanel();
 
 		JLabel selectMenu = new JLabel("MENU");
 		selectMenu.setForeground(new Color(5, 0, 153));
-		selectMenu.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		selectMenu.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
 		title.add(selectMenu);
 
 		JPanel btnpanel = new JPanel();
 		btnpanel.setLayout(new GridLayout(4, 1));
 
-		JButton menu1 = new JButton("°¡°İ Á¤º¸ ¼öÁ¤ÇÏ±â");
-		JButton menu2 = new JButton("ÇÁ·Î¸ğ¼Ç Á¤º¸ ¼öÁ¤ÇÏ±â");
-		JButton menu3 = new JButton("Æ®·¹ÀÌ³Ê Á¤º¸ Ãâ·ÂÇÏ±â");
-		JButton menu4 = new JButton("È¸¿ø ¼ö Ãâ·ÂÇÏ±â");
+		JButton menu1 = new JButton("ê°€ê²© ì •ë³´ ìˆ˜ì •í•˜ê¸°");
+		JButton menu2 = new JButton("í”„ë¡œëª¨ì…˜ ì •ë³´ ìˆ˜ì •í•˜ê¸°");
+		JButton menu3 = new JButton("íŠ¸ë ˆì´ë„ˆ ì •ë³´ ì¶œë ¥í•˜ê¸°");
+		JButton menu4 = new JButton("íšŒì› ìˆ˜ ì¶œë ¥í•˜ê¸°");
 
 		btnpanel.add(menu1);
 		btnpanel.add(menu2);
@@ -65,61 +58,61 @@ public class G_selectMenu extends JFrame {
 
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setVisible(true);
 
-		// ÀÌº¥Æ® Ã³¸®
-		menu1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				try {
-					new G_changePriceInformation(conn, gymID);
-				} catch (SQLException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		// ì´ë²¤íŠ¸ ì²˜ë¦¬
+				menu1.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						try {
+							new G_changePriceInformation(conn, gymID);
+						} catch (SQLException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+
+				menu2.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						try {
+							new G_changePromotionInformation(conn, gymID);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
+
+				menu3.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						try {
+							new G_showTrainers(conn, gymID);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					}
+				});
+				
+				menu4.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(java.awt.event.ActionEvent e) {
+						try {
+							new G_countTrainees(conn, gymID);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
 			}
-		});
-
-		menu2.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				try {
-					new G_changePromotionInformation(conn, gymID);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-
-		menu3.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				try {
-					new G_showTrainers(conn, gymID);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-			}
-		});
-		
-		menu4.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				try {
-					new G_countTrainees(conn, gymID);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-	}
-}
+		}

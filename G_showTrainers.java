@@ -1,4 +1,4 @@
-package DB2022TEAM03;
+package DB2022Team03;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,19 +13,19 @@ public class G_showTrainers extends JFrame{
 	public G_showTrainers(Connection conn, String gymID) throws SQLException{
 		// TODO Auto-generated constructor stub
 		
-		PreparedStatement pStmt = conn.prepareStatement("SELECT count(*) FROM DB2022_Æ®·¹ÀÌ³Ê WHERE Çï½ºÀå¹øÈ£ = ?"); //Çà °³¼ö(=Æ®·¹ÀÌ³Ê ÀÎ¿ø¼ö) ±¸ÇÏ±â
+		PreparedStatement pStmt = conn.prepareStatement("SELECT count(*) FROM DB2022_íŠ¸ë ˆì´ë„ˆ WHERE í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?"); //í–‰ ê°œìˆ˜(=íŠ¸ë ˆì´ë„ˆ ì¸ì›ìˆ˜) êµ¬í•˜ê¸°
 		pStmt.setString(1, gymID);
 		ResultSet rs = pStmt.executeQuery();
 		int trainerNum = 0;
 		if (rs.next())
 			trainerNum = rs.getInt(1);
 		
-		setTitle("Æ®·¹ÀÌ³Ê Á¤º¸");
+		setTitle("íŠ¸ë ˆì´ë„ˆ ì •ë³´");
 		
-		String [] title = {"Æ®·¹ÀÌ³Ê ÀÌ¸§", "ÃÑ ±Ù¹«½Ã°£"};
+		String [] title = {"íŠ¸ë ˆì´ë„ˆ ì´ë¦„", "ì´ ê·¼ë¬´ì‹œê°„"};
 		String [][] data = new String[trainerNum][2];
 		
-		PreparedStatement pStmt2 = conn.prepareStatement("SELECT ÀÌ¸§, ÃÑ±Ù¹«½Ã°£ FROM DB2022_Æ®·¹ÀÌ³Ê WHERE Çï½ºÀå¹øÈ£ = ?");
+		PreparedStatement pStmt2 = conn.prepareStatement("SELECT ì´ë¦„, ì´ê·¼ë¬´ì‹œê°„ FROM DB2022_íŠ¸ë ˆì´ë„ˆ WHERE í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 		pStmt2.setString(1, gymID);
 		ResultSet rs2 = pStmt2.executeQuery();
 		
