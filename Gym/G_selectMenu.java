@@ -44,7 +44,7 @@ public class G_selectMenu extends JFrame {
 		selectMenu.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		title.add(selectMenu);
 		JButton logout = new JButton("로그아웃");
-		title.add(selectMenu);
+		title.add(logout);
 		title.setLayout(new FlowLayout());
 
 		JPanel btnpanel = new JPanel();
@@ -126,13 +126,8 @@ public class G_selectMenu extends JFrame {
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
-						try {
-							new StartScreen(conn);
-							dispose();
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						new StartScreen(conn);
+						dispose();
 					}
 				});
 			}
