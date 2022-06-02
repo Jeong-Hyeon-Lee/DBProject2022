@@ -1,4 +1,4 @@
-package DB2022TEAM03;
+package DB2022Team03;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,5 +1,4 @@
-package DB2022TEAM03;
-
+package DB2022Team03;
 import java.sql.*;
 import javax.swing.*;
 
