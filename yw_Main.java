@@ -6,15 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 import DB2022TEAM03.GEUNJU.M_MainScreen;
 
-public class YeonWoo extends JFrame{
+public class yw_Main extends JFrame{
 
 	//JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; 
 		
 	//Database user, password
-	static final String  USER = "root";
-	static final String PASSWORD="yeonw00";
+	static final String  USER = "DB2022Team03";
+	static final String PASSWORD="DB2022Team03";
 		
 	//Connection conn
 	public static Connection conn;
