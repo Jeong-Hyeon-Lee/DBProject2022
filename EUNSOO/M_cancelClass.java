@@ -1,4 +1,9 @@
-package DB2022TEAM03.EUNSOO;
+/*
+* 수정사항:
+* 1) '예약완료'인 수업을 취소하면 남은횟수+1
+* 2) '예약확인중'인 수업을 취소하면 남은횟수는 변화X
+*/
+package DB2022Team03.EUNSOO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +14,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import DB2022TEAM03.GEUNJU.M_MainScreen;
+import DB2022Team03.GEUNJU.M_MainScreen;
 
 
 public class M_cancelClass extends JFrame {
@@ -170,9 +175,18 @@ public class M_cancelClass extends JFrame {
 					pStmt3.setString(1, ID);  
 					pStmt3.setTimestamp(2, Timestamp.valueOf(dateTime));  // '수업시간'
 					
-					// Update DB.
-					pStmt2.executeUpdate(); 
-					pStmt3.executeUpdate();
+					/* Update DB. */
+					int row2 = pStmt2.executeUpdate(); 
+					int row3 = pStmt3.executeUpdate();
+					
+					// 예약된 수업이 '예약완료'인 경우, 남은 수업횟수 += 1 ('예약확인중'은 변화 x)
+					if(row3 > 0) {
+						String query = "UPDATE DB2022_회원 SET 남은횟수 = 남은횟수 + ? WHERE 회원번호 = ?";
+						PreparedStatement pStmt = conn.prepareStatement(query);
+						pStmt.setInt(1, 1);  // '남은횟수'
+						pStmt.setString(2, ID);  // '회원번호'
+						pStmt.executeUpdate();
+					}
 				
 					// Update the JTable.
 					tModel.setNumRows(0);  // Erase all the columns.
@@ -199,3 +213,4 @@ public class M_cancelClass extends JFrame {
 		
 	}
 }
+
