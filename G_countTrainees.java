@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
 public class G_countTrainees extends JFrame {
 	public G_countTrainees(Connection conn, String gymID) throws SQLException{
 		// TODO Auto-generated constructor stub
-		PreparedStatement pStmt = conn.prepareStatement("SELECT count(È¸¿ø¹øÈ£) FROM DB2022_È¸¿ø WHERE ¼Ò¼ÓÇï½ºÀå = ?");
+		PreparedStatement pStmt = conn.prepareStatement("SELECT count(íšŒì›ë²ˆí˜¸) FROM DB2022_íšŒì› WHERE ì†Œì†í—¬ìŠ¤ì¥ = ?");
 		pStmt.setString(1, gymID);
 		ResultSet rs = pStmt.executeQuery();
 		int result = 0;
 		if (rs.next())
 			result = rs.getInt(1);
-		JOptionPane.showMessageDialog(rootPane, "È¸¿ø ¼ö: " + result);
+		JOptionPane.showMessageDialog(rootPane,"íšŒì› ìˆ˜: "+ result);
 	}
 }

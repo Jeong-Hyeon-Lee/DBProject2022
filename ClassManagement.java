@@ -17,63 +17,63 @@ import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
 
 
-/* °³¼±Á¡ 1: °ú°ÅÀÇ ½Ã°£¿¡ ¼ö¾÷ ¿¹¾àÀ» ÇÏ´Â °æ¿ì¸¦ ¸·¾Æ¾ß ÇÔ 
- * °³¼±Á¡ 2: ¼ö¾÷ Ãë¼Ò°¡ ºÒ°¡´ÉÇÑ °æ¿ì ºÒ°¡´ÉÇÏ´Ù°í ¾Ë·ÁÁà¾ß ÇÔ
+/* ê°œì„ ì  1: ê³¼ê±°ì˜ ì‹œê°„ì— ìˆ˜ì—… ì˜ˆì•½ì„ í•˜ëŠ” ê²½ìš°ë¥¼ ë§‰ì•„ì•¼ í•¨ 
+ * ê°œì„ ì  2: ìˆ˜ì—… ì·¨ì†Œê°€ ë¶ˆê°€ëŠ¥í•œ ê²½ìš° ë¶ˆê°€ëŠ¥í•˜ë‹¤ê³  ì•Œë ¤ì¤˜ì•¼ í•¨
  * */
 
 
 public class ClassManagement{
 
-	//JDBC driver name°ú database URL
+	//JDBC driver nameê³¼ database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; 
 	
-	//Database user¿Í password
+	//Database userì™€ password
 	static final String  USER = "root";
 	static final String PASSWORD="sharon98";
 	
-	//Connection °´Ã¼
+	//Connection ê°ì²´
 	static Connection conn;
 	
-	// ¸Ş´º
+	// ë©”ë‰´
 	static int menu;
 	
 	
 	public static void showClasses(String memberId, int menu) throws SQLException {
 				
-		// SQL ¹®ÀåÀ» ½ÇÇàÇÏ±â À§ÇÑ PreparedStatement °´Ã¼¿Í °á°ú¸¦ ÀúÀåÇÏ´Â ResultSet °´Ã¼ »ı¼º
+		// SQL ë¬¸ì¥ì„ ì‹¤í–‰í•˜ê¸° ìœ„í•œ PreparedStatement ê°ì²´ì™€ ê²°ê³¼ë¥¼ ì €ì¥í•˜ëŠ” ResultSet ê°ì²´ ìƒì„±
 		PreparedStatement pStmt1 = null;
 		PreparedStatement pStmt2 = null;
 		ResultSet rs1=null;
 		ResultSet rs2=null;
 
-		// Äõ¸®1: ÇöÀç ½Ã°¢(DateTime)À» Ãâ·Â
+		// ì¿¼ë¦¬1: í˜„ì¬ ì‹œê°(DateTime)ì„ ì¶œë ¥
 		String query1 = "SELECT NOW()";
 		
-		// Äõ¸® 2: ¼±ÅÃÇÑ ¸Ş´º¿¡ µû¶ó ¼ö¾÷ ¸ñ·ÏÀ» Ãâ·Â
+		// ì¿¼ë¦¬ 2: ì„ íƒí•œ ë©”ë‰´ì— ë”°ë¼ ìˆ˜ì—… ëª©ë¡ì„ ì¶œë ¥
 		String query2 = null;
 		/*
-		 * ¼ö¾÷ °ü¸® ¸Ş´º  => showClasses ¸Ş¼ÒµåÀÇ Äõ¸®
-		 * 1. ¼ö¾÷ ¿¹¾àÇÏ±â          => Äõ¸®: X
-		 * 2. ¼ö¾÷ Ãë¼ÒÇÏ±â          => Äõ¸®: Ãë¼Ò °¡´ÉÇÑ ¼ö¾÷ Ãâ·Â
-		 * 3. ¼ö¾÷ ¿¹¾à ³»¿ª º¸±â  => Äõ¸®: ¿¹¾àÈ®ÀÎÁß/¿¹¾à¿Ï·á ¼ö¾÷ Ãâ·Â
-		 * 4. ¼ö¾÷ ¿Ï·á ³»¿ª º¸±â  => Äõ¸®: ¿Ï·á/ºÒÂü/Ãë¼Ò ¼ö¾÷ Ãâ·Â
+		 * ìˆ˜ì—… ê´€ë¦¬ ë©”ë‰´  => showClasses ë©”ì†Œë“œì˜ ì¿¼ë¦¬
+		 * 1. ìˆ˜ì—… ì˜ˆì•½í•˜ê¸°          => ì¿¼ë¦¬: X
+		 * 2. ìˆ˜ì—… ì·¨ì†Œí•˜ê¸°          => ì¿¼ë¦¬: ì·¨ì†Œ ê°€ëŠ¥í•œ ìˆ˜ì—… ì¶œë ¥
+		 * 3. ìˆ˜ì—… ì˜ˆì•½ ë‚´ì—­ ë³´ê¸°  => ì¿¼ë¦¬: ì˜ˆì•½í™•ì¸ì¤‘/ì˜ˆì•½ì™„ë£Œ ìˆ˜ì—… ì¶œë ¥
+		 * 4. ìˆ˜ì—… ì™„ë£Œ ë‚´ì—­ ë³´ê¸°  => ì¿¼ë¦¬: ì™„ë£Œ/ë¶ˆì°¸/ì·¨ì†Œ ìˆ˜ì—… ì¶œë ¥
 		 */
 		switch(menu) {
 		case 2: 
-			query2 = "SELECT ¼ö¾÷½Ã°£, ¼ö¾÷ÁøÇàÇöÈ² " + "FROM DB2022_¼ö¾÷ " +
-					"WHERE È¸¿ø¹øÈ£ = ? AND ¼ö¾÷ÁøÇàÇöÈ² IN ('¿¹¾àÈ®ÀÎÁß', '¿¹¾à¿Ï·á') AND ¼ö¾÷½Ã°£ < DATE_ADD(NOW(), INTERVAL 5 HOUR)";
+			query2 = "SELECT ìˆ˜ì—…ì‹œê°„, ìˆ˜ì—…ì§„í–‰í˜„í™© " + "FROM DB2022_ìˆ˜ì—… " +
+					"WHERE íšŒì›ë²ˆí˜¸ = ? AND ìˆ˜ì—…ì§„í–‰í˜„í™© IN ('ì˜ˆì•½í™•ì¸ì¤‘', 'ì˜ˆì•½ì™„ë£Œ') AND ìˆ˜ì—…ì‹œê°„ < DATE_ADD(NOW(), INTERVAL 5 HOUR)";
 			break;
 		case 3:
-			query2 = "SELECT ¼ö¾÷½Ã°£, ¼ö¾÷ÁøÇàÇöÈ² " + "FROM DB2022_¼ö¾÷ " +
-					"WHERE È¸¿ø¹øÈ£ = ? AND ¼ö¾÷ÁøÇàÇöÈ² IN ('¿¹¾àÈ®ÀÎÁß', '¿¹¾à¿Ï·á')";
+			query2 = "SELECT ìˆ˜ì—…ì‹œê°„, ìˆ˜ì—…ì§„í–‰í˜„í™© " + "FROM DB2022_ìˆ˜ì—… " +
+					"WHERE íšŒì›ë²ˆí˜¸ = ? AND ìˆ˜ì—…ì§„í–‰í˜„í™© IN ('ì˜ˆì•½í™•ì¸ì¤‘', 'ì˜ˆì•½ì™„ë£Œ')";
 			break;
 		case 4:
-			query2 = "SELECT ¼ö¾÷½Ã°£, ¼ö¾÷ÁøÇàÇöÈ² " + "FROM DB2022_¼ö¾÷ " +
-					"WHERE È¸¿ø¹øÈ£ = ? AND ¼ö¾÷ÁøÇàÇöÈ² IN ('¿Ï·á', 'ºÒÂü', 'Ãë¼Ò')";
+			query2 = "SELECT ìˆ˜ì—…ì‹œê°„, ìˆ˜ì—…ì§„í–‰í˜„í™© " + "FROM DB2022_ìˆ˜ì—… " +
+					"WHERE íšŒì›ë²ˆí˜¸ = ? AND ìˆ˜ì—…ì§„í–‰í˜„í™© IN ('ì™„ë£Œ', 'ë¶ˆì°¸', 'ì·¨ì†Œ')";
 			break;
 		default:
-			System.out.println("¼ö¾÷ ¸ñ·ÏÀÌ ¾ø½À´Ï´Ù.");
+			System.out.println("ìˆ˜ì—… ëª©ë¡ì´ ì—†ìŠµë‹ˆë‹¤.");
 		}
 		
 		//conn.setAutoCommit(false);
@@ -83,32 +83,32 @@ public class ClassManagement{
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt2 = conn.prepareStatement(query2);
 			
-			pStmt2.setString(1, memberId);  // È¸¿ø¹øÈ£
+			pStmt2.setString(1, memberId);  // íšŒì›ë²ˆí˜¸
 
-			// Äõ¸® ½ÇÇà
+			// ì¿¼ë¦¬ ì‹¤í–‰
 			rs1 = pStmt1.executeQuery();
 			rs2 = pStmt2.executeQuery();
 			
 			/*
-			// Äõ¸® ½ÇÇà °á°ú Ãâ·Â
-			// Äõ¸®1: ÇöÀç ½Ã°¢(DateTime)À» Ãâ·Â
+			// ì¿¼ë¦¬ ì‹¤í–‰ ê²°ê³¼ ì¶œë ¥
+			// ì¿¼ë¦¬1: í˜„ì¬ ì‹œê°(DateTime)ì„ ì¶œë ¥
 			System.out.println("...........................................................................................................");
 			while(rs1.next()) {
 				LocalDateTime currentDateTime = rs1.getTimestamp(1).toLocalDateTime();
-				System.out.println("ÇöÀç½Ã°¢: " + currentDateTime);
-				System.out.println("È¸¿ø ID: " + memberId);  // È¸¿ø Á¤º¸ Ãâ·Â
+				System.out.println("í˜„ì¬ì‹œê°: " + currentDateTime);
+				System.out.println("íšŒì› ID: " + memberId);  // íšŒì› ì •ë³´ ì¶œë ¥
 			}
 			//System.out.println("...........................................................................................................");
 			 */
 			
 			
-			// Äõ¸® 2: ¼±ÅÃÇÑ ¸Ş´º¿¡ µû¶ó ¼ö¾÷ ¸ñ·ÏÀ» Ãâ·Â
-			System.out.println("[¼ö¾÷ ¸ñ·Ï]");
+			// ì¿¼ë¦¬ 2: ì„ íƒí•œ ë©”ë‰´ì— ë”°ë¼ ìˆ˜ì—… ëª©ë¡ì„ ì¶œë ¥
+			System.out.println("[ìˆ˜ì—… ëª©ë¡]");
 			System.out.println("----------------------------------------");
 			while(rs2.next()) {
 				LocalDateTime classDatetime = rs2.getTimestamp(1).toLocalDateTime();
 				String classState = rs2.getString(2);
-				System.out.println("¼ö¾÷½Ã°£: " + classDatetime + " ¼ö¾÷ÁøÇàÇöÈ²: " + classState);
+				System.out.println("ìˆ˜ì—…ì‹œê°„: " + classDatetime + " ìˆ˜ì—…ì§„í–‰í˜„í™©: " + classState);
 			}
 			System.out.println("----------------------------------------");
 		}
@@ -119,18 +119,18 @@ public class ClassManagement{
 	
 	
 	public static void reserveClass(String memberId, String classDateTime) throws SQLException {
-		String trainerId = null;  // È¸¿øÀÇ ´ã´ç Æ®·¹ÀÌ³Ê ID
+		String trainerId = null;  // íšŒì›ì˜ ë‹´ë‹¹ íŠ¸ë ˆì´ë„ˆ ID
 
-		// SQL ¹®ÀåÀ» ½ÇÇàÇÏ±â À§ÇÑ PreparedStatement °´Ã¼¿Í °á°ú¸¦ ÀúÀåÇÏ´Â ResultSet °´Ã¼ »ı¼º
+		// SQL ë¬¸ì¥ì„ ì‹¤í–‰í•˜ê¸° ìœ„í•œ PreparedStatement ê°ì²´ì™€ ê²°ê³¼ë¥¼ ì €ì¥í•˜ëŠ” ResultSet ê°ì²´ ìƒì„±
 		PreparedStatement pStmt1 = null;
 		PreparedStatement pStmt2 = null;
 		ResultSet rs1=null;
 		
-		// È¸¿øÀÇ Æ®·¹ÀÌ³Ê¸¦ ±¸ÇÏ´Â SQL Äõ¸®
-		String query = "SELECT DISTINCT °­»ç¹øÈ£ FROM DB2022_¼ö¾÷ WHERE È¸¿ø¹øÈ£ = ?";
+		// íšŒì›ì˜ íŠ¸ë ˆì´ë„ˆë¥¼ êµ¬í•˜ëŠ” SQL ì¿¼ë¦¬
+		String query = "SELECT DISTINCT ê°•ì‚¬ë²ˆí˜¸ FROM DB2022_ìˆ˜ì—… WHERE íšŒì›ë²ˆí˜¸ = ?";
 		
-		// ¼ö¾÷À» ¿¹¾àÇÏ´Â SQL ¹®Àå
-		String update_reserve = "INSERT INTO DB2022_¼ö¾÷ " + "VALUES(?, ?, ?, ?)";
+		// ìˆ˜ì—…ì„ ì˜ˆì•½í•˜ëŠ” SQL ë¬¸ì¥
+		String update_reserve = "INSERT INTO DB2022_ìˆ˜ì—… " + "VALUES(?, ?, ?, ?)";
 		
 		
 		try {		
@@ -142,7 +142,7 @@ public class ClassManagement{
 			
 			while(rs1.next()) {
 				trainerId = rs1.getString(1);
-				//System.out.println("´ã´ç Æ®·¹ÀÌ³Ê ID: " + trainerId);
+				//System.out.println("ë‹´ë‹¹ íŠ¸ë ˆì´ë„ˆ ID: " + trainerId);
 			}
 		
 			
@@ -150,13 +150,13 @@ public class ClassManagement{
 
 			pStmt2.setString(1, memberId);
 			pStmt2.setString(2, trainerId);
-			pStmt2.setTimestamp(3, Timestamp.valueOf(classDateTime));  // ¼ö¾÷½Ã°£
-			pStmt2.setString(4, "¿¹¾àÈ®ÀÎÁß"); 
+			pStmt2.setTimestamp(3, Timestamp.valueOf(classDateTime));  // ìˆ˜ì—…ì‹œê°„
+			pStmt2.setString(4, "ì˜ˆì•½í™•ì¸ì¤‘"); 
 						
-			// DB ¾÷µ¥ÀÌÆ®
+			// DB ì—…ë°ì´íŠ¸
 			pStmt2.executeUpdate();
 	
-			showClasses(memberId, 3);  // ¾÷µ¥ÀÌÆ® ÈÄ ¿¹¾àÈ®ÀÎÁß/¿¹¾à¿Ï·á ¼ö¾÷ Ãâ·Â
+			showClasses(memberId, 3);  // ì—…ë°ì´íŠ¸ í›„ ì˜ˆì•½í™•ì¸ì¤‘/ì˜ˆì•½ì™„ë£Œ ìˆ˜ì—… ì¶œë ¥
 
 		}
 		catch (SQLException sqle) {
@@ -167,15 +167,15 @@ public class ClassManagement{
 	
 	public static void cancelClass(String memberId, String classDateTime) throws SQLException {
 				
-		// SQL ¹®ÀåÀ» ½ÇÇàÇÏ±â À§ÇÑ PreparedStatement °´Ã¼¿Í °á°ú¸¦ ÀúÀåÇÏ´Â ResultSet °´Ã¼ »ı¼º
+		// SQL ë¬¸ì¥ì„ ì‹¤í–‰í•˜ê¸° ìœ„í•œ PreparedStatement ê°ì²´ì™€ ê²°ê³¼ë¥¼ ì €ì¥í•˜ëŠ” ResultSet ê°ì²´ ìƒì„±
 		PreparedStatement pStmt1 = null;
 		PreparedStatement pStmt2 = null;
 		
-		// ¼ö¾÷À» Ãë¼ÒÇÏ´Â SQL update ¹®Àåµé
-		// 1) ¿¹¾àÈ®ÀÎÁßÀÎ ¼ö¾÷ => ·¹ÄÚµå »èÁ¦
-		String update_requested = "DELETE FROM DB2022_¼ö¾÷ " + "WHERE È¸¿ø¹øÈ£ = ? AND ¼ö¾÷½Ã°£  = ? AND ¼ö¾÷ÁøÇàÇöÈ² = '¿¹¾àÈ®ÀÎÁß' AND ¼ö¾÷½Ã°£ > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
-		// 2) ¿¹¾à¿Ï·áµÈ ¼ö¾÷ => 'Ãë¼Ò'·Î »óÅÂ ¹Ù²Ş
-		String update_reserved = "UPDATE DB2022_¼ö¾÷ " + "SET ¼ö¾÷ÁøÇàÇöÈ² = 'Ãë¼Ò' " + "WHERE È¸¿ø¹øÈ£ = ? AND ¼ö¾÷½Ã°£ = ? AND ¼ö¾÷ÁøÇàÇöÈ² = '¿¹¾à¿Ï·á' AND ¼ö¾÷½Ã°£ > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
+		// ìˆ˜ì—…ì„ ì·¨ì†Œí•˜ëŠ” SQL update ë¬¸ì¥ë“¤
+		// 1) ì˜ˆì•½í™•ì¸ì¤‘ì¸ ìˆ˜ì—… => ë ˆì½”ë“œ ì‚­ì œ
+		String update_requested = "DELETE FROM DB2022_ìˆ˜ì—… " + "WHERE íšŒì›ë²ˆí˜¸ = ? AND ìˆ˜ì—…ì‹œê°„  = ? AND ìˆ˜ì—…ì§„í–‰í˜„í™© = 'ì˜ˆì•½í™•ì¸ì¤‘' AND ìˆ˜ì—…ì‹œê°„ > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
+		// 2) ì˜ˆì•½ì™„ë£Œëœ ìˆ˜ì—… => 'ì·¨ì†Œ'ë¡œ ìƒíƒœ ë°”ê¿ˆ
+		String update_reserved = "UPDATE DB2022_ìˆ˜ì—… " + "SET ìˆ˜ì—…ì§„í–‰í˜„í™© = 'ì·¨ì†Œ' " + "WHERE íšŒì›ë²ˆí˜¸ = ? AND ìˆ˜ì—…ì‹œê°„ = ? AND ìˆ˜ì—…ì§„í–‰í˜„í™© = 'ì˜ˆì•½ì™„ë£Œ' AND ìˆ˜ì—…ì‹œê°„ > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
 		
 		try {		
 			// DB query string preparation
@@ -183,15 +183,15 @@ public class ClassManagement{
 			pStmt2 = conn.prepareStatement(update_reserved);
 			
 			pStmt1.setString(1, memberId);
-			pStmt1.setTimestamp(2, Timestamp.valueOf(classDateTime));  // ¼ö¾÷½Ã°£
+			pStmt1.setTimestamp(2, Timestamp.valueOf(classDateTime));  // ìˆ˜ì—…ì‹œê°„
 			pStmt2.setString(1, memberId);  
-			pStmt2.setTimestamp(2, Timestamp.valueOf(classDateTime));  // ¼ö¾÷½Ã°£
+			pStmt2.setTimestamp(2, Timestamp.valueOf(classDateTime));  // ìˆ˜ì—…ì‹œê°„
 						
-			// DB ¾÷µ¥ÀÌÆ®
+			// DB ì—…ë°ì´íŠ¸
 			pStmt1.executeUpdate();
 			pStmt2.executeUpdate();
 			
-			showClasses(memberId, 3);  // ¾÷µ¥ÀÌÆ® ÈÄ ¿¹¾àÈ®ÀÎÁß/¿¹¾à¿Ï·á ¼ö¾÷ Ãâ·Â
+			showClasses(memberId, 3);  // ì—…ë°ì´íŠ¸ í›„ ì˜ˆì•½í™•ì¸ì¤‘/ì˜ˆì•½ì™„ë£Œ ìˆ˜ì—… ì¶œë ¥
 
 		}
 		catch (SQLException sqle) {
@@ -203,18 +203,18 @@ public class ClassManagement{
 	
 	public static void printMenu() {
 		/*
-		 * ¼ö¾÷ °ü¸® ¸Ş´º  => showClasses ¸Ş¼ÒµåÀÇ Äõ¸®
-		 * 1. ¼ö¾÷ ¿¹¾àÇÏ±â          => Äõ¸®: X
-		 * 2. ¼ö¾÷ Ãë¼ÒÇÏ±â          => Äõ¸®: Ãë¼Ò °¡´ÉÇÑ ¼ö¾÷ Ãâ·Â
-		 * 3. ¼ö¾÷ ¿¹¾à ³»¿ª º¸±â  => Äõ¸®: ¿¹¾àÈ®ÀÎÁß/¿¹¾à¿Ï·á ¼ö¾÷ Ãâ·Â
-		 * 4. ¼ö¾÷ ¿Ï·á ³»¿ª º¸±â  => Äõ¸®: ¿Ï·á/ºÒÂü/Ãë¼Ò ¼ö¾÷ Ãâ·Â
+		 * ìˆ˜ì—… ê´€ë¦¬ ë©”ë‰´  => showClasses ë©”ì†Œë“œì˜ ì¿¼ë¦¬
+		 * 1. ìˆ˜ì—… ì˜ˆì•½í•˜ê¸°          => ì¿¼ë¦¬: X
+		 * 2. ìˆ˜ì—… ì·¨ì†Œí•˜ê¸°          => ì¿¼ë¦¬: ì·¨ì†Œ ê°€ëŠ¥í•œ ìˆ˜ì—… ì¶œë ¥
+		 * 3. ìˆ˜ì—… ì˜ˆì•½ ë‚´ì—­ ë³´ê¸°  => ì¿¼ë¦¬: ì˜ˆì•½í™•ì¸ì¤‘/ì˜ˆì•½ì™„ë£Œ ìˆ˜ì—… ì¶œë ¥
+		 * 4. ìˆ˜ì—… ì™„ë£Œ ë‚´ì—­ ë³´ê¸°  => ì¿¼ë¦¬: ì™„ë£Œ/ë¶ˆì°¸/ì·¨ì†Œ ìˆ˜ì—… ì¶œë ¥
 		 */
-		System.out.println("<¸Ş´º>"); 
-		System.out.println("(1) ¼ö¾÷ ¿¹¾àÇÏ±â "); 
-		System.out.println("(2) ¼ö¾÷ Ãë¼ÒÇÏ±â");
-		System.out.println("(3) ¼ö¾÷ ¿¹¾à ³»¿ª º¸±â");
-		System.out.println("(4) ¼ö¾÷ ¿Ï·á ³»¿ª º¸±â");
-		System.out.println("(0) : ³ª°¡±â");
+		System.out.println("<ë©”ë‰´>"); 
+		System.out.println("(1) ìˆ˜ì—… ì˜ˆì•½í•˜ê¸° "); 
+		System.out.println("(2) ìˆ˜ì—… ì·¨ì†Œí•˜ê¸°");
+		System.out.println("(3) ìˆ˜ì—… ì˜ˆì•½ ë‚´ì—­ ë³´ê¸°");
+		System.out.println("(4) ìˆ˜ì—… ì™„ë£Œ ë‚´ì—­ ë³´ê¸°");
+		System.out.println("(0) : ë‚˜ê°€ê¸°");
 		System.out.println("...........................................................................................................");
 	}
 		
@@ -227,7 +227,7 @@ public class ClassManagement{
 		String memberId = "M09560";
 		String classDatetime = null;
 		
-		// DB¿¡ Á¢¼Ó
+		// DBì— ì ‘ì†
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);			
 		} catch(SQLException sqle) {
@@ -235,30 +235,30 @@ public class ClassManagement{
 		}
 		
 		
-		// Menu ¼±ÅÃ
+		// Menu ì„ íƒ
 		while(menu != 0) {
 			printMenu();
-			System.out.print("=> ¿øÇÏ½Ã´Â ÀÛ¾÷À» ¼±ÅÃÇÏ¼¼¿ä: ");
+			System.out.print("=> ì›í•˜ì‹œëŠ” ì‘ì—…ì„ ì„ íƒí•˜ì„¸ìš”: ");
 			try {
 				menu = scanner.nextInt();
 				
 			} catch(InputMismatchException e) {
-				System.out.println("**Á¤¼ö¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä.**");
+				System.out.println("**ì •ìˆ˜ë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”.**");
 				System.out.println("...........................................................................................................");
 				scanner.next();
 				continue;
 			}
 			switch(menu) {
 			case 0: 
-				System.out.println("Á¾·áÇÕ´Ï´Ù.");
+				System.out.println("ì¢…ë£Œí•©ë‹ˆë‹¤.");
 				break;
 			case 1:
-				System.out.println("¼ö¾÷À» ¿¹¾àÇÕ´Ï´Ù.");
+				System.out.println("ìˆ˜ì—…ì„ ì˜ˆì•½í•©ë‹ˆë‹¤.");
 				System.out.println("...........................................................................................................");
 				try {
-					showClasses(memberId, 3);  // ¾÷µ¥ÀÌÆ® Àü ¿¹¾àÈ®ÀÎÁß/¿¹¾à¿Ï·á ¼ö¾÷ Ãâ·Â
+					showClasses(memberId, 3);  // ì—…ë°ì´íŠ¸ ì „ ì˜ˆì•½í™•ì¸ì¤‘/ì˜ˆì•½ì™„ë£Œ ìˆ˜ì—… ì¶œë ¥
 					scanner.nextLine();
-					System.out.print("¿øÇÏ½Ã´Â ³¯Â¥¿Í ½Ã°£À» ÀÔ·ÂÇÏ¼¼¿ä.\n  ex) 2000-06-15 20:00:00\n: ");
+					System.out.print("ì›í•˜ì‹œëŠ” ë‚ ì§œì™€ ì‹œê°„ì„ ì…ë ¥í•˜ì„¸ìš”.\n  ex) 2000-06-15 20:00:00\n: ");
 					classDatetime = scanner.nextLine();
 					reserveClass(memberId, classDatetime);
 				} catch(SQLException sqle) {
@@ -267,12 +267,12 @@ public class ClassManagement{
 				break;
 				
 			case 2:
-				System.out.println("¼ö¾÷À» Ãë¼ÒÇÕ´Ï´Ù.");
+				System.out.println("ìˆ˜ì—…ì„ ì·¨ì†Œí•©ë‹ˆë‹¤.");
 				System.out.println("...........................................................................................................");
 				try {
-					showClasses(memberId, 3);  // ¾÷µ¥ÀÌÆ® Àü ¿¹¾àÈ®ÀÎÁß/¿¹¾à¿Ï·á ¼ö¾÷ Ãâ·Â
+					showClasses(memberId, 3);  // ì—…ë°ì´íŠ¸ ì „ ì˜ˆì•½í™•ì¸ì¤‘/ì˜ˆì•½ì™„ë£Œ ìˆ˜ì—… ì¶œë ¥
 					scanner.nextLine();
-					System.out.print("Ãë¼ÒÇÏ½Ç ¼ö¾÷ÀÇ ³¯Â¥¿Í ½Ã°£À» ÀÔ·ÂÇÏ¼¼¿ä.\n  ex) 2000-06-15 20:00:00\n: ");
+					System.out.print("ì·¨ì†Œí•˜ì‹¤ ìˆ˜ì—…ì˜ ë‚ ì§œì™€ ì‹œê°„ì„ ì…ë ¥í•˜ì„¸ìš”.\n  ex) 2000-06-15 20:00:00\n: ");
 					classDatetime = scanner.nextLine();
 					cancelClass(memberId, classDatetime);
 				} catch(SQLException sqle) {
@@ -282,7 +282,7 @@ public class ClassManagement{
 				
 			case 3:				
 			case 4:
-				System.out.println("¼ö¾÷ ³»¿ªÀ» È®ÀÎÇÕ´Ï´Ù.");
+				System.out.println("ìˆ˜ì—… ë‚´ì—­ì„ í™•ì¸í•©ë‹ˆë‹¤.");
 				System.out.println("...........................................................................................................");
 				try {
 					showClasses(memberId, menu);
@@ -292,7 +292,7 @@ public class ClassManagement{
 				break;
 				
 			default:
-				System.out.println("**1~4ÀÇ Á¤¼ö¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä.**");
+				System.out.println("**1~4ì˜ ì •ìˆ˜ë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”.**");
 				System.out.println("...........................................................................................................");
 				break;
 			}

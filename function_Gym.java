@@ -19,9 +19,9 @@ public class function_Gym extends JFrame {
 	public static void main(String[] args) throws SQLException, IOException {
 		// TODO Auto-generated method stub
 
-		// Çï½ºÀå ·Î±×ÀÎ
+		// í—¬ìŠ¤ì¥ ë¡œê·¸ì¸
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("Çï½ºÀå ¹øÈ£ ÀÔ·Â: ");
+		System.out.print("í—¬ìŠ¤ì¥ ë²ˆí˜¸ ì…ë ¥: ");
 		gymID = br.readLine();
 
 		br.close();

@@ -37,23 +37,23 @@ public class G_selectMenu extends JFrame {
 		// TODO Auto-generated constructor stub
 		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 		
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ (°üÀå)");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ã¢ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ (ê´€ì¥)");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 
 		JPanel title = new JPanel();
 
 		JLabel selectMenu = new JLabel("MENU");
 		selectMenu.setForeground(new Color(5, 0, 153));
-		selectMenu.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		selectMenu.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
 		title.add(selectMenu);
 
 		JPanel btnpanel = new JPanel();
 		btnpanel.setLayout(new GridLayout(4, 1));
 
-		JButton menu1 = new JButton("°¡°İ Á¤º¸ ¼öÁ¤ÇÏ±â");
-		JButton menu2 = new JButton("ÇÁ·Î¸ğ¼Ç Á¤º¸ ¼öÁ¤ÇÏ±â");
-		JButton menu3 = new JButton("Æ®·¹ÀÌ³Ê Á¤º¸ Ãâ·ÂÇÏ±â");
-		JButton menu4 = new JButton("È¸¿ø ¼ö Ãâ·ÂÇÏ±â");
+		JButton menu1 = new JButton("ê°€ê²© ì •ë³´ ìˆ˜ì •í•˜ê¸°");
+		JButton menu2 = new JButton("í”„ë¡œëª¨ì…˜ ì •ë³´ ìˆ˜ì •í•˜ê¸°");
+		JButton menu3 = new JButton("íŠ¸ë ˆì´ë„ˆ ì •ë³´ ì¶œë ¥í•˜ê¸°");
+		JButton menu4 = new JButton("íšŒì› ìˆ˜ ì¶œë ¥í•˜ê¸°");
 
 		btnpanel.add(menu1);
 		btnpanel.add(menu2);
@@ -65,11 +65,11 @@ public class G_selectMenu extends JFrame {
 
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); 
 
 		setVisible(true);
 
-		// ÀÌº¥Æ® Ã³¸®
+		//ì´ë²¤íŠ¸ ì²˜ë¦¬
 		menu1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
