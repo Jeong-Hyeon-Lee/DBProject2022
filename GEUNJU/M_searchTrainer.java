@@ -1,4 +1,4 @@
-package DB2022TEAM03.GEUNJU;
+package DB2022Team03.GEUNJU;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

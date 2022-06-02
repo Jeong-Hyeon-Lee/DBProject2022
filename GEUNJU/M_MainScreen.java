@@ -1,4 +1,4 @@
-package DB2022TEAM03.GEUNJU;
+package DB2022Team03.GEUNJU;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import DB2022TEAM03.StartScreen;
-import DB2022TEAM03.EUNSOO.M_manageClass;
+import DB2022Team03.EUNSOO.M_manageClass;
 
 public class M_MainScreen extends JFrame {
 	

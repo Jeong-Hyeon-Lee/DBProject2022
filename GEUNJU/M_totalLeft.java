@@ -1,4 +1,4 @@
-package DB2022TEAM03.GEUNJU;
+package DB2022Team03.GEUNJU;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class M_totalLeft{
-	public static int[] M_totalLeft(Connection conn, String ID) throws SQLException { //ÀüÃ¼¼ö¾÷È½¼ö,³²Àº¼ö¾÷È½¼ö È®ÀÎ(Ã³À½ºÎÅÍ Á¢±Ù¸·À¸·Á°í->UPDATE SET CASE¹®µµ °¡´ÉÇÏ±ä ÇÔ
+	public static int[] M_totalLeft(Connection conn, String ID) throws SQLException { //ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½ È®ï¿½ï¿½(Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½->UPDATE SET CASEï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½
 		int total, left;
-		String str = "SELECT ÀüÃ¼È½¼ö,³²ÀºÈ½¼ö FROM DB2022_È¸¿ø WHERE È¸¿ø¹øÈ£=?";
+		String str = "SELECT ï¿½ï¿½Ã¼È½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½ FROM DB2022_È¸ï¿½ï¿½ WHERE È¸ï¿½ï¿½ï¿½ï¿½È£=?";
 		PreparedStatement pstmt = conn.prepareStatement(str);
 		pstmt.setString(1,ID);
 		ResultSet rset = pstmt.executeQuery();

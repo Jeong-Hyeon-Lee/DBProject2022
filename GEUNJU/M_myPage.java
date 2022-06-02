@@ -1,4 +1,4 @@
-package DB2022TEAM03.GEUNJU;
+package DB2022Team03.GEUNJU;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,23 +22,23 @@ import javax.swing.table.DefaultTableModel;
 
 public class M_myPage extends JFrame {
 	public M_myPage(Connection conn, String ID) throws SQLException {
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´ÝÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("ï¿½ï½ºï¿½ï¿½ PT ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-		//»ó´Ü - È¸¿ø MENU
+		//ï¿½ï¿½ï¿½ - È¸ï¿½ï¿½ MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("È¸¿øÁ¤º¸È®ÀÎ");
+		JLabel subtitle = new JLabel("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		subtitle.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
 		//Table
-		String columnNames[] = {"ÀÌ¸§","Çï½ºÀå","Áö¿ª","ÀüÃ¼°áÁ¦È¸Â÷","³²Àº¼ö¾÷È¸Â÷","Æ®·¹ÀÌ³Ê","ÇöÀçÈ¸¿ø±Ç"}; //headers
+		String columnNames[] = {"ï¿½Ì¸ï¿½","ï¿½ï½ºï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½","Æ®ï¿½ï¿½ï¿½Ì³ï¿½","ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½"}; //headers
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
 		JTable jt = new JTable(tableModel);
 		
 		//query for table
-		String str = "SELECT M.ÀÌ¸§,G.ÀÌ¸§ as Çï½ºÀå, M.Áö¿ª, M.ÀüÃ¼È½¼ö, M.³²ÀºÈ½¼ö,T.ÀÌ¸§ as Æ®·¹ÀÌ³Ê, M.ÇöÀçÈ¸¿ø±Ç FROM db2022_È¸¿ø as M, db2022_Æ®·¹ÀÌ³Ê as T, db2022_Çï½ºÀå as G WHERE M.´ã´çÆ®·¹ÀÌ³Ê=T.°­»ç¹øÈ£ and M.¼Ò¼ÓÇï½ºÀå=G.Çï½ºÀå¹øÈ£ and M.È¸¿ø¹øÈ£ = ?";
+		String str = "SELECT M.ï¿½Ì¸ï¿½,G.ï¿½Ì¸ï¿½ as ï¿½ï½ºï¿½ï¿½, M.ï¿½ï¿½ï¿½ï¿½, M.ï¿½ï¿½Ã¼È½ï¿½ï¿½, M.ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½,T.ï¿½Ì¸ï¿½ as Æ®ï¿½ï¿½ï¿½Ì³ï¿½, M.ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ FROM db2022_È¸ï¿½ï¿½ as M, db2022_Æ®ï¿½ï¿½ï¿½Ì³ï¿½ as T, db2022_ï¿½ï½ºï¿½ï¿½ as G WHERE M.ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½Ì³ï¿½=T.ï¿½ï¿½ï¿½ï¿½ï¿½È£ and M.ï¿½Ò¼ï¿½ï¿½ï½ºï¿½ï¿½=G.ï¿½ï½ºï¿½ï¿½ï¿½È£ and M.È¸ï¿½ï¿½ï¿½ï¿½È£ = ?";
 		PreparedStatement pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		ResultSet rset = pstmt.executeQuery();
@@ -47,12 +47,12 @@ public class M_myPage extends JFrame {
 		JPanel btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
 		
-		//table data -> Çï½ºÀå,Æ®·¹ÀÌ³Ê nullÀÌ¸é È¸¿øÁ¤º¸ ºÒ·¯¿À´Âµ¥ ½ÇÆÐÇÔ (query¿¡ null°ªÀÌ µé¾î°¡±â ¶§¹®)
+		//table data -> ï¿½ï½ºï¿½ï¿½,Æ®ï¿½ï¿½ï¿½Ì³ï¿½ nullï¿½Ì¸ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (queryï¿½ï¿½ nullï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 		
-		if(!rset.isBeforeFirst()) { //Ä¿¼­°¡ Ã¹¹øÂ° Çà ¾Õ¿¡ ÀÖ´ÂÁö È®ÀÎ. false¸é ½ÇÇà
+		if(!rset.isBeforeFirst()) { //Ä¿ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½ï¿½ ï¿½Õ¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½. falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("Çï½ºÀå°ú Æ®·¹ÀÌ³Ê µî·Ï ÈÄ »ç¿ë°¡´ÉÇÑ ¸Þ´ºÀÔ´Ï´Ù.")); //È¸¿øÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆÐÇß½À´Ï´Ù.
+			jpErr.add(new JLabel("ï¿½ï½ºï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ë°¡ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½Ô´Ï´ï¿½.")); //È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.
 			btnGroup.add(jpErr);
 		}
 		else {
@@ -60,12 +60,12 @@ public class M_myPage extends JFrame {
 			
 			String name = rset.getString(1);
 			String gym = rset.getString(2);
-			if(rset.wasNull()) gym="¹Ìµî·Ï";
+			if(rset.wasNull()) gym="ï¿½Ìµï¿½ï¿½";
 			String location = rset.getString(3);
 			String total = rset.getString(4);
 			String left = rset.getString(5);
 			String trainer = rset.getString(6);
-			if(rset.wasNull()) trainer="¹Ìµî·Ï";
+			if(rset.wasNull()) trainer="ï¿½Ìµï¿½ï¿½";
 			String membership = rset.getString(7);
 			
 			String[] data = {name,gym,location,total,left,trainer,membership};
@@ -74,7 +74,7 @@ public class M_myPage extends JFrame {
 			
 			jt = new JTable(tableModel);
 			
-			//½ºÅ©·Ñ&column¸íÀ» À§ÇØ JScrollPane Àû¿ë
+			//ï¿½ï¿½Å©ï¿½ï¿½&columnï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JScrollPane ï¿½ï¿½ï¿½ï¿½
 			JScrollPane scrollpane=new JScrollPane(jt);
 			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
 			btnGroup.add(scrollpane);
@@ -84,7 +84,7 @@ public class M_myPage extends JFrame {
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("µÚ·Î°¡±â");
+		JButton undo = new JButton("ï¿½Ú·Î°ï¿½ï¿½ï¿½");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		
@@ -97,16 +97,16 @@ public class M_myPage extends JFrame {
 		
 		setBounds(200,200,600,200);
 		
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // È­ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Û¾ï¿½
 
 		setVisible(true);
 		
-		//Btn click ÀÌº¥Æ®
+		//Btn click ï¿½Ìºï¿½Æ®
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new M_MainScreen(conn,ID);
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Þ¼­µå.
+				dispose(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ frameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½.
 
 			}
 		});
