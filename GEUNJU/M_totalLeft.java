@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class M_totalLeft{
-	public static int[] M_totalLeft(Connection conn, String ID) throws SQLException { //ÀüÃ¼¼ö¾÷È½¼ö,³²Àº¼ö¾÷È½¼ö È®ÀÎ(Ã³À½ºÎÅÍ Á¢±Ù¸·À¸·Á°í->UPDATE SET CASE¹®µµ °¡´ÉÇÏ±ä ÇÔ
+	public static int[] M_totalLeft(Connection conn, String ID) throws SQLException { 
 		int total, left;
-		String str = "SELECT ÀüÃ¼È½¼ö,³²ÀºÈ½¼ö FROM DB2022_È¸¿ø WHERE È¸¿ø¹øÈ£=?";
+		String str = "SELECT ì „ì²´íšŸìˆ˜,ë‚¨ì€íšŸìˆ˜ FROM DB2022_íšŒì› WHERE íšŒì›ë²ˆí˜¸=?";
 		PreparedStatement pstmt = conn.prepareStatement(str);
 		pstmt.setString(1,ID);
 		ResultSet rset = pstmt.executeQuery();

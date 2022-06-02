@@ -22,23 +22,23 @@ import javax.swing.table.DefaultTableModel;
 
 public class M_myPage extends JFrame {
 	public M_myPage(Connection conn, String ID) throws SQLException {
-		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
+		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		
-		//»ó´Ü - È¸¿ø MENU
+		//ï¿½ï¿½ï¿½ - È¸ï¿½ï¿½ MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("È¸¿øÁ¤º¸È®ÀÎ");
+		JLabel subtitle = new JLabel("íšŒì›ì •ë³´í™•ì¸");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
+		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
 		//Table
-		String columnNames[] = {"ÀÌ¸§","Çï½ºÀå","Áö¿ª","ÀüÃ¼°áÁ¦È¸Â÷","³²Àº¼ö¾÷È¸Â÷","Æ®·¹ÀÌ³Ê","ÇöÀçÈ¸¿ø±Ç"}; //headers
+		String columnNames[] = {"ì´ë¦„","í—¬ìŠ¤ì¥","ì§€ì—­","ì „ì²´ê²°ì œíšŒì°¨","ë‚¨ì€ìˆ˜ì—…íšŒì°¨","íŠ¸ë ˆì´ë„ˆ","í˜„ì¬íšŒì›ê¶Œ"}; //headers
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
 		JTable jt = new JTable(tableModel);
 		
 		//query for table
-		String str = "SELECT M.ÀÌ¸§,G.ÀÌ¸§ as Çï½ºÀå, M.Áö¿ª, M.ÀüÃ¼È½¼ö, M.³²ÀºÈ½¼ö,T.ÀÌ¸§ as Æ®·¹ÀÌ³Ê, M.ÇöÀçÈ¸¿ø±Ç FROM db2022_È¸¿ø as M, db2022_Æ®·¹ÀÌ³Ê as T, db2022_Çï½ºÀå as G WHERE M.´ã´çÆ®·¹ÀÌ³Ê=T.°­»ç¹øÈ£ and M.¼Ò¼ÓÇï½ºÀå=G.Çï½ºÀå¹øÈ£ and M.È¸¿ø¹øÈ£ = ?";
+		String str = "SELECT M.ì´ë¦„,G.ì´ë¦„ as í—¬ìŠ¤ì¥, M.ì§€ì—­, M.ì „ì²´íšŸìˆ˜, M.ë‚¨ì€íšŸìˆ˜,T.ì´ë¦„ as íŠ¸ë ˆì´ë„ˆ, M.í˜„ì¬íšŒì›ê¶Œ FROM db2022_íšŒì› as M, db2022_íŠ¸ë ˆì´ë„ˆ as T, db2022_í—¬ìŠ¤ì¥ as G WHERE M.ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ=T.ê°•ì‚¬ë²ˆí˜¸ and M.ì†Œì†í—¬ìŠ¤ì¥=G.í—¬ìŠ¤ì¥ë²ˆí˜¸ and M.íšŒì›ë²ˆí˜¸ = ?";
 		PreparedStatement pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		ResultSet rset = pstmt.executeQuery();
@@ -47,12 +47,12 @@ public class M_myPage extends JFrame {
 		JPanel btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
 		
-		//table data -> Çï½ºÀå,Æ®·¹ÀÌ³Ê nullÀÌ¸é È¸¿øÁ¤º¸ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇÔ (query¿¡ null°ªÀÌ µé¾î°¡±â ¶§¹®)
+		//table data -> fail when GYM,TRAINER is null
 		
-		if(!rset.isBeforeFirst()) { //Ä¿¼­°¡ Ã¹¹øÂ° Çà ¾Õ¿¡ ÀÖ´ÂÁö È®ÀÎ. false¸é ½ÇÇà
+		if(!rset.isBeforeFirst()) { //check whether cursor point first row
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("Çï½ºÀå°ú Æ®·¹ÀÌ³Ê µî·Ï ÈÄ »ç¿ë°¡´ÉÇÑ ¸Ş´ºÀÔ´Ï´Ù.")); //È¸¿øÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù.
+			jpErr.add(new JLabel("í—¬ìŠ¤ì¥ê³¼ íŠ¸ë ˆì´ë„ˆ ë“±ë¡ í›„ ì‚¬ìš©ê°€ëŠ¥í•œ ë©”ë‰´ì…ë‹ˆë‹¤."));
 			btnGroup.add(jpErr);
 		}
 		else {
@@ -60,12 +60,12 @@ public class M_myPage extends JFrame {
 			
 			String name = rset.getString(1);
 			String gym = rset.getString(2);
-			if(rset.wasNull()) gym="¹Ìµî·Ï";
+			if(rset.wasNull()) gym="ë¯¸ë“±ë¡";
 			String location = rset.getString(3);
 			String total = rset.getString(4);
 			String left = rset.getString(5);
 			String trainer = rset.getString(6);
-			if(rset.wasNull()) trainer="¹Ìµî·Ï";
+			if(rset.wasNull()) trainer="ë¯¸ë“±ë¡";
 			String membership = rset.getString(7);
 			
 			String[] data = {name,gym,location,total,left,trainer,membership};
@@ -74,7 +74,7 @@ public class M_myPage extends JFrame {
 			
 			jt = new JTable(tableModel);
 			
-			//½ºÅ©·Ñ&column¸íÀ» À§ÇØ JScrollPane Àû¿ë
+			//for scroll&column
 			JScrollPane scrollpane=new JScrollPane(jt);
 			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
 			btnGroup.add(scrollpane);
@@ -84,7 +84,7 @@ public class M_myPage extends JFrame {
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("µÚ·Î°¡±â");
+		JButton undo = new JButton("ë’¤ë¡œê°€ê¸°");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		
@@ -97,16 +97,16 @@ public class M_myPage extends JFrame {
 		
 		setBounds(200,200,600,200);
 		
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false);
 
 		setVisible(true);
 		
-		//Btn click ÀÌº¥Æ®
+		//Btn click
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new M_MainScreen(conn,ID);
-				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+				dispose(); 
 
 			}
 		});
