@@ -1,4 +1,4 @@
-package DB2022TEAM03.TrainerWithGUI;
+package DB2022Team03.TrainerWithGUI;
 // TrainerMenuJDBC.java
 // trainer 관련 메뉴 핸들링을 위한 JDBC 연동 객체
 
