@@ -69,13 +69,13 @@ public class TrainerMenuJDBC {
 	}
 	public void classInfoAll(DefaultTableModel class_table, String trainer_id) {
 		try {
-			pst = con.prepareStatement("SELECT 회원번호, 수업시간, 수업진행현황 FROM DB2022_수업 WHERE(강사번호=?) ORDER BY 수업진행현황, 수업시간"); // 수업 진행 현황이 같은 것 끼리뭉쳐서 반환
+			pst = con.prepareStatement("SELECT DB2022_회원.이름, DB2022_수업.수업시간, DB2022_수업.수업진행현황, DB2022_회원.회원번호 FROM DB2022_수업 INNER JOIN DB2022_회원 ON DB2022_회원.회원번호=DB2022_수업.회원번호 WHERE(DB2022_수업.강사번호=? AND DB2022_회원.담당트레이너=?)"); // 수업 진행 현황이 같은 것 끼리뭉쳐서 반환
 			// 수업 시간이 빠른 것 먼저 보여줌
 			pst.setString(1, trainer_id);
+			pst.setString(2,  trainer_id);
 			rs = pst.executeQuery();
-		
 			while (rs.next()) {
-				Object info[] = {rs.getString(1), rs.getString(2), rs.getString(3)};
+				Object info[] = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)};
 				class_table.addRow(info);
 			}
 		}catch(SQLException e) {
@@ -136,12 +136,15 @@ public class TrainerMenuJDBC {
 	
 	// trainer의 모든 예약 완료 수업 내역 조회 (불참 / 완료 로 바꾸기 위해)
 	public void trainerClassAll(DefaultTableModel class_table, String tID) {
-		String query1 = "SELECT 회원번호, 수업시간, 수업진행현황 FROM DB2022_수업 " + 
-				"WHERE(강사번호=? AND 수업진행현황='예약확인중')";
+		String query1 = "SELECT DB2022_회원.이름, DB2022_수업.수업시간, DB2022_수업.수업진행현황 FROM DB2022_수업 INNER JOIN DB2022_회원 ON DB2022_회원.회원번호=DB2022_수업.회원번호 WHERE(DB2022_수업.강사번호=? AND DB2022_회원.담당트레이너=? AND DB2022_수업.수업진행현황='예약확인중')";
 		String query2 = "UPDATE DB2022_수업 SET 수업진행현황='예약완료'";
+		for (int i = 0;i<class_table.getRowCount();i++) {
+			class_table.removeRow(0);
+		}
 		try {
 			pst = con.prepareStatement(query1);
 			pst.setString(1, tID);
+			pst.setString(2,  tID);
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				Object info[] = {rs.getString(1), rs.getString(2), rs.getString(3),};
@@ -149,12 +152,14 @@ public class TrainerMenuJDBC {
 			}
 		}catch(SQLException e) {
 			e.getStackTrace();
+		}finally {
+			closeDB();
 		}
 	}
 	// trainer의 모든 수입 계산
 	public void calculateSalary(DefaultTableModel salary_table, String tID) {
 		ResultSet students = null; // 담당하고 있는 모든 학생
-		String q1 = "SELECT 회원번호, 현재회원권, 소속헬스장 FROM DB2022_회원 WHERE(담당트레이너=?)";
+		String q1 = "SELECT 이름, 현재회원권, 소속헬스장 FROM DB2022_회원 WHERE(담당트레이너=?)";
 		int total = 0; // 총 금액 계산
 		String results[][] = new String[100][3]; // 회원번호, 회원권, 소속헬스장 저장
 		int cnt = 0;
@@ -230,6 +235,8 @@ public class TrainerMenuJDBC {
 			
 		}catch(SQLException e) {
 			e.getStackTrace();
+		}finally {
+			closeDB();
 		}
 		
 	}
