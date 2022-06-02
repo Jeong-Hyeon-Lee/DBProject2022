@@ -1,4 +1,12 @@
-package DB2022TEAM03.EUNSOO;
+/*
+* 수정사항:
+* 1) 수업을 예약해도 남은횟수는 차감되지 않는다. (트레이너가 수락하면 차감되게끔!)
+* 2) 이미 동일한 수업이 있거나 시간이 과거인 수업은 예약이 불가능하다 (메세지창이 뜬다).
+* 3) '남은횟수'보다 더 많은 수업을 예약하지 못하게 막는다. 
+*    => 예약을 한다고 해서 남은횟수가 차감되지는 않지만 너무 많은 수업을 예약하지 못하게 한다.
+*/
+
+package DB2022Team03.EUNSOO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +19,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import DB2022TEAM03.GEUNJU.M_MainScreen;
+import DB2022Team03.GEUNJU.M_MainScreen;
 
 
 public class M_reserveClass extends JFrame {
@@ -228,74 +236,124 @@ public class M_reserveClass extends JFrame {
 		button_reserve.addActionListener(new ActionListener() {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  // Parses a String value to a DateTime value.
 			
-			public void actionPerformed(ActionEvent e) {				
-				String year = comboBox_year.getSelectedItem().toString();
-				String month = comboBox_month.getSelectedItem().toString();
-				String day = comboBox_day.getSelectedItem().toString();
-				String hour = comboBox_hour.getSelectedItem().toString();
-				String min = comboBox_min.getSelectedItem().toString();				
-				
-				String dateTime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":00";
-				System.out.println(dateTime);
-						
-				LocalDateTime currentDateTime = null;
-				LocalDateTime classDateTime = LocalDateTime.parse(dateTime, formatter);
-				String trainerId = null;  // Trainer ID of the current member
-				
+			// Test if '남은(수업)횟수' > 0.
+			String query_test, query_test2;
+			PreparedStatement pstm_test, pstm_test2;
+			ResultSet rs_test, rs_test2;
+			boolean yes = false;
+			
+			public void actionPerformed(ActionEvent e) {			
 				try {
-					query2 = "SELECT NOW()";
-					query3 = "SELECT DISTINCT 강사번호 FROM DB2022_수업 WHERE 회원번호 = ?";
-					query4 = "INSERT IGNORE INTO DB2022_수업 " + "VALUES(?, ?, ?, ?)";  // Ignore insertion if duplicated.
-
-					pStmt2 = conn.prepareStatement(query2);
-					rs2 = pStmt2.executeQuery();
-					if(rs2.next()) currentDateTime = rs2.getTimestamp(1).toLocalDateTime();
-
-					pStmt3 = conn.prepareStatement(query3);
-					pStmt3.setString(1, ID);
-					rs3 = pStmt3.executeQuery();
-					if(rs3.next()) trainerId = rs3.getString(1);
+					/* 더 이상 수업이 예약 가능한지 아닌지 확인 */
+					int remainingClass=0, reservedClass=0;
+					// 남은 수업 횟수 확인
+					query_test = "SELECT 남은횟수 FROM DB2022_회원 WHERE 회원번호 = ?";
+					pstm_test = conn.prepareStatement(query_test);
+					pstm_test.setString(1, ID);
+					rs_test = pstm_test.executeQuery();
 					
-					if(classDateTime.isAfter(currentDateTime)) {  // Check the reservation time (only available after now).
-						pStmt4 = conn.prepareStatement(query4);
-						pStmt4.setString(1, ID);
-						pStmt4.setString(2, trainerId);
-						pStmt4.setTimestamp(3, Timestamp.valueOf(dateTime));  // '수업시간'
-						pStmt4.setString(4, "예약확인중"); 
-									
-						// Update DB.
-						int row = pStmt4.executeUpdate();
-				
-						// Update the JTable.
-						if(row > 0) {
-							tModel.setNumRows(0);  // Erase all the columns.
-							pStmt1 = conn.prepareStatement(query1);  // Execute query1.
-							pStmt1.setString(1, ID);  // '회원번호'
-							rs1 = pStmt1.executeQuery();
-							while(rs1.next()) {
-								String classDatetime = rs1.getTimestamp(1).toString();
-								classDatetime = classDatetime.substring(0, 19);
-								String classState = rs1.getString(2);
-								String[] column = {classDatetime.toString(), classState};
-								tModel.addRow(column);  // Add the column into the table.	
-								//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
-							}
-							table.setModel(tModel);
-							System.out.println("**정상적으로 예약 처리되었습니다.**");
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "이미 존재하는 수업입니다.");
-							System.out.println("**이미 존재하는 수업입니다.**");
-						}
+					// 현재 예약된 수업 개수 확인
+					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+					pstm_test2 = conn.prepareStatement(query_test2);
+					pstm_test2.setString(1, ID);
+					rs_test2 = pstm_test2.executeQuery();
+					
+					if(rs_test.next()) {
+						remainingClass = rs_test.getInt(1);
 					}
-					else {  // If not reservable: 1) If class dateTime is before now, 2) If the same class is already reserved
-						JOptionPane.showMessageDialog(null, "예약 가능한 시간이 아닙니다.");
-						System.out.println("**예약 가능한 수업시간이 아닙니다.**");
+					if(rs_test2.next()) {
+						reservedClass = rs_test2.getInt(1);
 					}
+					if(remainingClass > reservedClass) yes = true;		
+					
 				} catch (SQLException sqle2) {
-					// TODO Auto-generated catch block
-					System.out.println("SQLException_2: " + sqle2);
+					System.out.println("SQLException: " + sqle2);
 					sqle2.printStackTrace();
+				}
+				
+				if(yes) {
+					String year = comboBox_year.getSelectedItem().toString();
+					String month = comboBox_month.getSelectedItem().toString();
+					String day = comboBox_day.getSelectedItem().toString();
+					String hour = comboBox_hour.getSelectedItem().toString();
+					String min = comboBox_min.getSelectedItem().toString();				
+					
+					String dateTime = year + "-" + month + "-" + day + " " + hour + ":" + min + ":00";
+					System.out.println(dateTime);
+							
+					LocalDateTime currentDateTime = null;
+					LocalDateTime classDateTime = LocalDateTime.parse(dateTime, formatter);
+					String trainerId = null;  // Trainer ID of the current member
+					
+					try {			
+						query2 = "SELECT NOW()";
+						query3 = "SELECT DISTINCT 강사번호 FROM DB2022_수업 WHERE 회원번호 = ?";
+						query4 = "INSERT IGNORE INTO DB2022_수업 " + "VALUES(?, ?, ?, ?)";  // Ignore insertion if duplicated.
+	
+						pStmt2 = conn.prepareStatement(query2);
+						rs2 = pStmt2.executeQuery();
+						if(rs2.next()) currentDateTime = rs2.getTimestamp(1).toLocalDateTime();
+	
+						pStmt3 = conn.prepareStatement(query3);
+						pStmt3.setString(1, ID);
+						rs3 = pStmt3.executeQuery();
+						if(rs3.next()) trainerId = rs3.getString(1);
+						
+						if(classDateTime.isAfter(currentDateTime)) {  // Check the reservation time (only available after now).
+							pStmt4 = conn.prepareStatement(query4);
+							pStmt4.setString(1, ID);
+							pStmt4.setString(2, trainerId);
+							pStmt4.setTimestamp(3, Timestamp.valueOf(dateTime));  // '수업시간'
+							pStmt4.setString(4, "예약확인중"); 
+										
+							/* Update DB. */
+							int row = pStmt4.executeUpdate();
+							
+							/* 예약한 경우에는 수업횟수 차감이 일어나지 않는다.
+							// 남은 수업횟수 -= 1
+							if(row > 0) {
+								String query = "UPDATE DB2022_회원 SET 남은횟수 = 남은횟수 - ? WHERE 회원번호 = ?";
+								PreparedStatement pStmt = conn.prepareStatement(query);
+								pStmt.setInt(1, 1);  // '남은횟수'
+								pStmt.setString(2, ID);  // '회원번호'
+								pStmt.executeUpdate();
+							}
+							*/
+					
+							// Update the JTable.
+							if(row > 0) {
+								tModel.setNumRows(0);  // Erase all the columns.
+								pStmt1 = conn.prepareStatement(query1);  // Execute query1.
+								pStmt1.setString(1, ID);  // '회원번호'
+								rs1 = pStmt1.executeQuery();
+								while(rs1.next()) {
+									String classDatetime = rs1.getTimestamp(1).toString();
+									classDatetime = classDatetime.substring(0, 19);
+									String classState = rs1.getString(2);
+									String[] column = {classDatetime.toString(), classState};
+									tModel.addRow(column);  // Add the column into the table.	
+									//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
+								}
+								table.setModel(tModel);
+								System.out.println("**정상적으로 예약 처리되었습니다.**");
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "이미 존재하는 수업입니다.");
+								System.out.println("**이미 존재하는 수업입니다.**");
+							}
+						}
+						else {  // If not reservable: 1) If class dateTime is before now, 2) If the same class is already reserved
+							JOptionPane.showMessageDialog(null, "예약 가능한 시간이 아닙니다.");
+							System.out.println("**예약 가능한 수업시간이 아닙니다.**");
+						}
+					} catch (SQLException sqle2) {
+						// TODO Auto-generated catch block
+						System.out.println("SQLException_2: " + sqle2);
+						sqle2.printStackTrace();
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "더 이상 예약할 수 없습니다.");
 				}
 			}
 		});			
@@ -303,4 +361,3 @@ public class M_reserveClass extends JFrame {
 	}
 	
 }
-
