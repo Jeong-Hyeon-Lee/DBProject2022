@@ -1,7 +1,4 @@
-/* *************************************
- * Original code made by Geunju Kim
- ************************************* */
-package DB2022TEAM03.EUNSOO;
+package DB2022Team03.EUNSOO;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DB2022TEAM03.StartScreen;
-import DB2022TEAM03.GEUNJU.M_MainScreen;
+import DB2022Team03.StartScreen;
+import DB2022Team03.GEUNJU.M_MainScreen;
 
 public class M_manageClass extends JFrame {
 /*
@@ -29,12 +26,12 @@ public class M_manageClass extends JFrame {
 	public static final String ID = "M22380";
 	public Connection conn;
 */
-	
+	/*
 	public static void main(String[] args) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		new M_manageClass(conn,ID);
 	}
-	
+	*/
 	public M_manageClass(Connection conn, String ID) {
 		setTitle("헬스장 PT 예약 시스템");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
