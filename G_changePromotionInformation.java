@@ -1,4 +1,4 @@
-package DB2022TEAM03;
+package DB2022Team03;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -21,15 +21,15 @@ import javax.swing.ScrollPaneConstants;
 public class G_changePromotionInformation extends JFrame {
 	public G_changePromotionInformation(Connection conn, String gymID) throws SQLException {
 		// TODO Auto-generated constructor stub
-		setTitle("ÇÁ·Î¸ğ¼Ç Á¤º¸ ¼öÁ¤ÇÏ±â");
-		PreparedStatement pStmt1 = conn.prepareStatement("select Çï½ºÀå¹øÈ£ from DB2022_°¡°İ where Çï½ºÀå¹øÈ£ = ?");
+		setTitle("í”„ë¡œëª¨ì…˜ ì •ë³´ ìˆ˜ì •í•˜ê¸°");
+		PreparedStatement pStmt1 = conn.prepareStatement("select í—¬ìŠ¤ì¥ë²ˆí˜¸ from DB2022_ê°€ê²© where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 		pStmt1.setString(1, gymID);
 		ResultSet rs = pStmt1.executeQuery();
 
-		while (rs.next()) { //µ¥ÀÌÅÍº£ÀÌ½º¿¡ ¾ø´Â Çï½ºÀåÀÌ¶ó¸é ½ÇÇà ¾ÈµÊ
+		while (rs.next()) { //ë°ì´í„°ë² ì´ìŠ¤ì— ì—†ëŠ” í—¬ìŠ¤ì¥ì´ë¼ë©´ ì‹¤í–‰ ì•ˆë¨
 			rs.getString(1);
 
-			PreparedStatement pStmt0 = conn.prepareStatement("select ±âÅ¸ÇÁ·Î¸ğ¼Ç¼³¸í from DB2022_°¡°İ where Çï½ºÀå¹øÈ£ = ?");
+			PreparedStatement pStmt0 = conn.prepareStatement("select ê¸°íƒ€í”„ë¡œëª¨ì…˜ì„¤ëª… from DB2022_ê°€ê²© where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 			pStmt0.setString(1, gymID);
 			ResultSet promoRS = pStmt0.executeQuery();
 
@@ -38,17 +38,17 @@ public class G_changePromotionInformation extends JFrame {
 					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-			promo.setLineWrap(true); // ÀÚµ¿ ÁÙ¹Ù²Ş ±â´É
+			promo.setLineWrap(true); // ìë™ ì¤„ë°”ê¿ˆ ê¸°ëŠ¥
 			
 			while (promoRS.next()) {
 				String s = promoRS.getString(1);
 				promo.setText(s);
 				promo.setForeground(new Color(5, 0, 153));
-				promo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				promo.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 				add(promo);
 			}
 
-			JButton button = new JButton("¼öÁ¤ÇÏ±â");
+			JButton button = new JButton("ìˆ˜ì •í•˜ê¸°");
 			add(button);
 
 			setLayout(new FlowLayout());
@@ -57,17 +57,17 @@ public class G_changePromotionInformation extends JFrame {
 
 			setVisible(true);
 
-			// ÀÌº¥Æ® Ã³¸®
+			// ì´ë²¤íŠ¸ ì²˜ë¦¬
 			button.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String newPromotion = JOptionPane.showInputDialog("ÇÁ·Î¸ğ¼Ç ¼öÁ¤: ");
+					String newPromotion = JOptionPane.showInputDialog("í”„ë¡œëª¨ì…˜ ìˆ˜ì •: ");
 					
 					if(newPromotion == null || newPromotion.equals(""))
 						return;
 					
 					try {
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_°¡°İ set ±âÅ¸ÇÁ·Î¸ğ¼Ç¼³¸í = ? where Çï½ºÀå¹øÈ£ = ?");
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_ê°€ê²© set ê¸°íƒ€í”„ë¡œëª¨ì…˜ì„¤ëª… = ? where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 						pStmt2.setString(1, newPromotion);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();

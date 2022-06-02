@@ -1,4 +1,4 @@
-package DB2022TEAM03;
+package DB2022Team03;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,18 +21,18 @@ public class G_changePriceInformation extends JFrame {
 
 	public G_changePriceInformation(Connection conn, String gymID) throws SQLException, IOException {
 		// TODO Auto-generated constructor stub
-		// °¡°İ Á¤º¸ ¼öÁ¤ÇÏ±â
+		// ê°€ê²© ì •ë³´ ìˆ˜ì •í•˜ê¸°
 
-		setTitle("°¡°İ Á¤º¸ ¼öÁ¤ÇÏ±â");
+		setTitle("ê°€ê²© ì •ë³´ ìˆ˜ì •í•˜ê¸°");
 
-		PreparedStatement pStmt1 = conn.prepareStatement("select Çï½ºÀå¹øÈ£ from DB2022_°¡°İ where Çï½ºÀå¹øÈ£ = ?");
+		PreparedStatement pStmt1 = conn.prepareStatement("select í—¬ìŠ¤ì¥ë²ˆí˜¸ from DB2022_ê°€ê²© where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 		pStmt1.setString(1, gymID);
 		ResultSet rs = pStmt1.executeQuery();
 
-		while (rs.next()) { // µ¥ÀÌÅÍº£ÀÌ½º¿¡ ¾ø´Â Çï½ºÀåÀÌ¶ó¸é ½ÇÇà ¾ÈµÊ
+		while (rs.next()) { // ë°ì´í„°ë² ì´ìŠ¤ì— ì—†ëŠ” í—¬ìŠ¤ì¥ì´ë¼ë©´ ì‹¤í–‰ ì•ˆë¨
 			rs.getString(1);
 			PreparedStatement pStmt0 = conn
-					.prepareStatement("select 1È¸°¡°İ, 10È¸°¡°İ, 20È¸°¡°İ from DB2022_°¡°İ where Çï½ºÀå¹øÈ£ = ?");
+					.prepareStatement("select 1íšŒê°€ê²©, 10íšŒê°€ê²©, 20íšŒê°€ê²© from DB2022_ê°€ê²© where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 			pStmt0.setString(1, gymID);
 			ResultSet priceRS = pStmt0.executeQuery();
 
@@ -44,9 +44,9 @@ public class G_changePriceInformation extends JFrame {
 				int b = priceRS.getInt(2);
 				int c = priceRS.getInt(3);
 
-				priceInfo.setText("ÇöÀç°¡°İ: 1È¸-" + a + " 10È¸-" + b + " 20È¸-" + c);
+				priceInfo.setText("í˜„ì¬ê°€ê²©: 1íšŒ-" + a + " 10íšŒ-" + b + " 20íšŒ-" + c);
 				priceInfo.setForeground(new Color(5, 0, 153));
-				priceInfo.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 15));
+				priceInfo.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 15));
 				
 				text.add(priceInfo);
 			}
@@ -54,9 +54,9 @@ public class G_changePriceInformation extends JFrame {
 			JPanel btnpanel = new JPanel();
 			btnpanel.setLayout(new GridLayout(3, 1));
 
-			JButton menu1 = new JButton("1È¸ °¡°İ ¼öÁ¤ÇÏ±â");
-			JButton menu2 = new JButton("10È¸ °¡°İ ¼öÁ¤ÇÏ±â");
-			JButton menu3 = new JButton("20È¸ °¡°İ ¼öÁ¤ÇÏ±â");
+			JButton menu1 = new JButton("1íšŒ ê°€ê²© ìˆ˜ì •í•˜ê¸°");
+			JButton menu2 = new JButton("10íšŒ ê°€ê²© ìˆ˜ì •í•˜ê¸°");
+			JButton menu3 = new JButton("20íšŒ ê°€ê²© ìˆ˜ì •í•˜ê¸°");
 
 			btnpanel.add(menu1);
 			btnpanel.add(menu2);
@@ -69,17 +69,17 @@ public class G_changePriceInformation extends JFrame {
 
 			setVisible(true);
 
-			// ÀÌº¥Æ® Ã³¸®
+			// ì´ë²¤íŠ¸ ì²˜ë¦¬
 			menu1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String s = JOptionPane.showInputDialog("¼öÁ¤ÇÒ °¡°İ ÀÔ·ÂÇÏ±â"); //String ÇüÅÂ·Î ¹ŞÀ½, ³ªÁß¿¡ Integer.parseInt ÇØÁà¾ß
+					String s = JOptionPane.showInputDialog("ìˆ˜ì •í•  ê°€ê²© ì…ë ¥í•˜ê¸°"); //String í˜•íƒœë¡œ ë°›ìŒ, ë‚˜ì¤‘ì— Integer.parseInt í•´ì¤˜ì•¼
 					
 					if(s == null || s.equals(""))
 						return;
 					
 					try {
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_°¡°İ set 1È¸°¡°İ = ? where Çï½ºÀå¹øÈ£ = ?");
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_ê°€ê²© set 1íšŒê°€ê²© = ? where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 						int newPrice = Integer.parseInt(s);
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
@@ -91,7 +91,7 @@ public class G_changePriceInformation extends JFrame {
 							int b = priceRS2.getInt(2);
 							int c = priceRS2.getInt(3);
 
-							priceInfo.setText("ÇöÀç°¡°İ: 1È¸-" + a + " 10È¸-" + b + " 20È¸-" + c);
+							priceInfo.setText("í˜„ì¬ê°€ê²©: 1íšŒ-" + a + " 10íšŒ-" + b + " 20íšŒ-" + c);
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -104,13 +104,13 @@ public class G_changePriceInformation extends JFrame {
 
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String s = JOptionPane.showInputDialog("¼öÁ¤ÇÒ °¡°İ ÀÔ·ÂÇÏ±â"); //String ÇüÅÂ·Î ¹ŞÀ½, ³ªÁß¿¡ Integer.parseInt ÇØÁà¾ß
+					String s = JOptionPane.showInputDialog("ìˆ˜ì •í•  ê°€ê²© ì…ë ¥í•˜ê¸°"); //String í˜•íƒœë¡œ ë°›ìŒ, ë‚˜ì¤‘ì— Integer.parseInt í•´ì¤˜ì•¼
 					
 					if(s == null || s.equals(""))
 						return;
 					
 					try {
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_°¡°İ set 10È¸°¡°İ = ? where Çï½ºÀå¹øÈ£ = ?");
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_ê°€ê²© set 10íšŒê°€ê²© = ? where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 						int newPrice = Integer.parseInt(s);
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
@@ -122,7 +122,7 @@ public class G_changePriceInformation extends JFrame {
 							int b = priceRS2.getInt(2);
 							int c = priceRS2.getInt(3);
 
-							priceInfo.setText("ÇöÀç°¡°İ: 1È¸-" + a + " 10È¸-" + b + " 20È¸-" + c);
+							priceInfo.setText("í˜„ì¬ê°€ê²©: 1íšŒ-" + a + " 10íšŒ-" + b + " 20íšŒ-" + c);
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -135,13 +135,13 @@ public class G_changePriceInformation extends JFrame {
 
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String s = JOptionPane.showInputDialog("¼öÁ¤ÇÒ °¡°İ ÀÔ·ÂÇÏ±â"); //String ÇüÅÂ·Î ¹ŞÀ½, ³ªÁß¿¡ Integer.parseInt ÇØÁà¾ß
+					String s = JOptionPane.showInputDialog("ìˆ˜ì •í•  ê°€ê²© ì…ë ¥í•˜ê¸°"); //String í˜•íƒœë¡œ ë°›ìŒ, ë‚˜ì¤‘ì— Integer.parseInt í•´ì¤˜ì•¼
 					
 					if(s == null || s.equals(""))
 						return;
 					
 					try {
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_°¡°İ set 20È¸°¡°İ = ? where Çï½ºÀå¹øÈ£ = ?");
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_ê°€ê²© set 20íšŒê°€ê²© = ? where í—¬ìŠ¤ì¥ë²ˆí˜¸ = ?");
 						int newPrice = Integer.parseInt(s);
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
@@ -153,7 +153,7 @@ public class G_changePriceInformation extends JFrame {
 							int b = priceRS2.getInt(2);
 							int c = priceRS2.getInt(3);
 
-							priceInfo.setText("ÇöÀç°¡°İ: 1È¸-" + a + " 10È¸-" + b + " 20È¸-" + c);
+							priceInfo.setText("í˜„ì¬ê°€ê²©: 1íšŒ-" + a + " 10íšŒ-" + b + " 20íšŒ-" + c);
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
