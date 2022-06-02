@@ -22,13 +22,13 @@ import DB2022TEAM03.StartScreen;
 import DB2022TEAM03.GEUNJU.M_MainScreen;
 
 public class M_manageClass extends JFrame {
-
+/*
 	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; 
 	public static final String USER = "DB2022Team03";
 	public static final String PASS = "DB2022Team03";
 	public static final String ID = "M22380";
 	public Connection conn;
-
+*/
 	
 	public static void main(String[] args) throws SQLException {
 		Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
