@@ -2,38 +2,38 @@
 #use DB2022Team03;
 
 create table DB2022_헬스장(
-    헬스장번호 char(6),
-    이름 varchar(25) not null,
-    도시 varchar(6) not null,
-    지역 varchar(6) not null,
-    도로명주소 varchar(25) not null,
-    전체회원수 int default 0,
-    전체트레이너수 int default 0,
-    비밀번호 varchar(10) not null,
-    primary key(헬스장번호)
+    	헬스장번호 char(6),
+    	이름 varchar(25) not null,
+    	도시 varchar(6) not null,
+    	지역 varchar(6) not null,
+    	도로명주소 varchar(20) not null,
+    	전체회원수 int default 0,
+    	전체트레이너수 int default 0,
+    	비밀번호 varchar(10) not null,
+    	primary key(헬스장번호)
 );
 
 create table DB2022_트레이너(
-    헬스장번호 char(6),
-    강사번호 char(6),
-    이름 varchar(25) not null,
-    담당회원수 int default 0,
-    총근무시간 int default 0,
-    비밀번호 varchar(20) not null,
-    primary key(강사번호),
-    foreign key(헬스장번호) references DB2022_헬스장(헬스장번호)
+    	헬스장번호 char(6),
+    	강사번호 char(6),
+    	이름 varchar(10) not null,
+    	담당회원수 int default 0,
+    	총근무시간 int default 0,
+    	비밀번호 varchar(10) not null,
+    	primary key(강사번호),
+    	foreign key(헬스장번호) references DB2022_헬스장(헬스장번호)
 );
 
 CREATE TABLE DB2022_회원(
 	소속헬스장 char(6),
 	회원번호 char(6) NOT NULL,
-	이름 varchar(100) NOT NULL,
+	이름 varchar(10) NOT NULL,
 	지역 varchar(10) NOT NULL,
 	전체횟수 INT DEFAULT 0,
 	남은횟수 INT DEFAULT 0,
 	담당트레이너 char(6),
 	현재회원권 varchar(20) DEFAULT '없음' CHECK (현재회원권 IN ('1회권', '10회권', '20회권', '없음')),
-	비밀번호 varchar(50) NOT NULL,
+	비밀번호 varchar(10) NOT NULL,
 	PRIMARY KEY (회원번호),
 	FOREIGN KEY (담당트레이너) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE,
 	FOREIGN KEY (소속헬스장) REFERENCES DB2022_헬스장(헬스장번호) ON DELETE CASCADE
@@ -41,9 +41,9 @@ CREATE TABLE DB2022_회원(
 
 CREATE TABLE DB2022_수업(
 	회원번호 char(6) NOT NULL,
-    강사번호 char(6),
+    	강사번호 char(6),
 	수업시간 datetime,
-    수업진행현황 char(6),
+    	수업진행현황 char(6),
 	PRIMARY KEY (회원번호, 수업시간),
 	FOREIGN KEY (회원번호) REFERENCES DB2022_회원(회원번호),
 	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호)
@@ -60,25 +60,25 @@ CREATE TABLE DB2022_가격(
 );
 
 /*DB2022_헬스장 insert*/
-insert into DB2022_헬스장 values ('G10235','EE health','서울', '서대문구','이화여대길 52',1,1,'ee10235');
-insert into DB2022_헬스장 values ('G05916','Good GYM','서울', '은평구','은평로 195',2,1,'gg05916');
-insert into DB2022_헬스장 values ('G28103','함께운동','서울', '마포구','마포나루길 467',0,1,'uu28103');
+insert into DB2022_헬스장 values ('G10230','EE health','서울', '서대문구','이화여대길 52',1,1,'ee10235');
+insert into DB2022_헬스장 values ('G05910','Good GYM','서울', '은평구','은평로 195',2,1,'gg05916');
+insert into DB2022_헬스장 values ('G28100','함께운동','서울', '마포구','마포나루길 467',0,1,'uu28103');
 
-insert into DB2022_헬스장 values ('G29981','2X fitness','서울', '강남구','언주로 101',2,1,'xxfitxx');
-insert into DB2022_헬스장 values ('G10345','Able gym','서울', '서초구','사평대로 371',1,2,'able0816');
+insert into DB2022_헬스장 values ('G29980','2X fitness','서울', '강남구','언주로 101',2,1,'xxfitxx');
+insert into DB2022_헬스장 values ('G10340','Able gym','서울', '서초구','사평대로 371',1,2,'able0816');
 insert into DB2022_헬스장 values ('G52390','더건강한피티','서울','마포구','마포대로 11길 7-18',0,0,'tgp1111');
 
-insert into DB2022_헬스장 values ('G43245','Bally Total Fitness','서울','서초구','방배로 4길',3,3,'btf1234');
-insert into DB2022_헬스장 values ('G45627','The Gym','서울','서대문구','신촌로 33',0,0,'thegym00');
-insert into DB2022_헬스장 values ('G19323','데일리 짐','서울','동작구','동작대로 98',0,0,'daily2gym');
+insert into DB2022_헬스장 values ('G43240','Bally Total Fitness','서울','서초구','방배로 4길',3,3,'btf1234');
+insert into DB2022_헬스장 values ('G45620','The Gym','서울','서대문구','신촌로 33',0,0,'thegym00');
+insert into DB2022_헬스장 values ('G19320','데일리 짐','서울','동작구','동작대로 98',0,0,'daily2gym');
 
-insert into DB2022_헬스장 values ('G18342','스포짐','서울','양천구','오목로 344',3,3,'health');
-insert into DB2022_헬스장 values ('G12034','스포애니','서울','양천구','목동로 189',0,0,'anybody');
-insert into DB2022_헬스장 values ('G34512','피트니스포애버','서울','양천구','오목로 279',0,0,'forever');
+insert into DB2022_헬스장 values ('G18340','스포짐','서울','양천구','오목로 344',3,3,'health');
+insert into DB2022_헬스장 values ('G12030','스포애니','서울','양천구','목동로 189',0,0,'anybody');
+insert into DB2022_헬스장 values ('G34510','피트니스포애버','서울','양천구','오목로 279',0,0,'forever');
 
-insert into DB2022_헬스장 values ('G18862','이대로헬스','서울','서대문구','이화여대길 34',2,1,'ewha1886');
-insert into DB2022_헬스장 values ('G09561','May Gym','서울','관악구','관악로 168',1,2,'may05');
-insert into DB2022_헬스장 values ('G54363','무브짐','서울','송파구','백제고분로 275',0,0,'move2');
+insert into DB2022_헬스장 values ('G18860','이대로헬스','서울','서대문구','이화여대길 34',2,1,'ewha1886');
+insert into DB2022_헬스장 values ('G09560','May Gym','서울','관악구','관악로 168',1,2,'may05');
+insert into DB2022_헬스장 values ('G54360','무브짐','서울','송파구','백제고분로 275',0,0,'move2');
 
 select * from DB2022_헬스장;
 
@@ -99,9 +99,9 @@ insert into DB2022_트레이너 values ('G18342','T45770','세라',2,3,'loveheal
 insert into DB2022_트레이너 values ('G18342','T05100','티파니',1,0,'smile');
 insert into DB2022_트레이너 values ('G18342','T05101','셀리나',0,0,'fitnessCelina');
 
-insert into DB2022_트레이너 values ('G18862','T00214','래미',2,3,'Remy2007');
-insert into DB2022_트레이너 values ('G09561','T31574','메이',1,1,'youmaygo');
-insert into DB2022_트레이너 values ('G09561','T20865','마치',0,0,'March03');
+insert into DB2022_트레이너 values ('G18862','T87830','래미',2,3,'Remy2007');
+insert into DB2022_트레이너 values ('G09561','T31570','메이',1,1,'youmaygo');
+insert into DB2022_트레이너 values ('G09561','T20860','마치',0,0,'March03');
 
 select * from DB2022_트레이너;
 
