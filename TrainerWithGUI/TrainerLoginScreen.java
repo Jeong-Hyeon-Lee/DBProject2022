@@ -115,7 +115,7 @@ public class TrainerLoginScreen extends JFrame {
 				if(userType.equals("회원")) {
 					// 회원 로그인 함수 호출
 				}
-				else if(userType.equeals("관장"){
+				else if(userType.equals("관장")){
 					// 관장 로그인 함수 호출
 				}
 				else if(userType.equals("트레이너")) {
