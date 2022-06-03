@@ -94,6 +94,8 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 				int res = tmdb.Leave(trainer_pk);
 				if (res==1){
 					TrainerJDialogGUI.MessageBox(this, "회원 탈퇴 완료 했습니다.");
+					new TrainerJDialogGUI(this, "로그아웃");
+					dispose();
 				}
 				else {
 					TrainerJDialogGUI.MessageBox(this, "회원 탈퇴 실패했습니다.");
