@@ -56,6 +56,19 @@ public class TrainerMenuJDBC {
 		if (login_success)return 1;
 		else return 0;
 	}
+	// 회원 탈퇴를 위한 쿼리문 실행 함수
+	public int Leave(String tID) {
+		String q = "DELETE FROM DB2022_트레이너 WHERE(강사번호=?)";
+		int result = 0;
+		try {
+			pst = con.prepareStatement(q);
+			pst.setString(1, tID);
+			result = pst.executeUpdate();
+		}catch (SQLException e) {
+			e.getStackTrace();
+		}
+		return result;
+	}
 	// JDBC 연결을 끊기 위해서 사용
 	public void closeDB() {
 		try {
