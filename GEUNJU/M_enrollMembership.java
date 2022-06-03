@@ -182,6 +182,39 @@ public class M_enrollMembership extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				int input = Integer.parseInt(inputText.getText());
 
+				//소속헬스장, 담당트레이너 번호찾기 -> null이라면 등록X되도록 구현
+				String GYMid_M = null;
+				String Tid_M = null;
+				try {
+					str = "SELECT 소속헬스장, 담당트레이너 FROM DB2022_회원 WHERE 회원번호=?";
+					pstmt = conn.prepareStatement(str);
+					pstmt.setString(1, ID);
+					rset = pstmt.executeQuery();
+					
+					rset.next();
+					GYMid_M = rset.getString(1);
+					Tid_M = rset.getString(2);
+			
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				if(GYMid_M==null) {
+					infoText.setText("헬스장을 먼저 등록해주세요.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
+					return;
+				} else if (Tid_M==null) {
+					infoText.setText("트레이너를 먼저 등록해주세요.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
+					return;					
+				}
+	
+				
 				try { //남은수업횟수가 0인지 확인
 					int check[] = M_totalLeft.M_totalLeft(conn, ID);
 					if(check[1]==0) { //남은수업횟수 == 0

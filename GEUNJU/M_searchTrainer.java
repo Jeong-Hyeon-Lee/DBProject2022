@@ -30,12 +30,12 @@ public class M_searchTrainer extends JFrame {
 	static String str = null;
 	static JLabel infoText;
 	static JPanel btnGroup;
-	static String columnNames[]= {"헬스장","트레이너","지역","담당회원수"}; //headers
+	static String columnNames[]= {"헬스장","트레이너","지역","담당회원수"}; //columnName
 	static Statement stmt; 
 	
 	public M_searchTrainer(Connection conn, String ID) throws SQLException {
 		setTitle("헬스장 PT 예약 시스템");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		
 		//상단 - 회원 MENU
 		JPanel M_main = new JPanel();
@@ -59,15 +59,14 @@ public class M_searchTrainer extends JFrame {
 		input.add(i2);
 		
 		JPanel i3 = new JPanel();
-		JButton searchTBtn = new JButton("헬스장 이름으로 검색"); //btn클릭시 원하는 정보만 조회하도록
+		JButton searchTBtn = new JButton("헬스장 이름으로 검색");
 		i3.add(searchTBtn);
 		input.add(i3);
 		
 		JPanel i4 = new JPanel();
-		JButton searchTBtn2 = new JButton("트레이너 이름으로 검색"); //btn클릭시 원하는 정보만 조회하도록
+		JButton searchTBtn2 = new JButton("트레이너 이름으로 검색"); 
 		i4.add(searchTBtn2);
 		input.add(i4);
-		//btnGroup.add(input);
 
 		//Table
 		JPanel table = new JPanel();
@@ -77,10 +76,10 @@ public class M_searchTrainer extends JFrame {
 		
 		//query for table
 		stmt = conn.createStatement();
-		str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호;";
+		str = "select * from searchTrainer";
 		rset = stmt.executeQuery(str);
 		
-		//for err & undo 
+		//for err & undo btn
 		btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
 		
@@ -150,10 +149,11 @@ public class M_searchTrainer extends JFrame {
 		add(btnGroup,BorderLayout.SOUTH);
 		setBounds(200,200,800,400);
 		
-		setResizable(false); // 화면 크기 고정하는 작업
+		setResizable(false); 
 
 		setVisible(true);
 		
+		//Btn event
 		searchTBtn.addActionListener(new ActionListener() { //헬스장 이름으로 검색
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -163,7 +163,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and G.이름 like ?";
+				str = "select * from searchTrainer where searchTrainer.헬스장이름 like ?"; //G.이름 or 헬스장이름
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -205,7 +205,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and T.이름 like ?";
+				str = "select * from searchTrainer where searchTrainer.트레이너이름 like ?"; //T.이름 or 트레이너이름
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -242,7 +242,7 @@ public class M_searchTrainer extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new M_MainScreen(conn,ID);
-				dispose(); // 현재의 frame을 종료시키는 메서드.
+				dispose(); 
 
 			}
 		});
@@ -254,7 +254,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select G.이름,T.이름,G.지역,T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and T.헬스장번호 IN (SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?);";
+				str = "select * from searchTrainer where searchTrainer.헬스장번호 IN (SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?);";
 				try {
 					//소속헬스장 트레이너 보여주기
 					pstmt = conn.prepareStatement(str);
