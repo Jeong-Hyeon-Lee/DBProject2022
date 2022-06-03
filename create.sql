@@ -176,8 +176,6 @@ INSERT INTO DB2022_가격 VALUES
 
 select * from DB2022_가격;
 
-select * from DB2022_가격;
-
 create view searchTrainer as
 	select G.이름,T.이름,G.지역, T.담당회원수 
 	from db2022_트레이너 as T,db2022_헬스장 as G 
