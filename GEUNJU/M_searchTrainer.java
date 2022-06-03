@@ -77,7 +77,7 @@ public class M_searchTrainer extends JFrame {
 		
 		//query for table
 		stmt = conn.createStatement();
-		str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호;";
+		str = "select * from searchTrainer";
 		rset = stmt.executeQuery(str);
 		
 		//for err & undo 
@@ -163,7 +163,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and G.이름 like ?";
+				str = "select * from searchTrainer where searchTrainer.헬스장이름 like ?"; //G.이름 or 헬스장이름
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -205,7 +205,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select G.이름,T.이름,G.지역, T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and T.이름 like ?";
+				str = "select * from searchTrainer where searchTrainer.트레이너이름 like ?"; //T.이름 or 트레이너이름
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -254,7 +254,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select G.이름,T.이름,G.지역,T.담당회원수 from db2022_트레이너 as T,db2022_헬스장 as G where T.헬스장번호 = G.헬스장번호 and T.헬스장번호 IN (SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?);";
+				str = "select * from searchTrainer where searchTrainer.헬스장번호 IN (SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?);";
 				try {
 					//소속헬스장 트레이너 보여주기
 					pstmt = conn.prepareStatement(str);

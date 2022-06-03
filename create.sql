@@ -38,7 +38,7 @@ CREATE TABLE DB2022_회원(
 	전체횟수 INT DEFAULT 0,
 	남은횟수 INT DEFAULT 0,
 	담당트레이너 char(6),
-	현재회원권 varchar(5) DEFAULT '없음' CHECK (현재회원권 IN ('1회권', '10회권', '20회권', '없음')),
+	현재회원권 varchar(5) DEFAULT '없음',
 	비밀번호 varchar(20) NOT NULL,
 	PRIMARY KEY (회원번호),
 	FOREIGN KEY (담당트레이너) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE,
@@ -177,7 +177,7 @@ INSERT INTO DB2022_가격 VALUES
 select * from DB2022_가격;
 
 create view searchTrainer as
-	( select G.이름 as 헬스장이름 ,T.이름 as 트레이너이름 ,G.지역, T.담당회원수 
+	( select G.이름 as 헬스장이름 ,T.이름 as 트레이너이름 ,G.지역, T.담당회원수, G.헬스장번호 
 	from db2022_트레이너 as T,db2022_헬스장 as G 
 	where T.헬스장번호 = G.헬스장번호) ;
 
