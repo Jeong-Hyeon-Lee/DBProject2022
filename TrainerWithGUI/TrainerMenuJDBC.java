@@ -209,42 +209,154 @@ public class TrainerMenuJDBC {
 		salary_table.addRow(data);
 	}
 	// trainer의 예약 완료 수업 내역 중 선택한 수업의 진행 현황 수정
-	public void changeClassStatus(String student_no, String class_t, String status, String trainer_pk, String fieldName) {
-		String q = null;
-		System.out.println(fieldName);
-		if (fieldName.equals("거절") || fieldName.equals("취소")) {
-			q = "DELETE FROM DB2022_수업 WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)";
-		}
-		else {
-			q = "UPDATE DB2022_수업 SET 수업진행현황=? WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)";
-		}
+	
+
+	public void rejectClass(String student_no, String class_t, String status, String trainer_pk) {
+		// 예약 거절 (숫자 불변 / 수업 삭제)
 		try {
-			pst = con.prepareStatement(q);
-			if (fieldName.equals("거절") || fieldName.equals("취소")) {
-				pst.setString(1, student_no);
-				pst.setString(2, class_t);
-				pst.setString(3,  trainer_pk);
-			}
-			else {
-				pst.setString(1,  fieldName);
-				pst.setString(2, student_no);
-				pst.setString(3, class_t);
-				pst.setString(4, trainer_pk);
-			}
+			pst = con.prepareStatement("DELETE FROM DB2022_수업 WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
+			pst.setString(1, student_no);pst.setString(2, class_t);pst.setString(3, trainer_pk);
 			pst.executeUpdate();
+			
 			
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}finally {
-			closeDB();
+			JOptionPane.showMessageDialog(null, "수업 예약을 거절 완료했습니다.");
+		}
+	}
+	public void acceptClass(String student_name, String student_no, String class_t, String status, String trainer_pk) {
+		// 예약 수락 (회원 남은 수업 횟수 -1 : 예약 수락되는 시점에 무조건 회원 남은 횟수는 차감)
+		PreparedStatement pstDetail = null;
+		try {
+			con.setAutoCommit(false); // transaction 시작
+			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='예약완료' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
+			pst.setString(1,  student_no);
+			pst.setString(2, class_t);
+			pst.setString(3, trainer_pk);
+			pst.executeUpdate();
+			
+			pstDetail = con.prepareStatement("UPDATE DB2022_회원 SET 남은수업횟수=남은수업횟수-1 WHERE(회원번호=?)");
+			pstDetail.setString(1,  student_no);
+			pstDetail.executeUpdate();
+			
+			con.commit();
+		}catch(Throwable e) {
+			if (con!=null) {
+				try {
+					con.rollback();
+				}catch(SQLException ex) {}
+			}
+		}finally {
+			if (pst!=null)
+				try {pst.close();}catch(SQLException e) {}
+			if (pstDetail !=null)
+				try {pstDetail.close();}catch(SQLException e) {}
+			JOptionPane.showMessageDialog(null,student_name + "과의 수업 예약을 수락 완료했습니다.");
 		}
 		
 	}
-	// trainer의 모든 예약 대기 중 수업 내역 조회 (수락 / 거절 하기 위해)
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public void endClass(String student_no, String class_t, String status, String trainer_pk) {
+		// 수업 완료 (강사 근무시간 +1)
+		PreparedStatement pstDetail = null;
+		try {
+			con.setAutoCommit(false); // transaction 시작
+			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='완료' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
+			pst.setString(1,  student_no);
+			pst.setString(2, class_t);
+			pst.setString(3, trainer_pk);
+			pst.executeUpdate();
+			
+			pstDetail = con.prepareStatement("UPDATE DB2022_트레이너 SET 총근무시간=총근무시간+1 WHERE(강사번호=?)");
+			pstDetail.setString(1,  trainer_pk);
+			pstDetail.executeUpdate();
+			
+			con.commit();
+		}catch(Throwable e) {
+			if (con!=null) {
+				try {
+					con.rollback();
+				}catch(SQLException ex) {}
+			}
+		}finally {
+			if (pst!=null)
+				try {pst.close();}catch(SQLException e) {}
+			if (pstDetail !=null)
+				try {pstDetail.close();}catch(SQLException e) {}
+			JOptionPane.showMessageDialog(null, class_t+"에 진행된 수업을 완료했습니다.");
+		}
 		
 	}
+	
+	public void cancelClass(String student_no, String class_t, String status, String trainer_pk) {
+		// 수업 취소 (원래 status가 예약 완료인 경우에는 근무시간+1 예약확인중이면 근무시간 불변 + 수업 삭제)
+		PreparedStatement pstDetail = null;
+		if (status.equals("예약완료")) {
+			try {
+				con.setAutoCommit(false); // transaction start
+				pst = con.prepareStatement("DELETE FROM DB2022_수업 WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
+				pst.setString(1, student_no);pst.setString(2,  class_t);pst.setString(3, trainer_pk);
+				pst.executeUpdate();
+				pstDetail = con.prepareStatement("UPDATE DB2022_트레이너 SET 총근무시간=총근무시간+1 WHERE(강사번호=?)");
+				pstDetail.setString(1, trainer_pk);
+				pstDetail.executeUpdate();
+				
+				con.commit();
+			}catch(Throwable e) {
+				if (con!=null) {
+					try {
+						con.rollback();
+					}catch(SQLException ex) {}
+				}
+			}
+		}
+		else if (status.equals("예약확인중")) {
+			try {
+				pst = con.prepareStatement("DELETE FROM DB2022_수업 WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
+				pst.setString(1, student_no);pst.setString(2,  class_t);pst.setString(3, trainer_pk);
+				pst.executeUpdate();
+			}catch(SQLException e) {
+				e.getStackTrace();
+			}finally {
+				JOptionPane.showMessageDialog(null, class_t+"에 예정된 수업이 취소 되었습니다.");}
+		}
+	}
+	public void noshowClass(String student_no, String class_t, String status, String trainer_pk) {
+		// 수업 불참 (강사 근무시간 +1)
+		PreparedStatement pstDetail = null;
+		try {
+			con.setAutoCommit(false); // transaction 시작
+			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='불참' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
+			pst.setString(1,  student_no);
+			pst.setString(2, class_t);
+			pst.setString(3, trainer_pk);
+			pst.executeUpdate();
+			
+			pstDetail = con.prepareStatement("UPDATE DB2022_트레이너 SET 총근무시간=총근무시간+1 WHERE(강사번호=?)");
+			pstDetail.setString(1,  trainer_pk);
+			pstDetail.executeUpdate();
+			
+			con.commit();
+			
+		}catch(Throwable e) {
+			if (con!=null) {
+				try {
+					con.rollback();
+				}catch(SQLException ex) {}
+			}
+		}finally {
+			if (pst!=null)
+				try {pst.close();}catch(SQLException e) {}
+			if (pstDetail !=null)
+				try {pstDetail.close();}catch(SQLException e) {}
+			JOptionPane.showMessageDialog(null, class_t+"에 진행된 수업에 회원이 불참하였습니다.");
+		}
+		
+	}
+	
+	
+}
+
 
 }
