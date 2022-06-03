@@ -249,7 +249,7 @@ public class TrainerMenuJDBC {
 			pst.setString(3, trainer_pk);
 			pst.executeUpdate();
 			
-			pstDetail = con.prepareStatement("UPDATE DB2022_회원 SET 남은수업횟수=남은수업횟수-1 WHERE(회원번호=?)");
+			pstDetail = con.prepareStatement("UPDATE DB2022_회원 SET 남은횟수=남은횟수-1 WHERE(회원번호=?)");
 			pstDetail.setString(1,  student_no);
 			pstDetail.executeUpdate();
 			

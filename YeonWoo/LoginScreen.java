@@ -131,7 +131,7 @@ public class LoginScreen extends JFrame {
 							member_name = rs.getString("이름");
 							member_gym = rs.getString("소속헬스장");
 							
-							//회원 페이지와 연결
+							//회원 메뉴 페이지
 							new M_MainScreen(conn,member_id);
 							dispose();
 						}
@@ -170,6 +170,7 @@ public class LoginScreen extends JFrame {
 							trainer_name = rs.getString("이름");
 							trainer_gym = rs.getString("헬스장번호");
 							
+							//트레이너 메뉴 페이지
 							new TrainerMenuJTable(trainer_id);
 							dispose();
 						}
@@ -206,6 +207,7 @@ public class LoginScreen extends JFrame {
 							owner_gym = rs.getString("헬스장번호");
 							owner_name = rs.getString("이름");
 							
+							//관장 메뉴 페이지 
 							new G_selectMenu(owner_gym, owner_name);
 							dispose();
 						}
