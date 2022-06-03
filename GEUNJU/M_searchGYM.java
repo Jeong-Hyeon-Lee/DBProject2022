@@ -76,7 +76,7 @@ public class M_searchGYM extends JFrame {
 		
 		//query for table
 		stmt = conn.createStatement();
-		str = "select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 from db2022_헬스장 natural join db2022_가격";
+		str = "select * from searchGYM";
 		rset = stmt.executeQuery(str);
 		
 		//for err & undo 
