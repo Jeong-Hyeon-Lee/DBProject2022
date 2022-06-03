@@ -10,8 +10,10 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	JMenuItem myPage = new JMenuItem("마이페이지"); // 개인 정보를 모두 보여주는 화면
 	JMenuItem logout = new JMenuItem("로그아웃"); // 로그아웃 하는 버튼
 	JMenuItem salary = new JMenuItem("수입 계산기"); // 총 수입 계산기 (회원별로 얼마나 버는지 +  총 수입을 보여줌)
-	JMenuItem update = new JMenuItem("수업 현황 체크"); // 수업 불참 / 완료 여부 변경
-	JMenuItem reservation = new JMenuItem("예약 대기 확인"); // 수락 대기중인 예약 현황을 확인하고 수락 / 거절 여부를 결정해야 한다.
+	JMenuItem update = new JMenuItem("수업 현황 업데이트"); // 수업 불참 / 완료 여부  변경/ 대기중인 예약 현황을 확인하고 수락 / 거절 여부를 결정해야 한다.
+	
+	JMenuItem leave = new JMenuItem("탈퇴"); // 탈퇴 버튼
+	
 	JMenuBar mb = new JMenuBar(); // 모든 메뉴를 포함하고 있는 메뉴 바
 	
 	String[] trainer_info = {"Trainer Number", "Trainer Name", "Trainer Gym", "Member No", "Class Time"}; // 트레이너 정보 (로그인한 본인의) 정보를 보여주기 위한 테이블
@@ -30,6 +32,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	JTable salary_jt = new JTable(salary_table);
 	JPanel p = new JPanel();
 	String[] comboName = {"예약완료", "취소", "불참", "완료", "거절"}; // 거절을 선택하면 데이터베이스에서 지워짐
+	
 	JComboBox combo = new JComboBox(comboName);
 	
 	
@@ -51,7 +54,8 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 		m.add(logout);
 		m.add(salary);
 		m.add(update);
-		m.add(reservation);
+		// 탈퇴버튼 메뉴바에 추가
+		m.add(leave);
 		mb.add(m); // 메뉴바에 메뉴 추가
 		setJMenuBar(mb); // 윈도우에 메뉴바 세팅
 		
@@ -67,9 +71,8 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 		logout.addActionListener(this);
 		salary.addActionListener(this);
 		update.addActionListener(this);
-		reservation.addActionListener(this);
 		myPage.addActionListener(this);
-		
+		leave.addActionListener(this);
 		setBounds(200, 200, 400, 250);
 
 		setResizable(false); // 화면 크기 고정하는 작업
@@ -84,17 +87,34 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == logout) {
+		if (e.getSource() == leave) {
+			int confirm = JOptionPane.showConfirmDialog(null, "정말로 탈퇴 하시겠습니까?", "회원 탈퇴 확인",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int res = tmdb.Leave(trainer_pk);
+			if (res==1){
+				TrainerJDialogGUI.MessageBox(this, "회원 탈퇴 완료 했습니다.");
+			}
+		}
+		
+		else if (e.getSource() == logout) {
 			new TrainerJDialogGUI(this, "로그아웃");
 			dispose();
 		}
+		
 		else if (e.getSource() == myPage) {
+			// 마이 페이지를 보고 싶을 때 마다 트레이너의 정보를 담는 테이블을 갱신
+			int length = trainer_table.getRowCount();
+			for (int i = 0;i<length;i++) {
+				trainer_table.removeRow(0);
+			}
+			tmdb.trainerInfoAll(trainer_table, trainer_pk);
 			new TrainerJDialogGUI(this, "마이 페이지");
 		}
+		
 		else if (e.getSource() == salary) {
 			new TrainerJDialogGUI(this, "수입 계산기");
 		}
-		else if( (e.getSource() == reservation) || (e.getSource() == update) ){
+		
+		else if(e.getSource() == update) {
 			int row = class_jt.getSelectedRow();
 			
 			System.out.println("선택한 행 : " + row);
@@ -103,7 +123,14 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 			String status = (String) class_jt.getValueAt(row, 2);
 			String fieldName = combo.getSelectedItem().toString();
 			String student_no = (String) class_jt.getValueAt(row, 3);
-			tmdb.changeClassStatus(student_no, class_t, status, trainer_pk, fieldName);
+			
+			switch(fieldName) {
+			case "거절" : tmdb.rejectClass(student_no, class_t, status, trainer_pk);break;
+			case "예약완료" : tmdb.acceptClass(student_name, student_no,class_t , status, trainer_pk);break;
+			case "취소" : tmdb.cancelClass(student_no, class_t, status, trainer_pk);break;
+			case "불참" : tmdb.noshowClass(student_no, class_t, status, trainer_pk);break;
+			case "완료" : tmdb.endClass(student_no, class_t, status, trainer_pk);break;
+			}
 	
 			int length = class_table.getRowCount();
 			for (int i = 0;i<length;i++) {
@@ -111,10 +138,9 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 			}
 			tmdb.classInfoAll(class_table, trainer_pk);
 		
-			TrainerJDialogGUI.MessageBox(this, "예약 현황 변경 되었습니다.");
+			// TrainerJDialogGUI.MessageBox(this, "예약 현황 변경 되었습니다.");
 		}
 	
 	}
 		
 }
-
