@@ -38,7 +38,7 @@ CREATE TABLE DB2022_회원(
 	전체횟수 INT DEFAULT 0,
 	남은횟수 INT DEFAULT 0,
 	담당트레이너 char(6),
-	현재회원권 varchar(5) DEFAULT '없음',
+	현재회원권 varchar(5) DEFAULT '없음' CHECK (현재회원권 IN ('1회권', '10회권', '20회권', '없음')),
 	비밀번호 varchar(20) NOT NULL,
 	PRIMARY KEY (회원번호),
 	FOREIGN KEY (담당트레이너) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE,
