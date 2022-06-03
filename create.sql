@@ -15,7 +15,7 @@ create table DB2022_헬스장(
     	도로명주소 varchar(20) not null,
     	전체회원수 int default 0,
     	전체트레이너수 int default 0,
-    	비밀번호 varchar(10) not null,
+    	비밀번호 varchar(20) not null,
     	primary key(헬스장번호)
 );
 
@@ -25,7 +25,7 @@ create table DB2022_트레이너(
     	이름 varchar(10) not null,
     	담당회원수 int default 0,
     	총근무시간 int default 0,
-    	비밀번호 varchar(10) not null,
+    	비밀번호 varchar(20) not null,
     	primary key(강사번호),
     	foreign key(헬스장번호) references DB2022_헬스장(헬스장번호)
 );
@@ -38,8 +38,8 @@ CREATE TABLE DB2022_회원(
 	전체횟수 INT DEFAULT 0,
 	남은횟수 INT DEFAULT 0,
 	담당트레이너 char(6),
-	현재회원권 varchar(20) DEFAULT '없음' CHECK (현재회원권 IN ('1회권', '10회권', '20회권', '없음')),
-	비밀번호 varchar(10) NOT NULL,
+	현재회원권 varchar(5) DEFAULT '없음' CHECK (현재회원권 IN ('1회권', '10회권', '20회권', '없음')),
+	비밀번호 varchar(20) NOT NULL,
 	PRIMARY KEY (회원번호),
 	FOREIGN KEY (담당트레이너) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE,
 	FOREIGN KEY (소속헬스장) REFERENCES DB2022_헬스장(헬스장번호) ON DELETE CASCADE
@@ -99,7 +99,7 @@ insert into DB2022_트레이너 values ('G29980','T12570','미나',2,1,'mina721'
 
 insert into DB2022_트레이너 values ('G43240','T12340','토니',3,4,'tonyisfree');
 insert into DB2022_트레이너 values ('G43240','T43240','찰리',0,0,'chapline00');
-insert into DB2022_트레이너 values ('G43240','T88560','벤',0,0,'123cookielover');
+insert into DB2022_트레이너 values ('G43240','T88560','벤',0,0,'123cookie');
 
 insert into DB2022_트레이너 values ('G18340','T45770','세라',2,3,'lovehealth');
 insert into DB2022_트레이너 values ('G18340','T05100','티파니',1,0,'smile');
