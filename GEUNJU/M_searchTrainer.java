@@ -339,7 +339,7 @@ public class M_searchTrainer extends JFrame {
 								
 								if(nowT!=null) { //현재 담당트레이너가 있다면 기존 담당트레이너 담당회원수 -1									
 									//현재 담당트레이너 번호로 담당회원수찾기
-									str = "SELECT 담당회원수 FROM DB2022_트레이너 WHERE 강사번호=?";
+									str = "SELECT 담당회원수 FROM DB2022_트레이너 use index(강사번호) WHERE 강사번호=?";
 									pstmt = conn.prepareStatement(str);
 									pstmt.setString(1, nowT);
 									rset = pstmt.executeQuery();
