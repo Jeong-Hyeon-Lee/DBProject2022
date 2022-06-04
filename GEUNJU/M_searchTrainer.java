@@ -305,7 +305,7 @@ public class M_searchTrainer extends JFrame {
 				String Gname = (String) jt.getValueAt(row, 0);
 				try {
 					//현재 소속헬스장이 있는지 확인
-					str = "select 헬스장번호,이름 from db2022_회원 where 회원번호=?";
+					str = "select 헬스장번호,이름 from db2022_회원 use index(회원번호인덱스) where 회원번호=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1,ID);
 					rset=pstmt.executeQuery();	
@@ -340,7 +340,7 @@ public class M_searchTrainer extends JFrame {
 							
 							//소속헬스장과 선택한 트레이너 소속 헬스장이 같은지 확인
 							if(nowGymName.equals(Gname)) { //둘이 같다면 등록 가능!
-								str = "select 담당트레이너 from db2022_회원 where 회원번호=?";
+								str = "select 담당트레이너 from db2022_회원 use index(회원번호인덱스) where 회원번호=?";
 								pstmt = conn.prepareStatement(str);
 								pstmt.setString(1,ID);
 								rset=pstmt.executeQuery();	
