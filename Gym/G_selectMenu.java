@@ -143,6 +143,7 @@ public class G_selectMenu extends JFrame {
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						new DeleteScreen(conn, "관장", gymID);
+						dispose();
 					}
 				});
 			}
