@@ -97,9 +97,10 @@ public class M_searchTrainer extends JFrame {
 				String location = rset.getString(3);
 				String member = rset.getString(4);
 				
-				String[] data = {Gname,Tname,location,member};
-				
-				tableModel.addRow(data);
+				if(!Tname.equals("탈퇴")) {
+					String[] data = {Gname,Tname,location,member};
+					tableModel.addRow(data);
+				} 	
 			}
 			jt = new JTable(tableModel);
 			
@@ -183,9 +184,10 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							String[] data = {Gname,Tname,location,member};
-							
-							tableModel.addRow(data);
+							if(!Tname.equals("탈퇴")) {
+								String[] data = {Gname,Tname,location,member};
+								tableModel.addRow(data);
+							}
 						}
 						jt.setModel(tableModel);					
 					}
@@ -225,9 +227,10 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							String[] data = {Gname,Tname,location,member};
-							
-							tableModel.addRow(data);
+							if(!Tname.equals("탈퇴")) {
+								String[] data = {Gname,Tname,location,member};
+								tableModel.addRow(data);
+							}
 						}
 						jt.setModel(tableModel);					
 					}
@@ -275,9 +278,10 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							String[] data = {Gname,Tname,location,member};
-							
-							tableModel.addRow(data);
+							if(!Tname.equals("탈퇴")) {
+								String[] data = {Gname,Tname,location,member};
+								tableModel.addRow(data);
+							}
 						}
 						jt.setModel(tableModel);					
 					}
@@ -313,16 +317,18 @@ public class M_searchTrainer extends JFrame {
 					e2.printStackTrace();
 				}
 				
-				//소속헬스장 번호찾기 -> 소속헬스장이 null이라면 등록X되도록 구현
+				//소속헬스장 번호, 현재 담당트레이너 찾기 -> 소속헬스장이 null이라면 등록X되도록 구현
 				String GYMid_M = null;
+				String nowT = null;
 				try {
-					str = "SELECT 소속헬스장 FROM DB2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?";
+					str = "SELECT 소속헬스장,담당트레이너 FROM DB2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
 					
 					rset.next();
 					GYMid_M = rset.getString(1);
+					nowT = rset.getString(2);
 			
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
@@ -343,29 +349,85 @@ public class M_searchTrainer extends JFrame {
 						int check[] = M_totalLeft.M_totalLeft(conn, ID);
 						
 						if(check[1]==0) { //남은수업횟수 == 0
-							//트레이너 이름으로 번호찾기
-							str = "SELECT 강사번호 FROM DB2022_트레이너 WHERE 이름=?";
-							pstmt = conn.prepareStatement(str);
-							pstmt.setString(1, Tname);
-							rset = pstmt.executeQuery();
-							String Tid = null;
-							
-							rset.next();
-							Tid = rset.getString(1);	
-							System.out.println(Tid);
-							
-							//담당 트레이너 등록하기
-							str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
-							pstmt = conn.prepareStatement(str);
-							pstmt.setString(1, Tid);
-							pstmt.setString(2, ID);
-							pstmt.executeUpdate();
-							
-							infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
-							infoText.setForeground(new Color(5,0,153));
-							btnGroup.revalidate();
-							btnGroup.repaint();
-							
+							if(nowT==null) { //담당 트레이너가 없을 경우
+								try {
+									//트레이너 이름으로 강사번호찾기
+									str = "SELECT 강사번호 FROM DB2022_트레이너 WHERE 이름=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setString(1, Tname);
+									rset = pstmt.executeQuery();
+									String Tid = null;
+									
+									rset.next();
+									Tid = rset.getString(1);	
+									
+									//담당 트레이너 등록하기
+									str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setString(1, Tid);
+									pstmt.setString(2, ID);
+									pstmt.executeUpdate();
+									
+									infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
+									infoText.setForeground(new Color(5,0,153));
+									btnGroup.revalidate();
+									btnGroup.repaint();
+								} catch (SQLException ee) {
+									ee.printStackTrace();
+								}
+							} else { //담당 트레이너가 있을 경우
+								try {
+									//현재 담당트레이너 강사번호(nowT)로 담당회원수찾기
+									str = "SELECT 담당회원수 FROM DB2022_트레이너 WHERE 강사번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setString(1, nowT);
+									rset = pstmt.executeQuery();
+									int nowTnum = 0; //기존 담당트레이너 담당회원수
+									
+									rset.next();
+									nowTnum = rset.getInt(1);	
+									
+									//기존 담당트레이너 담당회원수 -1
+									str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setInt(1, nowTnum-1);
+									pstmt.setString(2, nowT);
+									pstmt.executeUpdate();
+									
+									//트레이너 이름으로 선택한 강사번호, 담당회원수 찾기 
+									str = "SELECT 강사번호,담당회원수 FROM DB2022_트레이너 WHERE 이름=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setString(1, Tname);
+									rset = pstmt.executeQuery();
+									String Tid = null;
+									int Tnum = 0;
+									
+									rset.next();
+									Tid = rset.getString(1);	
+									Tnum = rset.getInt(2);
+									
+									//담당 트레이너 등록하기 : 회원 담당 트레이너 update
+									str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setString(1, Tid);
+									pstmt.setString(2, ID);
+									pstmt.executeUpdate();
+									
+									//담당 트레이너 등록하기 : 담당 트레이너 담당 회원 수 +1
+									str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setInt(1, Tnum+1);
+									pstmt.setString(2, Tid);
+									pstmt.executeUpdate();
+									
+									infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
+									infoText.setForeground(new Color(5,0,153));
+									btnGroup.revalidate();
+									btnGroup.repaint();
+								} catch (SQLException ee) {
+									ee.printStackTrace();
+								}
+							}							
 						} else {
 							//textfield띄우기
 							infoText.setText("아직 수업횟수가 남아서 헬스장을 변경할 수 없습니다.");

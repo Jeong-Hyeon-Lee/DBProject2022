@@ -125,6 +125,9 @@ public class LoginScreen extends JFrame {
 						if (!rs.next()) {
 							JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
 						}
+						else if(myId == "000000") { //"000000"으로는 로그인 못하게 막기 (탈퇴한 회원을 표시하기위한 유령 tuple이지 진짜 회원이 아님)
+							JOptionPane.showMessageDialog(null, "이 아이디는 로그인할 수 없는 아이디입니다.");
+						}
 						else if (rs.getString("비밀번호").equals(myPwd)) {
 							JOptionPane.showMessageDialog(null, "로그인 성공");
 							member_id = rs.getString("회원번호");
@@ -162,6 +165,9 @@ public class LoginScreen extends JFrame {
 						//ResultSet.getString();이 null인 것은 rs.null()로 확인
 						if (!rs.next()) {
 							JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
+						}
+						else if(myId == "000000") { //"000000"으로는 로그인 못하게 막기 (탈퇴한 회원을 표시하기위한 유령 tuple이지 진짜 회원이 아님)
+							JOptionPane.showMessageDialog(null, "이 아이디는 로그인할 수 없는 아이디입니다.");
 						}
 						else if (rs.getString("비밀번호").equals(myPwd)) { 
 							JOptionPane.showMessageDialog(null, "로그인 성공");
@@ -201,6 +207,9 @@ public class LoginScreen extends JFrame {
 						//ResultSet.getString();이 null인 것은 rs.null()로 확인
 						if (!rs.next()) {
 							JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
+						}
+						else if(myId == "000000") { //"000000"으로는 로그인 못하게 막기 (탈퇴한 회원을 표시하기위한 유령 tuple이지 진짜 회원이 아님)
+							JOptionPane.showMessageDialog(null, "이 아이디는 로그인할 수 없는 아이디입니다.");
 						}
 						else if (rs.getString("비밀번호").equals(myPwd)) {
 							JOptionPane.showMessageDialog(null, "로그인 성공");
