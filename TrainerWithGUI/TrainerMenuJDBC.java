@@ -338,6 +338,9 @@ public class TrainerMenuJDBC {
 			}finally {
 				JOptionPane.showMessageDialog(null, class_t+"에 예정된 수업이 취소 되었습니다.");}
 		}
+		else {
+			JOptionPane.showMessageDialog(null, "완료된 수업은 취소가 불가능합니다.");
+		}
 	}
 	public void noshowClass(String student_no, String class_t, String status, String trainer_pk) {
 		// 수업 불참 (강사 근무시간 +1)
