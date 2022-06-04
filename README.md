@@ -1,6 +1,6 @@
 # DBProject2022 ( PT Reservation System ) 
 
-#### `TrainerWithGUI`  
+### `TrainerWithGUI`  
 |__ `TrainerMenuJDBC.java`   :  JDBC related functions for the trainer query  
 |__ `TrainerJDialogGUI.java` :  GUI files for the trainer menu page   
 |__ `TrainerMenuJTable.java` :  Trainer Menu Files and connecting to the sql functions  
