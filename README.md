@@ -1,11 +1,11 @@
 # DBProject2022 ( PT Reservation System )
 
 #### `Gym` (관장으로 로그인했을 때)
-|__ `G_selectMenu.java`   :  Menu page for Gym owner 
-|__ `G_changePriceInformation.java` : change price information
-|__ `G_changePromotionInformation.java` :  change promotion information
-|__ `G_showTrainers.java` : show trainer information (name, work time)
-|__ `G_countTrainees.java`  : show number of members enrolled  
+|__ `G_selectMenu.java`   :  Menu page for Gym owner  
+|__ `G_changePriceInformation.java` : change price information  
+|__ `G_changePromotionInformation.java` :  change promotion information  
+|__ `G_showTrainers.java` : show trainer information (name, work time)  
+|__ `G_countTrainees.java`  : show number of members enrolled      
 
 ### `TrainerWithGUI`  
 |__ `TrainerMenuJDBC.java`   :  JDBC related functions for the trainer query  
