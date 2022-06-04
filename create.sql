@@ -59,7 +59,6 @@ CREATE TABLE DB2022_수업(
 
 CREATE INDEX 회원번호인덱스 ON DB2022_수업(회원번호);
 
-
 CREATE TABLE DB2022_가격(
 	헬스장번호 char(6),
 	1회가격 int NOT NULL,
