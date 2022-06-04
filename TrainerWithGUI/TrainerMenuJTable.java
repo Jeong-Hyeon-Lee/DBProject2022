@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 
-import YeonWoo.DeleteScreen;
+import DB2022Team03.YeonWoo.DeleteScreen;
 
 public class TrainerMenuJTable extends JFrame implements ActionListener{
 	JMenu m = new JMenu("트레이너 메뉴");

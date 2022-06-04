@@ -324,7 +324,12 @@ public class DeleteScreen extends JFrame {
 				} else if (userType.equals("트레이너")) {
 					new TrainerMenuJTable(ID);
 				} else if (userType.equals("관장")) {
-					new G_selectMenu(ID, owner_name);
+					try {
+						new G_selectMenu(ID, owner_name);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				dispose();
 

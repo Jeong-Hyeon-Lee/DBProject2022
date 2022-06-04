@@ -179,7 +179,7 @@ public class M_MainScreen extends JFrame {
 			ResultSet rs_test;
 			
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				query_test = "SELECT 소속헬스장, 담당트레이너, 현재회원권 FROM DB2022_회원 WHERE 회원번호 = ?";				
+				query_test = "SELECT 소속헬스장, 담당트레이너, 현재회원권 FROM db2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호 = ?";				
 				try {
 					pstm_test = conn.prepareStatement(query_test);
 					pstm_test.setString(1, ID);

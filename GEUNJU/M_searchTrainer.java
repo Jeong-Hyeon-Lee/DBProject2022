@@ -163,7 +163,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from DB2022_searchTrainer where 헬스장이름 like ?"; //G.이름 or 헬스장이름
+				str = "select * from DB2022_searchTrainer where 헬스장이름 like ?"; 
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -205,7 +205,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from DB2022_searchTrainer where 트레이너이름 like ?"; //T.이름 or 트레이너이름
+				str = "select * from DB2022_searchTrainer where 트레이너이름 like ?"; 
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -254,6 +254,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
+				str = "select * from DB2022_searchTrainer where 헬스장번호 IN (SELECT 소속헬스장 FROM db2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?)";
 				try {
 					//소속헬스장 트레이너 보여주기
 					pstmt = conn.prepareStatement(str);

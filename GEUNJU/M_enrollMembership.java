@@ -77,7 +77,7 @@ public class M_enrollMembership extends JFrame {
 		jt = new JTable(tableModel);
 		
 		//query for table
-		str = "select 이름, 전체횟수, 남은횟수, 현재회원권 from db2022_회원 where 회원번호 = ?";
+		str = "select 이름, 전체횟수, 남은횟수, 현재회원권 from db2022_회원 use index (회원번호인덱스) where 회원번호 = ?";
 		pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		rset = pstmt.executeQuery();
@@ -103,8 +103,8 @@ public class M_enrollMembership extends JFrame {
 		tableModel2 = new DefaultTableModel(columnNames2,0);
 		jt2 = new JTable(tableModel2);
 		
-		//query for table
-		str = "select 1회가격, 10회가격, 20회가격, 기타프로모션설명 from db2022_가격 where 헬스장번호 in(select 소속헬스장 from db2022_회원 where 회원번호=?) ";
+		//query for table 
+		str = "select 1회가격, 10회가격, 20회가격, 기타프로모션설명 from db2022_가격 where 헬스장번호 in (select 소속헬스장 from db2022_회원 use index (회원번호인덱스) where 회원번호=?) ";
 		pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		rset = pstmt.executeQuery();
@@ -186,7 +186,7 @@ public class M_enrollMembership extends JFrame {
 				String GYMid_M = null;
 				String Tid_M = null;
 				try {
-					str = "SELECT 소속헬스장, 담당트레이너 FROM DB2022_회원 WHERE 회원번호=?";
+					str = "SELECT 소속헬스장, 담당트레이너 FROM db2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
@@ -235,7 +235,7 @@ public class M_enrollMembership extends JFrame {
 						//table
 						tableModel.setNumRows(0);
 						//query for table
-						str = "select 이름, 전체횟수, 남은횟수, 현재회원권 from db2022_회원 where 회원번호 = ?";
+						str = "select 이름, 전체횟수, 남은횟수, 현재회원권 from db2022_회원 use index(회원번호인덱스) where 회원번호 = ?";
 						pstmt = conn.prepareStatement(str);
 						pstmt.setString(1, ID);
 						rset = pstmt.executeQuery();
