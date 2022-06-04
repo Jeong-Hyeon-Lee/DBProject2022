@@ -33,7 +33,8 @@ public class TrainerMenuJDBC {
 
 	public int checkLogin(String tID, String tPW) {
 		String loginquery = "SELECT 비밀번호, 이름, 강사번호, 헬스장번호, 담당회원수, 총근무시간 "
-				+ "FROM DB2022_트레이너" + " WHERE (강사번호=?)";
+				+ "FROM DB2022_트레이너 USE INDEX (트레이너인덱스) WHERE (강사번호=?)"; // 트레이너 인덱스 사용
+
 		boolean login_success = false;
 		try {
 			pst = con.prepareStatement(loginquery);
@@ -56,9 +57,9 @@ public class TrainerMenuJDBC {
 		if (login_success)return 1;
 		else return 0;
 	}
-	// 회원 탈퇴를 위한 쿼리문 실행 함수
+	// 회원 탈퇴를 위한 쿼리문 실행 함수 (작성은 하였으나 실제 회원 탈퇴는 YeonWoo/DeleteScreen.java를 사용하였습니다.)
 	public int Leave(String tID) {
-		String q = "DELETE FROM DB2022_트레이너 WHERE(강사번호=?)";
+		String q = "DELETE FROM DB2022_트레이너 use index (트레이너인덱스) WHERE(강사번호=?)";
 		int result = 0;
 		try {
 			pst = con.prepareStatement(q);
@@ -69,6 +70,7 @@ public class TrainerMenuJDBC {
 		}
 		return result;
 	}
+
 	// JDBC 연결을 끊기 위해서 사용
 	public void closeDB() {
 		try {
@@ -80,10 +82,12 @@ public class TrainerMenuJDBC {
 			System.out.println("Failed to close the database");
 		}
 	}
+
+	// 트레이너가 로그인 했을 때 모든 수업 내용이 보이도록 강사번호에 따라 검색했을 때 모든 수업 정보를 보여 줍니다.
 	public void classInfoAll(DefaultTableModel class_table, String trainer_id) {
 		try {
-			pst = con.prepareStatement("SELECT DB2022_회원.이름, DB2022_수업.수업시간, DB2022_수업.수업진행현황, DB2022_회원.회원번호 FROM DB2022_수업 INNER JOIN DB2022_회원 ON DB2022_회원.회원번호=DB2022_수업.회원번호 WHERE(DB2022_수업.강사번호=? AND DB2022_회원.담당트레이너=?)"); // 수업 진행 현황이 같은 것 끼리뭉쳐서 반환
-			// 수업 시간이 빠른 것 먼저 보여줌
+			pst = con.prepareStatement("SELECT DB2022_회원.이름, DB2022_수업.수업시간, DB2022_수업.수업진행현황, DB2022_회원.회원번호 FROM DB2022_수업 INNER JOIN DB2022_회원 ON DB2022_회원.회원번호=DB2022_수업.회원번호 WHERE(DB2022_수업.강사번호=? AND DB2022_회원.담당트레이너=?) ORDER BY DB2022_수업.수업시간, DB2022_수업.회원번호"); // 수업 진행 현황이 같은 것 끼리뭉쳐서 반환
+			// 수업 시간이 빠른 것 먼저 보여줌 -> 회원번호에 맞추어 정렬
 			pst.setString(1, trainer_id);
 			pst.setString(2,  trainer_id);
 			rs = pst.executeQuery();
@@ -98,7 +102,7 @@ public class TrainerMenuJDBC {
 	// 로그인한 trainer의 모든 정보를 보여줌
 	public void trainerInfoAll(DefaultTableModel trainer_table, String trainer_id) {
 		try {
-			pst = con.prepareStatement("SELECT 강사번호, 이름, 헬스장번호, 담당회원수, 총근무시간 FROM DB2022_트레이너 WHERE(강사번호=?)");
+			pst = con.prepareStatement("SELECT 강사번호, 이름, 헬스장번호, 담당회원수, 총근무시간 FROM DB2022_트레이너 USE INDEX (트레이너인덱스) WHERE(강사번호=?)");
 			
 			pst.setString(1, trainer_id);
 			rs = pst.executeQuery();
@@ -110,7 +114,7 @@ public class TrainerMenuJDBC {
 			e.getStackTrace();
 		}
 	}
-	// trainer 고유 번호 생성을 위해서 공통 뒷번호 4자리를 갖는 트레이너가 존재하는지 확인
+	// trainer 고유 번호 생성을 위해서 공통 뒷번호 4자리를 갖는 트레이너가 존재하는지 확인 (있다면 고유 pk 생성을 위해서 인원수 return)
 	public int checkPhoneNum(String num) {
 		int cnt = 0;
 		try {
