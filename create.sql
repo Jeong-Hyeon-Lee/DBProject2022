@@ -1,3 +1,4 @@
+/*
 CREATE DATABASE DB2022Team03;
 
 use mysql;
@@ -6,6 +7,7 @@ use mysql;
 create user 'DB2022Team03'@localhost identified by 'DB2022Team03';
 grant all privileges on *.* to 'DB2022Team03'@localhost;
 use DB2022Team03;
+*/
 
 create table DB2022_헬스장(
     	헬스장번호 char(6),
