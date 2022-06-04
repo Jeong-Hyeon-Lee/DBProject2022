@@ -288,7 +288,7 @@ public class M_reserveClass extends JFrame {
 					
 					try {			
 						query2 = "SELECT NOW()";
-						query3 = "SELECT DISTINCT 강사번호 FROM DB2022_수업 WHERE 회원번호 = ?";
+						query3 = "SELECT DISTINCT 담당트레이너 FROM DB2022_회원 WHERE 회원번호 = ?";
 						query4 = "INSERT IGNORE INTO DB2022_수업 " + "VALUES(?, ?, ?, ?)";  // Ignore insertion if duplicated.
 	
 						pStmt2 = conn.prepareStatement(query2);
