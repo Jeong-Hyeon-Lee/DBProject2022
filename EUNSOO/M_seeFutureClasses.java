@@ -1,4 +1,4 @@
-package DB2022TEAM03.EUNSOO;
+package DB2022Team03.EUNSOO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import DB2022TEAM03.GEUNJU.M_MainScreen;
+import DB2022Team03.GEUNJU.M_MainScreen;
 
 
 public class M_seeFutureClasses extends JFrame {
