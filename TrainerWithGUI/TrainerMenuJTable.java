@@ -89,29 +89,8 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*
 		if (e.getSource() == leave) {
-			int confirm = JOptionPane.showConfirmDialog(null, "정말로 탈퇴 하시겠습니까?", "회원 탈퇴 확인",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			
-			if (confirm == 0) {
-				int res = tmdb.Leave(trainer_pk);
-				if (res==1){
-					TrainerJDialogGUI.MessageBox(this, "회원 탈퇴 완료 했습니다.");
-					new TrainerJDialogGUI(this, "로그아웃");
-					dispose();
-				}
-				else {
-					TrainerJDialogGUI.MessageBox(this, "회원 탈퇴 실패했습니다.");
-				}
-			}
-			else {
-				TrainerJDialogGUI.MessageBox(this, "탈퇴 요청을 취소했습니다.");
-			}
-		}
-		*/
-		if(e.getSource() == leave){
-			Connection con = tmdb.con;
-			DeleteScreen(con, "트레이너", trainer_pk);
+			new DeleteScreen(tmdb.con, "트레이너",trainer_pk);
 			dispose();
 		}
 		
