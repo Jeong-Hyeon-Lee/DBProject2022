@@ -1,6 +1,6 @@
 # DBProject2022 ( PT Reservation System )
 
-#### `Gym` (관장으로 로그인했을 때)
+### `Gym` (관장으로 로그인했을 때)
 |__ `G_selectMenu.java`   :  Menu page for gym owner  
 |__ `G_changePriceInformation.java` : change price information  
 |__ `G_changePromotionInformation.java` :  change promotion information  
@@ -15,8 +15,7 @@
 |__ `TrainerJoinScreen.java`  : Test file for trainer joining screen  
 |__ `TrainerLoginScreen.java` : Test file for trainer login screen  
   
-### 회원
-* **java file**  
+### `MemberInfo`
 |__ `M_MainScreen.java` : Menu page for member    
 |__ `M_myPage.java` : Check the account info   
 |__ `M_searchGYM.java` : Search GYM (with location, with gym name, recommend gym with member's location, enroll/change gym)  
