@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 
+import YeonWoo.DeleteScreen;
+
 public class TrainerMenuJTable extends JFrame implements ActionListener{
 	JMenu m = new JMenu("트레이너 메뉴");
 	// 트레이너용 메뉴 화면이 떴다는 것은 로그인 한 상태라는 가정을 포함한다.
@@ -87,6 +89,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/*
 		if (e.getSource() == leave) {
 			int confirm = JOptionPane.showConfirmDialog(null, "정말로 탈퇴 하시겠습니까?", "회원 탈퇴 확인",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			
@@ -105,6 +108,13 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 				TrainerJDialogGUI.MessageBox(this, "탈퇴 요청을 취소했습니다.");
 			}
 		}
+		*/
+		if(e.getSource() == leave){
+			Connection con = tmdb.con;
+			DeleteScreen(con, "트레이너", trainer_pk);
+			dispose();
+		}
+		
 		
 		
 		else if (e.getSource() == logout) {

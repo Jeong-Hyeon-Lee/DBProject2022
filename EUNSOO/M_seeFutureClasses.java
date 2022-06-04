@@ -7,6 +7,8 @@ import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import DB2022Team03.GEUNJU.M_MainScreen;
+
 
 public class M_seeFutureClasses extends JFrame {
 	
