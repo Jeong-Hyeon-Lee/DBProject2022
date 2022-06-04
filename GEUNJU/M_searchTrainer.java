@@ -315,7 +315,7 @@ public class M_searchTrainer extends JFrame {
 				//소속헬스장 번호찾기 -> 소속헬스장이 null이라면 등록X되도록 구현
 				String GYMid_M = null;
 				try {
-					str = "SELECT 소속헬스장 FROM DB2022_회원 WHERE 회원번호=?";
+					str = "SELECT 소속헬스장 FROM DB2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
