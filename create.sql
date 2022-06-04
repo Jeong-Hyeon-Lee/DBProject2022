@@ -45,6 +45,8 @@ CREATE TABLE DB2022_회원(
 	FOREIGN KEY (소속헬스장) REFERENCES DB2022_헬스장(헬스장번호) ON DELETE CASCADE
 );
 
+CREATE INDEX 회원번호인덱스 ON DB2022_회원(회원번호);
+
 CREATE TABLE DB2022_수업(
 	회원번호 char(6) NOT NULL,
     	강사번호 char(6),
@@ -176,11 +178,11 @@ INSERT INTO DB2022_가격 VALUES
 
 select * from DB2022_가격;
 
-create view searchTrainer as
+create view DB2022_searchTrainer as
 	( select G.이름 as 헬스장이름 ,T.이름 as 트레이너이름 ,G.지역, T.담당회원수, G.헬스장번호 
 	from db2022_트레이너 as T,db2022_헬스장 as G 
 	where T.헬스장번호 = G.헬스장번호) ;
 
-create view searchGYM as 
+create view DB2022_searchGYM as 
 	( select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 
 	from db2022_헬스장 natural join db2022_가격 );

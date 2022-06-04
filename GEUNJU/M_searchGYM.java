@@ -76,7 +76,7 @@ public class M_searchGYM extends JFrame {
 		
 		//query for table
 		stmt = conn.createStatement();
-		str = "select * from searchGYM";
+		str = "select * from DB2022_searchGYM";
 		rset = stmt.executeQuery(str);
 		
 		//for err & undo 
@@ -164,7 +164,7 @@ public class M_searchGYM extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from searchGYM WHERE 지역 like ?";
+				str = "select * from DB2022_searchGYM WHERE 지역 like ?";
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -207,7 +207,7 @@ public class M_searchGYM extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from searchGYM WHERE 이름 like ?";
+				str = "select * from DB2022_searchGYM WHERE 이름 like ?";
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -258,7 +258,7 @@ public class M_searchGYM extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from searchGYM WHERE 지역 IN (SELECT 지역 FROM db2022_회원 WHERE 회원번호=?)";
+				str = "select * from DB2022_searchGYM WHERE 지역 IN (SELECT 지역 FROM db2022_회원 WHERE 회원번호=?)";
 				try {
 					//소속헬스장 트레이너 보여주기
 					pstmt = conn.prepareStatement(str);
