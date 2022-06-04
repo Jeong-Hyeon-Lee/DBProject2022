@@ -98,18 +98,16 @@ public class DeleteScreen extends JFrame {
 							member_trainer = rs.getString("담당트레이너");
 						}
 
-						/*
-						 * ON DELETE CASCADE 되어있음
-						 * //STEP1. 수업 테이블에서 해당 회원의 정보 삭제
-						 * //수업이 회원을 참조하므로, 수업 먼저 삭제
-						 * String deleteQuery1
-						 * = " DELETE FROM DB2022_수업 "
-						 * + " WHERE 회원번호 = ? ";
-						 * 
-						 * PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
-						 * pst1.setString(1, ID);
-						 * pst1.executeUpdate();
-						 */
+						// STEP1. 수업 테이블에서 해당 회원의 회원번호를 000000으로 변경
+						// 수업이 회원을 참조함. 회원 테이블에 이미 탈퇴처리를 위해 000000인 tuple이 있음.
+						String deleteQuery1 = " UPDATE DB2022_수업 "
+								+ " SET 회원번호 = ? "
+								+ " WHERE 회원번호 = ? ";
+
+						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
+						pst1.setString(1, "000000");
+						pst1.setString(2, ID);
+						pst1.executeUpdate();
 
 						// STEP2. 회원 테이블에서 해당 회원 삭제
 						String deleteQuery2 = " DELETE FROM DB2022_회원 "
@@ -137,7 +135,16 @@ public class DeleteScreen extends JFrame {
 						pst4.setString(1, member_trainer);
 						pst4.executeUpdate();
 
-						conn.commit(); // transaction 끝, 정상수해오댔을 때 commit();
+						// STEP5. 수업에서, 회원번호 트레이너번호가 둘다 000000인 경우 해당 수업 삭제
+						String deleteQuery5 = " DELETE FROM DB2022_수업 "
+								+ " WHERE 회원번호 = ? and 강사번호 = ?";
+
+						PreparedStatement pst5 = conn.prepareStatement(deleteQuery5);
+						pst5.setString(1, "000000");
+						pst5.setString(2, "000000");
+						pst5.executeUpdate();
+
+						conn.commit(); // transaction 끝
 						conn.setAutoCommit(true);
 
 					} catch (SQLException se) {
@@ -177,27 +184,15 @@ public class DeleteScreen extends JFrame {
 							trainer_gym = rs.getString("헬스장번호");
 						}
 
-						/*
-						 * ON DELETE CASCADE 되어있음.
-						 * //STEP1. 수업 테이블에서 해당 트레이너의 정보 삭제
-						 * //수업이 트레이너를 참조하므로, 수업 먼저 삭제
-						 * String deleteQuery1
-						 * = " DELETE FROM DB2022_수업 "
-						 * + " WHERE 강사번호 = ? ";
-						 * 
-						 * PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
-						 * pst1.setString(1, ID);
-						 * pst1.executeUpdate();
-						 */
-
-						// STEP1. 담당회원의 담당트레이너를 null로
-						// 회원이 트레이너를 참조하고 있으므로, 회원쪽을 먼저 null로 변경해줘야 삭제 가능.
+						// STEP1. 담당회원의 담당트레이너를 000000로
+						// 회원이 트레이너를 참조하고 있으므로, 회원쪽을 먼저 000000로 변경해줘야 삭제 가능.
 						String deleteQuery1 = " UPDATE DB2022_회원"
-								+ " SET 담당트레이너 = null"
+								+ " SET 담당트레이너 = ?"
 								+ " WHERE(담당트레이너 = ?)";
 
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
-						pst1.setString(1, ID);
+						pst1.setString(1, "000000");
+						pst1.setString(2, ID);
 						pst1.executeUpdate();
 
 						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
@@ -216,6 +211,26 @@ public class DeleteScreen extends JFrame {
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, trainer_gym);
 						pst3.executeUpdate();
+
+						// STEP4. 해당 트레이너의 수업에서 강사번호를 000000으로 변경
+						// 수업이 트레이너를 참조함. 트레이너 테이블에 이미 탈퇴처리를 위해 000000인 tuple이 있음.
+						String deleteQuery4 = " UPDATE DB2022_수업 "
+								+ " SET 강사번호 = ? "
+								+ " WHERE 강사번호 = ? ";
+
+						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
+						pst4.setString(1, "000000");
+						pst4.setString(2, ID);
+						pst4.executeUpdate();
+
+						// STEP5. 수업에서, 회원번호 트레이너번호가 둘다 000000인 경우 해당 수업 삭제
+						String deleteQuery5 = " DELETE FROM DB2022_수업 "
+								+ " WHERE 회원번호 = ? and 강사번호 = ?";
+
+						PreparedStatement pst5 = conn.prepareStatement(deleteQuery5);
+						pst5.setString(1, "000000");
+						pst5.setString(2, "000000");
+						pst5.executeUpdate();
 
 						conn.commit(); // transaction 끝
 						conn.setAutoCommit(true);
