@@ -6,7 +6,7 @@
 *    => 예약을 한다고 해서 남은횟수가 차감되지는 않지만 너무 많은 수업을 예약하지 못하게 한다.
 */
 
-package DB2022Team03.EUNSOO;
+package DB2022Team03.Member_manageClass;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
