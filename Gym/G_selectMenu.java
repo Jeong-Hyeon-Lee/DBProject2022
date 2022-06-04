@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import DB2022Team03.YeonWoo.DeleteScreen;
 import DB2022Team03.YeonWoo.StartScreen;
 
 public class G_selectMenu extends JFrame {
@@ -141,7 +142,7 @@ public class G_selectMenu extends JFrame {
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
-						//탈퇴 기능
+						new DeleteScreen(conn, "관장", gymID);
 					}
 				});
 			}
