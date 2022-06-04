@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import DB2022Team03.YeonWoo.DeleteScreen;
 import DB2022Team03.YeonWoo.StartScreen;
 import DB2022Team03.EUNSOO.M_manageClass;
 
@@ -40,7 +41,7 @@ public class M_MainScreen extends JFrame {
 		
 		//메뉴판
 		JPanel btnGroup = new JPanel();
-		btnGroup.setLayout(new GridLayout(6,1));
+		btnGroup.setLayout(new GridLayout(7,1));
 		
 		//상세 메뉴
 		//회원정보확인하기 버튼
@@ -94,6 +95,14 @@ public class M_MainScreen extends JFrame {
 		JButton undo = new JButton("로그아웃");
 		Menu9.add(undo);
 		jp0.add(Menu9);
+		
+		//탈퇴버튼
+		JPanel jp6 = new JPanel();
+		jp0.setLayout(new FlowLayout());
+		JPanel Menu6 = new JPanel();
+		JButton resign = new JButton("탈퇴하기");
+		Menu6.add(resign);
+		jp6.add(Menu6);
 
 		//메뉴판에 상세메뉴붙이기
 		btnGroup.add(jp4);
@@ -101,7 +110,8 @@ public class M_MainScreen extends JFrame {
 		btnGroup.add(jp2);
 		btnGroup.add(jp3);
 		btnGroup.add(jp5);
-		btnGroup.add(jp0);		
+		btnGroup.add(jp6);
+		btnGroup.add(jp0);	
 		
 		setLayout(new BorderLayout());
 		
@@ -203,7 +213,14 @@ public class M_MainScreen extends JFrame {
 			}
 		});		
 		 /* *********************************************************************/
+		resign.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				new DeleteScreen(conn, "회원", ID);
+				dispose(); 
 
+			}
+		});
 		
 	}	
 }
