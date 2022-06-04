@@ -13,6 +13,8 @@ import DB2022Team03.Gym.G_selectMenu;
 
 public class DeleteScreen extends JFrame {
 
+	String owner_name = null;
+
 	public DeleteScreen(Connection conn, String userType, String ID) {
 		setTitle("탈퇴");
 
@@ -98,16 +100,18 @@ public class DeleteScreen extends JFrame {
 							member_trainer = rs.getString("담당트레이너");
 						}
 
-						// STEP1. 수업 테이블에서 해당 회원의 회원번호를 000000으로 변경
-						// 수업이 회원을 참조함. 회원 테이블에 이미 탈퇴처리를 위해 000000인 tuple이 있음.
-						String deleteQuery1 = " UPDATE DB2022_수업 "
-								+ " SET 회원번호 = ? "
-								+ " WHERE 회원번호 = ? ";
-
-						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
-						pst1.setString(1, "000000");
-						pst1.setString(2, ID);
-						pst1.executeUpdate();
+						/*
+						 * ON DELETE CASCADE 되어있음
+						 * //STEP1. 수업 테이블에서 해당 회원의 정보 삭제
+						 * //수업이 회원을 참조하므로, 수업 먼저 삭제
+						 * String deleteQuery1
+						 * = " DELETE FROM DB2022_수업 "
+						 * + " WHERE 회원번호 = ? ";
+						 * 
+						 * PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
+						 * pst1.setString(1, ID);
+						 * pst1.executeUpdate();
+						 */
 
 						// STEP2. 회원 테이블에서 해당 회원 삭제
 						String deleteQuery2 = " DELETE FROM DB2022_회원 "
@@ -135,16 +139,7 @@ public class DeleteScreen extends JFrame {
 						pst4.setString(1, member_trainer);
 						pst4.executeUpdate();
 
-						// STEP5. 수업에서, 회원번호 트레이너번호가 둘다 000000인 경우 해당 수업 삭제
-						String deleteQuery5 = " DELETE FROM DB2022_수업 "
-								+ " WHERE 회원번호 = ? and 강사번호 = ?";
-
-						PreparedStatement pst5 = conn.prepareStatement(deleteQuery5);
-						pst5.setString(1, "000000");
-						pst5.setString(2, "000000");
-						pst5.executeUpdate();
-
-						conn.commit(); // transaction 끝
+						conn.commit(); // transaction 끝, 정상수해오댔을 때 commit();
 						conn.setAutoCommit(true);
 
 					} catch (SQLException se) {
@@ -184,15 +179,27 @@ public class DeleteScreen extends JFrame {
 							trainer_gym = rs.getString("헬스장번호");
 						}
 
-						// STEP1. 담당회원의 담당트레이너를 000000로
-						// 회원이 트레이너를 참조하고 있으므로, 회원쪽을 먼저 000000로 변경해줘야 삭제 가능.
+						/*
+						 * ON DELETE CASCADE 되어있음.
+						 * //STEP1. 수업 테이블에서 해당 트레이너의 정보 삭제
+						 * //수업이 트레이너를 참조하므로, 수업 먼저 삭제
+						 * String deleteQuery1
+						 * = " DELETE FROM DB2022_수업 "
+						 * + " WHERE 강사번호 = ? ";
+						 * 
+						 * PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
+						 * pst1.setString(1, ID);
+						 * pst1.executeUpdate();
+						 */
+
+						// STEP1. 담당회원의 담당트레이너를 null로
+						// 회원이 트레이너를 참조하고 있으므로, 회원쪽을 먼저 null로 변경해줘야 삭제 가능.
 						String deleteQuery1 = " UPDATE DB2022_회원"
-								+ " SET 담당트레이너 = ?"
+								+ " SET 담당트레이너 = null"
 								+ " WHERE(담당트레이너 = ?)";
 
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
-						pst1.setString(1, "000000");
-						pst1.setString(2, ID);
+						pst1.setString(1, ID);
 						pst1.executeUpdate();
 
 						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
@@ -211,26 +218,6 @@ public class DeleteScreen extends JFrame {
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, trainer_gym);
 						pst3.executeUpdate();
-
-						// STEP4. 해당 트레이너의 수업에서 강사번호를 000000으로 변경
-						// 수업이 트레이너를 참조함. 트레이너 테이블에 이미 탈퇴처리를 위해 000000인 tuple이 있음.
-						String deleteQuery4 = " UPDATE DB2022_수업 "
-								+ " SET 강사번호 = ? "
-								+ " WHERE 강사번호 = ? ";
-
-						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
-						pst4.setString(1, "000000");
-						pst4.setString(2, ID);
-						pst4.executeUpdate();
-
-						// STEP5. 수업에서, 회원번호 트레이너번호가 둘다 000000인 경우 해당 수업 삭제
-						String deleteQuery5 = " DELETE FROM DB2022_수업 "
-								+ " WHERE 회원번호 = ? and 강사번호 = ?";
-
-						PreparedStatement pst5 = conn.prepareStatement(deleteQuery5);
-						pst5.setString(1, "000000");
-						pst5.setString(2, "000000");
-						pst5.executeUpdate();
 
 						conn.commit(); // transaction 끝
 						conn.setAutoCommit(true);
@@ -261,8 +248,8 @@ public class DeleteScreen extends JFrame {
 						int trainerNum = -1;
 						int memberNum = -1;
 
-						// 소속트레이너수, 소속회원수 찾기
-						String loginquery = " SELECT 전체회원수, 전체트레이너수 "
+						// 소속트레이너수, 소속회원수 찾기, 이따가 다시 관장메뉴 불러올 때 필요한 owner_name도 찾아두기
+						String loginquery = " SELECT * "
 								+ " FROM DB2022_헬스장"
 								+ " WHERE (헬스장번호=?) ";
 
@@ -273,6 +260,7 @@ public class DeleteScreen extends JFrame {
 						while (rs.next()) {
 							trainerNum = rs.getInt("전체트레이너수");
 							memberNum = rs.getInt("전체회원수");
+							owner_name = rs.getString("이름");
 						}
 
 						// 소속 트레이너, 소속 회원 수가 0명일 때만 탈퇴 허용
@@ -332,11 +320,11 @@ public class DeleteScreen extends JFrame {
 
 				// 다시 각자 메뉴 페이지로 돌아가기
 				if (userType.equals("회원")) {
-					new M_MainScreen(conn, member_id);
+					new M_MainScreen(conn, ID);
 				} else if (userType.equals("트레이너")) {
-					new TrainerMenuJTable(trainer_id);
+					new TrainerMenuJTable(ID);
 				} else if (userType.equals("관장")) {
-					new G_selectMenu(owner_gym, owner_name);
+					new G_selectMenu(ID, owner_name);
 				}
 				dispose();
 
