@@ -327,7 +327,7 @@ public class M_searchTrainer extends JFrame {
 						if(check[1]==0) { //남은 횟수가 0이라면
 							//소속헬스장과 선택한 트레이너 소속 헬스장이 같은지 확인
 							if(nowGymName.equals(Gname)) { //둘이 같다면 등록 가능!
-								str = "select 담당트레이너 from db2022_회원 where 회원번호=?";
+								str = "select 담당트레이너 from db2022_회원 use index(회원번호인덱스) where 회원번호=?";
 								pstmt = conn.prepareStatement(str);
 								pstmt.setString(1, ID);
 								rset = pstmt.executeQuery();	

@@ -247,7 +247,7 @@ public class M_reserveClass extends JFrame {
 					/* 더 이상 수업이 예약 가능한지 아닌지 확인 */
 					int remainingClass=0, reservedClass=0;
 					// 남은 수업 횟수 확인
-					query_test = "SELECT 남은횟수 FROM DB2022_회원 WHERE 회원번호 = ?";
+					query_test = "SELECT 남은횟수 FROM DB2022_회원 USE INDEX(회원번호인덱스) WHERE 회원번호 = ?";
 					pstm_test = conn.prepareStatement(query_test);
 					pstm_test.setString(1, ID);
 					rs_test = pstm_test.executeQuery();
