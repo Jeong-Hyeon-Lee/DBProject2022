@@ -213,4 +213,3 @@ public class M_cancelClass extends JFrame {
 		
 	}
 }
-
