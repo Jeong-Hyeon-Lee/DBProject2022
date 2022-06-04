@@ -53,8 +53,8 @@ CREATE TABLE DB2022_수업(
 	수업시간 datetime,
     	수업진행현황 char(6),
 	PRIMARY KEY (회원번호, 수업시간),
-	FOREIGN KEY (회원번호) REFERENCES DB2022_회원(회원번호) ON DELETE CASCADE,
-	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE
+	FOREIGN KEY (회원번호) REFERENCES DB2022_회원(회원번호),
+	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호)
 );
 
 CREATE INDEX 회원번호인덱스 ON DB2022_수업(회원번호);
