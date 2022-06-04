@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-// LoginScreen으로 봐도 무방
 
 public class TrainerLoginScreen extends JFrame {
 	TrainerMenuJDBC tmdb = new TrainerMenuJDBC(); // JDBC 연동 객체 생성
@@ -113,10 +112,7 @@ public class TrainerLoginScreen extends JFrame {
 				JOptionPane.showMessageDialog(null, "아이디 : " + myId + ", 비밀번호 : " + myPwd);
 			
 				if(userType.equals("회원")) {
-					// 회원 로그인 함수 호출
-				}
-				else if(userType.equals("관장")){
-					// 관장 로그인 함수 호출
+					
 				}
 				else if(userType.equals("트레이너")) {
 					int success = tmdb.checkLogin(myId, myPwd);
@@ -138,7 +134,7 @@ public class TrainerLoginScreen extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				new TrainerJoinScreen(userType); // JoinScreen(userType);
+				new TrainerJoinScreen(userType);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
 
 			}
@@ -150,7 +146,7 @@ public class TrainerLoginScreen extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				new ServiceStartScreen(); // 처음 관장, 트레이너, 회원 선택하는 부분
+				new ServiceStartScreen();
 				dispose();
 
 			}
