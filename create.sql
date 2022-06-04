@@ -29,13 +29,9 @@ create table DB2022_트레이너(
     	primary key(강사번호),
     	foreign key(헬스장번호) references DB2022_헬스장(헬스장번호)
 );
-<<<<<<< HEAD
-create index 트레이너인덱스 on DB2022_트레이너(트레이너번호);
-=======
 
 CREATE INDEX 강사번호인덱스 ON DB2022_트레이너(강사번호);
 
->>>>>>> 28d8083a767ee6ce20f18e2365b013e65bd1553e
 CREATE TABLE DB2022_회원(
 	소속헬스장 char(6),
 	회원번호 char(6) NOT NULL,
