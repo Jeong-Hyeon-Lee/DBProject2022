@@ -97,9 +97,10 @@ public class M_searchTrainer extends JFrame {
 				String location = rset.getString(3);
 				String member = rset.getString(4);
 				
-				String[] data = {Gname,Tname,location,member};
-				
-				tableModel.addRow(data);
+				if(!Tname.equals("탈퇴")) {
+					String[] data = {Gname,Tname,location,member};
+					tableModel.addRow(data);
+				} 	
 			}
 			jt = new JTable(tableModel);
 			
@@ -183,9 +184,10 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							String[] data = {Gname,Tname,location,member};
-							
-							tableModel.addRow(data);
+							if(!Tname.equals("탈퇴")) {
+								String[] data = {Gname,Tname,location,member};
+								tableModel.addRow(data);
+							}
 						}
 						jt.setModel(tableModel);					
 					}
@@ -225,9 +227,10 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							String[] data = {Gname,Tname,location,member};
-							
-							tableModel.addRow(data);
+							if(!Tname.equals("탈퇴")) {
+								String[] data = {Gname,Tname,location,member};
+								tableModel.addRow(data);
+							}
 						}
 						jt.setModel(tableModel);					
 					}
@@ -275,9 +278,10 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							String[] data = {Gname,Tname,location,member};
-							
-							tableModel.addRow(data);
+							if(!Tname.equals("탈퇴")) {
+								String[] data = {Gname,Tname,location,member};
+								tableModel.addRow(data);
+							}
 						}
 						jt.setModel(tableModel);					
 					}
