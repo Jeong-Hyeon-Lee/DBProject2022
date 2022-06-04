@@ -27,7 +27,7 @@ public class G_changePriceInformation extends JFrame {
 
 		//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같은 tuple의 헬스장 번호를 rs에 저장
 		//헬스장 번호가 DB2022_가격 테이블의 primary key 이므로 rs에 저장되는 tuple은 1개
-		PreparedStatement pStmt1 = conn.prepareStatement("select 헬스장번호 from DB2022_가격 where 헬스장번호 = ?");
+		PreparedStatement pStmt1 = conn.prepareStatement("select 헬스장번호 from DB2022_가격 use index (헬스장번호) where 헬스장번호 = ?");
 		pStmt1.setString(1, gymID);
 		ResultSet rs = pStmt1.executeQuery();
 
@@ -35,7 +35,7 @@ public class G_changePriceInformation extends JFrame {
 			rs.getString(1); //첫번째 column 값(헬스장 번호) String으로 반환
 			
 			//DB2022_가격 테이블에서 헬스장 번호가 인자로 받은 헬스장 번호와 같은 tuple의 1회가격, 10회가격, 20회가격을 priceRS에 저장
-			PreparedStatement pStmt0 = conn.prepareStatement("select 1회가격, 10회가격, 20회가격 from DB2022_가격 where 헬스장번호 = ?");
+			PreparedStatement pStmt0 = conn.prepareStatement("select 1회가격, 10회가격, 20회가격 from DB2022_가격 use index (헬스장번호) where 헬스장번호 = ?");
 			pStmt0.setString(1, gymID);
 			ResultSet priceRS = pStmt0.executeQuery();
 
