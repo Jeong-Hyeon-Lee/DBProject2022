@@ -31,44 +31,6 @@ public class TrainerMenuJDBC {
 		}
 	}
 
-	public int checkLogin(String tID, String tPW) {
-		String loginquery = "SELECT 비밀번호, 이름, 강사번호, 헬스장번호, 담당회원수, 총근무시간 FROM DB2022_트레이너 USE INDEX (강사번호인덱스) WHERE (강사번호=?)";
-
-		boolean login_success = false;
-		try {
-			pst = con.prepareStatement(loginquery);
-			pst.setString(1,  tID);
-			rs = pst.executeQuery();
-			if (rs.getRow() == -1) {
-				JOptionPane.showMessageDialog(null, "아이디가 없거나, 올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
-			}
-			while (rs.next()) {
-				if (rs.getString(1).equals(tPW)) {
-					login_success = true;
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "아이디가 없거나, 올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
-				}
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		if (login_success)return 1;
-		else return 0;
-	}
-	// 회원 탈퇴를 위한 쿼리문 실행 함수 (작성은 하였으나 실제 회원 탈퇴는 YeonWoo/DeleteScreen.java를 사용하였습니다.)
-	public int Leave(String tID) {
-		String q = "DELETE FROM DB2022_트레이너 WHERE(강사번호=?)";
-		int result = 0;
-		try {
-			pst = con.prepareStatement(q);
-			pst.setString(1, tID);
-			result = pst.executeUpdate();
-		}catch (SQLException e) {
-			e.getStackTrace();
-		}
-		return result;
-	}
 
 	// JDBC 연결을 끊기 위해서 사용
 	public void closeDB() {
@@ -129,27 +91,7 @@ public class TrainerMenuJDBC {
 		}
 		return cnt+1; // 해당 번호 뒷 4자리에 해당하는 등록된 트레이너가 몇명인지 integer의 형태로 반환한다.
 	}
-	// 회원가입
-	public int Join(String myGym, String id, String name, String pwd) {
-		String q = "INSERT INTO DB2022_트레이너(헬스장번호, 강사번호, 이름, 비밀번호) VALUES (?,?,?,?)";
-		boolean success = false;
-		try {
-			pst = con.prepareStatement(q);
-			pst.setString(1, myGym);
-			pst.setString(2, id);
-			pst.setString(3, name);
-			pst.setString(4, pwd);
-			pst.executeUpdate();
-			success = true;
-			
-		}catch(SQLException e) {
-			e.getStackTrace();
-		}
-		if (success)return 1;
-		else return 0;
-	}
-	
-	
+
 	
 	// trainer의 모든 예약 완료 수업 내역 조회 (불참 / 완료 로 바꾸기 위해)
 	public void trainerClassAll(DefaultTableModel class_table, String tID) {
