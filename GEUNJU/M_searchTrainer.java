@@ -292,25 +292,23 @@ public class M_searchTrainer extends JFrame {
 			}
 		});
 		
-		//지금 트레이너와 헬스장정보 비교 -> 남은 횟수(현재) / 남은횟수->헬스장비교로 바꾸기
 		enrollBtn.addActionListener(new ActionListener() { 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) { 
 				int row = jt.getSelectedRow();
-				//선택한 트레이너 이름
-				String Tname = (String) jt.getValueAt(row, 1);
-				//선택한 트레이너의 헬스장 이름
-				String Gname = (String) jt.getValueAt(row, 0);
+				
+				String Tname = (String) jt.getValueAt(row, 1); //선택한 트레이너 이름
+				
+				String Gname = (String) jt.getValueAt(row, 0); //선택한 트레이너의 헬스장 이름
 				
 				try {
 					//현재 소속헬스장이 있는지 확인
-					str = "select M.소속헬스장, G.이름 from db2022_회원 as M, db2022_헬스장 as G where M.소속헬스장=G.헬스장번호 and M.회원번호=?";
+					str = "select G.이름 from db2022_회원 as M, db2022_헬스장 as G where M.소속헬스장=G.헬스장번호 and M.회원번호=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1,ID);
 					rset=pstmt.executeQuery();	
 					
 					if(!rset.isBeforeFirst()) { //헬스장이 없다면 
-						//textfield띄우기
 						infoText.setText("우선 헬스장을 등록해주세요.");
 						infoText.setForeground(new Color(153,0,5));
 						btnGroup.revalidate();
@@ -318,14 +316,13 @@ public class M_searchTrainer extends JFrame {
 						return;
 					} else { //헬스장이 있다면
 						rset.next();
-						String nowGym = rset.getString(1); //소속된 헬스장 번호
-						String nowGymName = rset.getString(2); //소속된 헬스장 이름
+						String nowGymName = rset.getString(1); //소속된 헬스장 이름
 												
 						//남은 횟수가 0인지 확인
 						int check[] = M_totalLeft.M_totalLeft(conn, ID);
 						
 						if(check[1]==0) { //남은 횟수가 0이라면
-							//소속헬스장과 선택한 트레이너 소속 헬스장이 같은지 확인
+							//소속헬스장과 선택한 트레이너 소속 헬스장이 같은지 확인 (이름으로 확인)
 							if(nowGymName.equals(Gname)) { //둘이 같다면 등록 가능!
 								str = "select 담당트레이너 from db2022_회원 use index(회원번호인덱스) where 회원번호=?";
 								pstmt = conn.prepareStatement(str);

@@ -221,6 +221,30 @@ public class M_enrollMembership extends JFrame {
 					btnGroup.repaint();
 					return;					
 				}
+				
+				//트레이너 헬스장이랑 소속헬스장이 다르면 못 바꿈
+				try{
+					str = "SELECT 헬스장번호 FROM DB2022_트레이너 WHERE 강사번호=?";
+					pstmt = conn.prepareStatement(str);
+					pstmt.setString(1, Tid_M);
+					rset = pstmt.executeQuery();
+					
+					rset.next();
+					String Tgym = rset.getString(1);
+					
+					if(!Tgym.equals(GYMid_M)) {
+						infoText.setText("소속헬스장과 트레이너의 헬스장이 일치하지 않습니다. 트레이너를 다시 등록해주세요.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
+						return;	
+					}
+					
+					
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
 	
 				
 				try { //남은수업횟수가 0인지 확인
