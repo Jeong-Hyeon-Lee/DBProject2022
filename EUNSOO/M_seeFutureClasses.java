@@ -77,7 +77,7 @@ public class M_seeFutureClasses extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "USE INDEX(회원번호인덱스) " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
