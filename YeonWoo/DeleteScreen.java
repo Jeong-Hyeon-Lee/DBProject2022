@@ -10,41 +10,41 @@ import java.sql.*;
 public class DeleteScreen extends JFrame {
 
 	public DeleteScreen(Connection conn, String userType, String ID) { 
-		setTitle("Å»Åğ");
+		setTitle("íƒˆí‡´");
 
 		// title
 		JPanel titlePanel = new JPanel();
-		JLabel delete = new JLabel(userType + " Å»Åğ");
+		JLabel delete = new JLabel(userType + " íƒˆí‡´");
 		delete.setForeground(new Color(5, 0, 153));
-		delete.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
+		delete.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
 		titlePanel.add(delete);
 
-		// check ¹®±¸
+		// check ë¬¸êµ¬
 		JPanel checkPanel = new JPanel(new FlowLayout());
 		JLabel check = new JLabel(" ", JLabel.CENTER);
-		check.setText(ID + "´Ô, Á¤¸» Å»ÅğÇÏ½Ã°Ú½À´Ï±î?");
+		check.setText(ID + "ë‹˜, ì •ë§ íƒˆí‡´í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
 		checkPanel.add(check);
 		
 		JLabel check2 = new JLabel(" ", JLabel.CENTER);
-		check2.setText("Å»Åğ ½Ã °ü·ÃµÈ ¸ğµç Á¤º¸°¡ »èÁ¦µË´Ï´Ù.");
+		check2.setText("íƒˆí‡´ ì‹œ ê´€ë ¨ëœ ëª¨ë“  ì •ë³´ê°€ ì‚­ì œë©ë‹ˆë‹¤.");
 		checkPanel.add(check2);
 
-		// ¹öÆ°
+		// ë²„íŠ¼
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		
 		JPanel deletePanel = new JPanel(new FlowLayout());
-		JButton deleteButton = new JButton("Å»Åğ");
+		JButton deleteButton = new JButton("íƒˆí‡´");
 		deletePanel.add(deleteButton);
 		
 		JPanel backPanel = new JPanel(new FlowLayout());
-		JButton backButton = new JButton("Ãë¼Ò");
+		JButton backButton = new JButton("ì·¨ì†Œ");
 		backPanel.add(backButton);
 
 		buttonPanel.add(deletePanel);
 		buttonPanel.add(backPanel);
 
-		// Panel¿¡ ¹èÄ¡
+		// Panelì— ë°°ì¹˜
 		JPanel Panel = new JPanel();
 		Panel.setLayout(new FlowLayout());
 		Panel.add(buttonPanel);
@@ -57,13 +57,13 @@ public class DeleteScreen extends JFrame {
 
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
+		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setVisible(true);
 		
-		// Å»Åğ ¹öÆ° ´­·¶À» ¶§ ÀÌº¥Æ®Ã³¸®
+		// íƒˆí‡´ ë²„íŠ¼ ëˆŒë €ì„ ë•Œ ì´ë²¤íŠ¸ì²˜ë¦¬
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -71,80 +71,80 @@ public class DeleteScreen extends JFrame {
 				boolean deleteSuccess = true;
 
 				// =================================================
-				// ===================== È¸¿ø =======================
-				if (userType.equals("È¸¿ø")) { //È¸¿ø»èÁ¦½Ã, È¸¿ø Å×ÀÌºí, ¼ö¾÷ Å×ÀÌºí¿¡¼­ »èÁ¦ ÀÌ·ïÁ®¾ßÇÔ
+				// ===================== íšŒì› =======================
+				if (userType.equals("íšŒì›")) { //íšŒì›ì‚­ì œì‹œ, íšŒì› í…Œì´ë¸”, ìˆ˜ì—… í…Œì´ë¸”ì—ì„œ ì‚­ì œ ì´ë¤„ì ¸ì•¼í•¨
 					try {
-						//transaction ½ÃÀÛ
+						//transaction ì‹œì‘
 						conn.setAutoCommit(false);
 						
-						//STEP0. ÇÊ¿äÇÑ °ªµé Ã£¾Æ¼­ ÀúÀåÇØµÎ±â
-						String member_gym = null; // ·Î±×ÀÎÇÑ È¸¿øÀÇ ¼Ò¼Ó Çï½ºÀå¹øÈ£
-						String member_trainer = null; //·Î±×ÀÎÇÑ È¸¿øÀÇ ´ã´ç Æ®·¹ÀÌ³Ê¹øÈ£
+						//STEP0. í•„ìš”í•œ ê°’ë“¤ ì°¾ì•„ì„œ ì €ì¥í•´ë‘ê¸°
+						String member_gym = null; // ë¡œê·¸ì¸í•œ íšŒì›ì˜ ì†Œì† í—¬ìŠ¤ì¥ë²ˆí˜¸
+						String member_trainer = null; //ë¡œê·¸ì¸í•œ íšŒì›ì˜ ë‹´ë‹¹ íŠ¸ë ˆì´ë„ˆë²ˆí˜¸
 						
 						String loginquery 
 						= " SELECT * " 
-						+ " FROM DB2022_È¸¿ø" 
-						+ " WHERE (È¸¿ø¹øÈ£=?) ";
+						+ " FROM DB2022_íšŒì›" 
+						+ " WHERE (íšŒì›ë²ˆí˜¸=?) ";
 						
 						PreparedStatement pst = conn.prepareStatement(loginquery);
 						pst.setString(1, ID);
 						ResultSet rs = pst.executeQuery();
 						
 						while(rs.next()) {
-							member_gym = rs.getString("¼Ò¼ÓÇï½ºÀå");
-							member_trainer = rs.getString("´ã´çÆ®·¹ÀÌ³Ê");
+							member_gym = rs.getString("ì†Œì†í—¬ìŠ¤ì¥");
+							member_trainer = rs.getString("ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ");
 						}
 						
-						//STEP1. ¼ö¾÷ Å×ÀÌºí¿¡¼­ ÇØ´ç È¸¿øÀÇ Á¤º¸ »èÁ¦
-						//¼ö¾÷ÀÌ È¸¿øÀ» ÂüÁ¶ÇÏ¹Ç·Î, ¼ö¾÷ ¸ÕÀú »èÁ¦
+						//STEP1. ìˆ˜ì—… í…Œì´ë¸”ì—ì„œ í•´ë‹¹ íšŒì›ì˜ ì •ë³´ ì‚­ì œ
+						//ìˆ˜ì—…ì´ íšŒì›ì„ ì°¸ì¡°í•˜ë¯€ë¡œ, ìˆ˜ì—… ë¨¼ì € ì‚­ì œ
 						String deleteQuery1
-						= " DELETE FROM DB2022_¼ö¾÷ "
-						+ " WHERE È¸¿ø¹øÈ£ = ? ";
+						= " DELETE FROM DB2022_ìˆ˜ì—… "
+						+ " WHERE íšŒì›ë²ˆí˜¸ = ? ";
 						
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
 						pst1.setString(1, ID);
 						pst1.executeUpdate();
 						
-						//STEP2. È¸¿ø Å×ÀÌºí¿¡¼­ ÇØ´ç È¸¿ø »èÁ¦
+						//STEP2. íšŒì› í…Œì´ë¸”ì—ì„œ í•´ë‹¹ íšŒì› ì‚­ì œ
 						String deleteQuery2
-						= " DELETE FROM DB2022_È¸¿ø "
-						+ " WHERE È¸¿ø¹øÈ£ = ? ";
+						= " DELETE FROM DB2022_íšŒì› "
+						+ " WHERE íšŒì›ë²ˆí˜¸ = ? ";
 						
 						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
 						pst2.setString(1, ID);
 						pst2.executeUpdate();
 						
-						//STEP3. Çï½ºÀå¿¡¼­ ÀüÃ¼È¸¿ø¼ö º¯°æ
+						//STEP3. í—¬ìŠ¤ì¥ì—ì„œ ì „ì²´íšŒì›ìˆ˜ ë³€ê²½
 						String deleteQuery3
-						= " UPDATE DB2022_Çï½ºÀå "
-						+ " SET ÀüÃ¼È¸¿ø¼ö = ÀüÃ¼È¸¿ø¼ö - 1 "
-						+ " WHERE Çï½ºÀå = ? ";
+						= " UPDATE DB2022_í—¬ìŠ¤ì¥ "
+						+ " SET ì „ì²´íšŒì›ìˆ˜ = ì „ì²´íšŒì›ìˆ˜ - 1 "
+						+ " WHERE í—¬ìŠ¤ì¥ = ? ";
 						
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, member_gym);
 						pst3.executeUpdate();
 						
-						//STEP4. ´ã´çÆ®·¹ÀÌ³ÊÀÇ ´ã´ç È¸¿ø¼ö º¯°æ
+						//STEP4. ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆì˜ ë‹´ë‹¹ íšŒì›ìˆ˜ ë³€ê²½
 						String deleteQuery4
-						= " UPDATE DB2022_Æ®·¹ÀÌ³Ê "
-						+ " SET ´ã´çÈ¸¿ø¼ö = ´ã´çÈ¸¿ø¼ö - 1 "
-						+ " WHERE °­»ç¹øÈ£ = ? ";
+						= " UPDATE DB2022_íŠ¸ë ˆì´ë„ˆ "
+						+ " SET ë‹´ë‹¹íšŒì›ìˆ˜ = ë‹´ë‹¹íšŒì›ìˆ˜ - 1 "
+						+ " WHERE ê°•ì‚¬ë²ˆí˜¸ = ? ";
 						
 						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
 						pst4.setString(1, member_trainer);
 						pst4.executeUpdate();
 						
-						conn.commit(); //transaction ³¡, Á¤»ó¼öÇØ¿À´òÀ» ¶§ commit();
+						conn.commit(); //transaction ë, ì •ìƒìˆ˜í•´ì˜¤ëŒ”ì„ ë•Œ commit();
 						conn.setAutoCommit(true);
 					} catch (SQLException se) {
 						deleteSuccess = false;
 						se.printStackTrace();
 						
-						System.out.println("Roll Back ½ÇÇà");
+						System.out.println("Roll Back ì‹¤í–‰");
 						
 						try {
 							if(conn!=null)
-								conn.rollback(); //Á¤»ó ¼öÇàµÇÁö ¾Ê¾ÒÀ» ½Ã rollback();
+								conn.rollback(); //ì •ìƒ ìˆ˜í–‰ë˜ì§€ ì•Šì•˜ì„ ì‹œ rollback();
 						} catch(SQLException se2) {
 							se2.printStackTrace();
 						}
@@ -152,79 +152,79 @@ public class DeleteScreen extends JFrame {
 				}
 
 				// =================================================
-				// ===================== Æ®·¹ÀÌ³Ê =======================
-				else if (userType.equals("Æ®·¹ÀÌ³Ê")) { 
+				// ===================== íŠ¸ë ˆì´ë„ˆ =======================
+				else if (userType.equals("íŠ¸ë ˆì´ë„ˆ")) { 
 					try {
-						//transaction ½ÃÀÛ
+						//transaction ì‹œì‘
 						conn.setAutoCommit(false);
 						
-						//STEP0. ÇÊ¿äÇÑ °ªµé Ã£¾Æ¼­ ÀúÀåÇØµÎ±â
-						String trainer_gym = null; // ·Î±×ÀÎÇÑ Æ®·¹ÀÌ³ÊÀÇ ¼Ò¼Ó Çï½ºÀå¹øÈ£
+						//STEP0. í•„ìš”í•œ ê°’ë“¤ ì°¾ì•„ì„œ ì €ì¥í•´ë‘ê¸°
+						String trainer_gym = null; // ë¡œê·¸ì¸í•œ íŠ¸ë ˆì´ë„ˆì˜ ì†Œì† í—¬ìŠ¤ì¥ë²ˆí˜¸
 						
 						String loginquery 
 						= " SELECT * " 
-						+ " FROM DB2022_Æ®·¹ÀÌ³Ê" 
-						+ " WHERE (°­»ç¹øÈ£=?) ";
+						+ " FROM DB2022_íŠ¸ë ˆì´ë„ˆ" 
+						+ " WHERE (ê°•ì‚¬ë²ˆí˜¸=?) ";
 						
 						PreparedStatement pst = conn.prepareStatement(loginquery);
 						pst.setString(1, ID);
 						ResultSet rs = pst.executeQuery();
 						
 						while(rs.next()) {
-							trainer_gym = rs.getString("Çï½ºÀå¹øÈ£");
+							trainer_gym = rs.getString("í—¬ìŠ¤ì¥ë²ˆí˜¸");
 						}
 						
-						//STEP1. ¼ö¾÷ Å×ÀÌºí¿¡¼­ ÇØ´ç Æ®·¹ÀÌ³ÊÀÇ Á¤º¸ »èÁ¦
-						//¼ö¾÷ÀÌ Æ®·¹ÀÌ³Ê¸¦ ÂüÁ¶ÇÏ¹Ç·Î, ¼ö¾÷ ¸ÕÀú »èÁ¦
+						//STEP1. ìˆ˜ì—… í…Œì´ë¸”ì—ì„œ í•´ë‹¹ íŠ¸ë ˆì´ë„ˆì˜ ì •ë³´ ì‚­ì œ
+						//ìˆ˜ì—…ì´ íŠ¸ë ˆì´ë„ˆë¥¼ ì°¸ì¡°í•˜ë¯€ë¡œ, ìˆ˜ì—… ë¨¼ì € ì‚­ì œ
 						String deleteQuery1
-						= " DELETE FROM DB2022_¼ö¾÷ "
-						+ " WHERE °­»ç¹øÈ£ = ? ";
+						= " DELETE FROM DB2022_ìˆ˜ì—… "
+						+ " WHERE ê°•ì‚¬ë²ˆí˜¸ = ? ";
 						
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
 						pst1.setString(1, ID);
 						pst1.executeUpdate();
 						
-						//STEP2. Æ®·¹ÀÌ³Ê Å×ÀÌºí¿¡¼­ ÇØ´ç Æ®·¹ÀÌ³Ê »èÁ¦
+						//STEP2. íŠ¸ë ˆì´ë„ˆ í…Œì´ë¸”ì—ì„œ í•´ë‹¹ íŠ¸ë ˆì´ë„ˆ ì‚­ì œ
 						String deleteQuery2
-						= " DELETE FROM DB2022_Æ®·¹ÀÌ³Ê "
-						+ " WHERE °­»ç¹øÈ£ = ? ";
+						= " DELETE FROM DB2022_íŠ¸ë ˆì´ë„ˆ "
+						+ " WHERE ê°•ì‚¬ë²ˆí˜¸ = ? ";
 						
 						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
 						pst2.setString(1, ID);
 						pst2.executeUpdate();
 						
-						//STEP3. Çï½ºÀå¿¡¼­ ÀüÃ¼Æ®·¹ÀÌ³Ê¼ö º¯°æ
+						//STEP3. í—¬ìŠ¤ì¥ì—ì„œ ì „ì²´íŠ¸ë ˆì´ë„ˆìˆ˜ ë³€ê²½
 						String deleteQuery3
-						= " UPDATE DB2022_Çï½ºÀå "
-						+ " SET ÀüÃ¼Æ®·¹ÀÌ³Ê¼ö = ÀüÃ¼Æ®·¹ÀÌ³Ê¼ö - 1 "
-						+ " WHERE Çï½ºÀå = ? ";
+						= " UPDATE DB2022_í—¬ìŠ¤ì¥ "
+						+ " SET ì „ì²´íŠ¸ë ˆì´ë„ˆìˆ˜ = ì „ì²´íŠ¸ë ˆì´ë„ˆìˆ˜ - 1 "
+						+ " WHERE í—¬ìŠ¤ì¥ = ? ";
 						
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, trainer_gym);
 						pst3.executeUpdate();
 						
-						//STEP4. ´ã´çÈ¸¿øÀÇ ´ã´çÆ®·¹ÀÌ³Ê¸¦ null·Î
+						//STEP4. ë‹´ë‹¹íšŒì›ì˜ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆë¥¼ nullë¡œ
 						String deleteQuery4
-						= " UPDATE DB2022_È¸¿ø "
-						+ " SET ´ã´çÆ®·¹ÀÌ³Ê = null "
-						+ " WHERE °­»ç¹øÈ£ = ? ";
+						= " UPDATE DB2022_íšŒì› "
+						+ " SET ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ = null "
+						+ " WHERE ê°•ì‚¬ë²ˆí˜¸ = ? ";
 						
 						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
 						pst4.setString(1, ID);
 						pst4.executeUpdate();
 						
-						conn.commit(); //transaction ³¡
+						conn.commit(); //transaction ë
 						conn.setAutoCommit(true);
 						
 					} catch (SQLException se) {
 						deleteSuccess = false;
 						se.printStackTrace();
 						
-						System.out.println("Roll Back ½ÇÇà");
+						System.out.println("Roll Back ì‹¤í–‰");
 						
 						try {
 							if(conn!=null)
-								conn.rollback(); //Á¤»ó ¼öÇàµÇÁö ¾Ê¾ÒÀ» ½Ã rollback();
+								conn.rollback(); //ì •ìƒ ìˆ˜í–‰ë˜ì§€ ì•Šì•˜ì„ ì‹œ rollback();
 						} catch(SQLException se2) {
 							se2.printStackTrace();
 						}
@@ -232,23 +232,23 @@ public class DeleteScreen extends JFrame {
 				}
 
 				// =================================================
-				// ===================== °üÀå =======================
-				else if (userType.equals("°üÀå")) { 
+				// ===================== ê´€ì¥ =======================
+				else if (userType.equals("ê´€ì¥")) { 
 					try {
-						//transaction ½ÃÀÛ
+						//transaction ì‹œì‘
 						conn.setAutoCommit(false);
 						
-						//STEP0. ÇØ´ç Çï½ºÀå¿¡ ¼Ò¼ÓÇÑ Æ®·¹ÀÌ³Ê, È¸¿ø Á¤º¸ ÀúÀå
-						// [Áú¹®] create table·Î ÀúÀåÇØµÎ°í ÀÌ°Å¿¡ ¼ÓÇÑ »ç¶÷µé ´Ù »èÁ¦ÇÑ ÈÄ tableÀ» ¾ø¾Ö°í ½ÍÀºµ¥, JDBC¹®¿¡¼­ table¸¸µé¾îµµµÇ´ÂÁö, ¾Æ´Ï¸é ¾î¶»°Ô ÇÏ´ÂÁö.
-						// [Áú¹®] ¼Ò¼ÓÆ®·¹ÀÌ³Ê, ¼Ò¼ÓÈ¸¿ø µÑ´Ù Çï½ºÀå¹øÈ£¸¸ »èÁ¦ÇÏ°í Á¤º¸´Â ³ÀµÎ´Â °Å ¸Â´ÂÁö.
-						// [Áú¹®] on delete cascadeÀÖÀ¸´Ï±î ¼ö¾÷¸¸ »èÁ¦ÇÏ¸é ±× ¼ö¾÷ µè´Â È¸¿ø, Æ®·¹ÀÌ³Ê µîÀº µû·Î »èÁ¦¾ÈÇØµµµÇ³ª? ±Ùµ¥, ¼ö¾÷¿£ ¿Ö cascade°¡ ÀÖÁö..?
+						//STEP0. í•´ë‹¹ í—¬ìŠ¤ì¥ì— ì†Œì†í•œ íŠ¸ë ˆì´ë„ˆ, íšŒì› ì •ë³´ ì €ì¥
+						// [ì§ˆë¬¸] create tableë¡œ ì €ì¥í•´ë‘ê³  ì´ê±°ì— ì†í•œ ì‚¬ëŒë“¤ ë‹¤ ì‚­ì œí•œ í›„ tableì„ ì—†ì• ê³  ì‹¶ì€ë°, JDBCë¬¸ì—ì„œ tableë§Œë“¤ì–´ë„ë˜ëŠ”ì§€, ì•„ë‹ˆë©´ ì–´ë–»ê²Œ í•˜ëŠ”ì§€.
+						// [ì§ˆë¬¸] ì†Œì†íŠ¸ë ˆì´ë„ˆ, ì†Œì†íšŒì› ë‘˜ë‹¤ í—¬ìŠ¤ì¥ë²ˆí˜¸ë§Œ ì‚­ì œí•˜ê³  ì •ë³´ëŠ” ëƒ…ë‘ëŠ” ê±° ë§ëŠ”ì§€.
+						// [ì§ˆë¬¸] on delete cascadeìˆìœ¼ë‹ˆê¹Œ ìˆ˜ì—…ë§Œ ì‚­ì œí•˜ë©´ ê·¸ ìˆ˜ì—… ë“£ëŠ” íšŒì›, íŠ¸ë ˆì´ë„ˆ ë“±ì€ ë”°ë¡œ ì‚­ì œì•ˆí•´ë„ë˜ë‚˜? ê·¼ë°, ìˆ˜ì—…ì—” ì™œ cascadeê°€ ìˆì§€..?
 						
-						String trainer_gym = null; // ·Î±×ÀÎÇÑ È¸¿øÀÇ ¼Ò¼Ó Çï½ºÀå¹øÈ£
+						String trainer_gym = null; // ë¡œê·¸ì¸í•œ íšŒì›ì˜ ì†Œì† í—¬ìŠ¤ì¥ë²ˆí˜¸
 						
 						String loginquery 
-						= " SELECT °­»ç¹øÈ£ " 
-						+ " FROM DB2022_Æ®·¹ÀÌ³Ê" 
-						+ " WHERE (Çï½ºÀå¹øÈ£=?) ";
+						= " SELECT ê°•ì‚¬ë²ˆí˜¸ " 
+						+ " FROM DB2022_íŠ¸ë ˆì´ë„ˆ" 
+						+ " WHERE (í—¬ìŠ¤ì¥ë²ˆí˜¸=?) ";
 						
 						PreparedStatement pst = conn.prepareStatement(loginquery);
 						pst.setString(1, ID);
@@ -258,21 +258,21 @@ public class DeleteScreen extends JFrame {
 							
 						}
 						
-						// STEP1. °¡°İÁ¤º¸ »èÁ¦
-						// STEP1. ¼ö¾÷Á¤º¸ »èÁ¦
-						// STEP1. È¸¿øÁ¤º¸¿¡¼­ Çï½ºÀå¹øÈ£ null·Î
-						// STEP1. Æ®·¹ÀÌ³ÊÁ¤º¸¿¡¼­ Çï½ºÀå¹øÈ£ null·Î
-						// STEP1. Çï½ºÀå Á¤º¸ »èÁ¦
+						// STEP1. ê°€ê²©ì •ë³´ ì‚­ì œ
+						// STEP1. ìˆ˜ì—…ì •ë³´ ì‚­ì œ
+						// STEP1. íšŒì›ì •ë³´ì—ì„œ í—¬ìŠ¤ì¥ë²ˆí˜¸ nullë¡œ
+						// STEP1. íŠ¸ë ˆì´ë„ˆì •ë³´ì—ì„œ í—¬ìŠ¤ì¥ë²ˆí˜¸ nullë¡œ
+						// STEP1. í—¬ìŠ¤ì¥ ì •ë³´ ì‚­ì œ
 						
 					} catch (SQLException se) {
 						deleteSuccess = false;
 						se.printStackTrace();
 						
-						System.out.println("Roll Back ½ÇÇà");
+						System.out.println("Roll Back ì‹¤í–‰");
 						
 						try {
 							if(conn!=null)
-								conn.rollback(); //Á¤»ó ¼öÇàµÇÁö ¾Ê¾ÒÀ» ½Ã rollback();
+								conn.rollback(); //ì •ìƒ ìˆ˜í–‰ë˜ì§€ ì•Šì•˜ì„ ì‹œ rollback();
 						} catch(SQLException se2) {
 							se2.printStackTrace();
 						}
@@ -281,15 +281,15 @@ public class DeleteScreen extends JFrame {
 		
 				
 				if (deleteSuccess == true) {
-					//Å»Åğ¼º°ø½Ã ´Ù½Ã startÈ­¸éÀ¸·Î
-					JOptionPane.showMessageDialog(null, "Å»ÅğÃ³¸® µÇ¾ú½À´Ï´Ù.");
+					//íƒˆí‡´ì„±ê³µì‹œ ë‹¤ì‹œ startí™”ë©´ìœ¼ë¡œ
+					JOptionPane.showMessageDialog(null, "íƒˆí‡´ì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 					new StartScreen(conn);
-					dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
+					dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
 				}
 			}
 		});
 				
-		// Ãë¼Ò ¹öÆ°À» Å¬¸¯ÇßÀ» ¶§ ÀÌº¥Æ® Ã³¸®
+		// ì·¨ì†Œ ë²„íŠ¼ì„ í´ë¦­í–ˆì„ ë•Œ ì´ë²¤íŠ¸ ì²˜ë¦¬
 		backButton.addActionListener(new ActionListener() {
 
 			@Override

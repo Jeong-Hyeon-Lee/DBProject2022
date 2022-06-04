@@ -370,6 +370,3 @@ public class TrainerMenuJDBC {
 	
 	
 }
-
-
-}

@@ -229,7 +229,7 @@ public class TrainerJoinScreen extends JFrame {
 					new G_selectMenu(gymId);
 					*/
 					// 이후 관장용 메뉴 화면으로 넘어감 (G_selectMenu.java)
-				};
+				}
 				else if (userType.equals("회원")){
 					// 멤버 회원 가입 함수 호출 
 					// 회원 가입 마무리 되면 자동 로그인
