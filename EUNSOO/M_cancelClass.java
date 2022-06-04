@@ -84,7 +84,7 @@ public class M_cancelClass extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "USE INDEX (회원번호인덱스) " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료') AND 수업시간 > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
+			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "USE INDEX(회원번호인덱스) " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료') AND 수업시간 > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
