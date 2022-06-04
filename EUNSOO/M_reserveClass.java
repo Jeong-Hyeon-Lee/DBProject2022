@@ -156,7 +156,7 @@ public class M_reserveClass extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "USE INDEX(회원번호인덱스) " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
@@ -247,13 +247,13 @@ public class M_reserveClass extends JFrame {
 					/* 더 이상 수업이 예약 가능한지 아닌지 확인 */
 					int remainingClass=0, reservedClass=0;
 					// 남은 수업 횟수 확인
-					query_test = "SELECT 남은횟수 FROM DB2022_회원 WHERE 회원번호 = ?";
+					query_test = "SELECT 남은횟수 FROM DB2022_회원 USE INDEX(회원번호인덱스) WHERE 회원번호 = ?";
 					pstm_test = conn.prepareStatement(query_test);
 					pstm_test.setString(1, ID);
 					rs_test = pstm_test.executeQuery();
 					
 					// 현재 예약된 수업 개수 확인
-					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 					pstm_test2 = conn.prepareStatement(query_test2);
 					pstm_test2.setString(1, ID);
 					rs_test2 = pstm_test2.executeQuery();
@@ -287,7 +287,7 @@ public class M_reserveClass extends JFrame {
 					
 					try {			
 						query2 = "SELECT NOW()";
-						query3 = "SELECT DISTINCT 강사번호 FROM DB2022_수업 WHERE 회원번호 = ?";
+						query3 = "SELECT DISTINCT 강사번호 FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ?";
 						query4 = "INSERT IGNORE INTO DB2022_수업 " + "VALUES(?, ?, ?, ?)";  // Ignore insertion if duplicated.
 	
 						pStmt2 = conn.prepareStatement(query2);

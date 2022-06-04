@@ -112,7 +112,7 @@ public class LoginScreen extends JFrame {
 					String member_name = null; // 로그인한 회원의 이름
 					String member_gym = null; // 로그인한 회원의 소속 헬스장번호
 					
-					String loginquery = "SELECT * " + "FROM DB2022_회원" + " WHERE (회원번호=?)";
+					String loginquery = "SELECT * " + "FROM DB2022_회원 USE INDEX (회원번호인덱스)" + " WHERE (회원번호=?)";
 					//어차피 회원번호 primary key라 null아니면 tuple한개짜리 ResultSet 반환 >> while(rs.next()) 필요없음
 					
 					try {
@@ -150,7 +150,7 @@ public class LoginScreen extends JFrame {
 					String trainer_name = null; // 로그인한 트레이너의 이름
 					String trainer_gym = null; // 로그인한 트레이너의 소속 헬스장번호
 					
-					String loginquery = "SELECT * " + "FROM DB2022_트레이너" + " WHERE (강사번호=?)"; 
+					String loginquery = "SELECT * " + "FROM DB2022_트레이너 USE INDEX (강사번호인덱스)" + " WHERE (강사번호=?)"; 
 					//어차피 강사번호 primary key라 null아니면 tuple한개짜리 ResultSet 반환 >> while(rs.next()) 필요없음
 
 					try {

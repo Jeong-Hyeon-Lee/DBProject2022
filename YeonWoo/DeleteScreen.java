@@ -168,7 +168,7 @@ public class DeleteScreen extends JFrame {
 						String trainer_gym = null; // 로그인한 트레이너의 소속 헬스장번호
 
 						String loginquery = " SELECT * "
-								+ " FROM DB2022_트레이너"
+								+ " FROM DB2022_트레이너 USE INDEX (강사번호인덱스)"
 								+ " WHERE(강사번호=?) ";
 
 						PreparedStatement pst = conn.prepareStatement(loginquery);
