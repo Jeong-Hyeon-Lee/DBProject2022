@@ -58,7 +58,7 @@ public class TrainerMenuJDBC {
 	}
 	// 회원 탈퇴를 위한 쿼리문 실행 함수 (작성은 하였으나 실제 회원 탈퇴는 YeonWoo/DeleteScreen.java를 사용하였습니다.)
 	public int Leave(String tID) {
-		String q = "DELETE FROM DB2022_트레이너 use index (트레이너인덱스) WHERE(강사번호=?)";
+		String q = "DELETE FROM DB2022_트레이너 WHERE(강사번호=?)";
 		int result = 0;
 		try {
 			pst = con.prepareStatement(q);
