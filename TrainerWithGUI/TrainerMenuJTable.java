@@ -99,6 +99,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 		
 		else if (e.getSource() == logout) {
 			new TrainerJDialogGUI(this, "로그아웃");
+			new StartScreen(tmdb.con);
 			dispose();
 		}
 		
