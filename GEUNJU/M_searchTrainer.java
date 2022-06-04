@@ -298,166 +298,122 @@ public class M_searchTrainer extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) { 
 				int row = jt.getSelectedRow();
 				
+				//선택한 트레이너 이름
 				String Tname = (String) jt.getValueAt(row, 1);
 				
 				//선택한 트레이너의 헬스장 이름
 				String Gname = (String) jt.getValueAt(row, 0);
-
-				//선택한 트레이너의 헬스장 번호찾기
-				String GYMid_T = null;
 				try {
-					str = "SELECT 헬스장번호 FROM DB2022_헬스장 WHERE 이름=?";
+					//현재 소속헬스장이 있는지 확인
+					str = "select 헬스장번호,이름 from db2022_회원 where 회원번호=?";
 					pstmt = conn.prepareStatement(str);
-					pstmt.setString(1, Gname);
-					rset = pstmt.executeQuery();
-					rset.next();
-					GYMid_T = rset.getString(1);
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				
-				//소속헬스장 번호, 현재 담당트레이너 찾기 -> 소속헬스장이 null이라면 등록X되도록 구현
-				String GYMid_M = null;
-				String nowT = null;
-				try {
-					str = "SELECT 소속헬스장,담당트레이너 FROM DB2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?";
-					pstmt = conn.prepareStatement(str);
-					pstmt.setString(1, ID);
-					rset = pstmt.executeQuery();
+					pstmt.setString(1,ID);
+					rset=pstmt.executeQuery();	
 					
-					rset.next();
-					GYMid_M = rset.getString(1);
-					nowT = rset.getString(2);
-			
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				
-				if(GYMid_M==null) {
-					infoText.setText("헬스장을 먼저 등록해주세요.");
-					infoText.setForeground(new Color(153,0,5));
-					btnGroup.revalidate();
-					btnGroup.repaint();
-					return;
-				}
-				
-				//소속헬스장과 트레이너의 헬스장이 같은지 비교
-				if(GYMid_M.equals(GYMid_T)) {
-					try { //남은수업횟수가 0인지 확인
+					if(!rset.isBeforeFirst()) { //헬스장이 없다면 
+						//textfield띄우기
+						infoText.setText("우선 헬스장을 등록해주세요.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
+						return;
+					} else { //헬스장이 있다면
+						rset.next();
+						String nowGym = rset.getString(1); //소속된 헬스장 번호
+						String nowGymName = rset.getString(2); //소속된 헬스장 이름
+						
+						//선택한 트레이너 이름(Tname) 으로 트레이너 번호 찾기
+						str = "SELECT 강사번호, 담당회원수 FROM DB2022_트레이너 WHERE 이름=?";
+						pstmt = conn.prepareStatement(str);
+						pstmt.setString(1, Tname);
+						rset = pstmt.executeQuery();
+						String selectT = null; //선택한 트레이너 번호
+						int selectTnum =0; //선택한 트레이너의 담당회원 수
+						rset.next();
+						selectT = rset.getString(1); 
+						selectTnum = rset.getInt(2);
+						
+						//남은 횟수가 0인지 확인
 						int check[] = M_totalLeft.M_totalLeft(conn, ID);
 						
-						if(check[1]==0) { //남은수업횟수 == 0
-							if(nowT==null) { //담당 트레이너가 없을 경우
-								try {
-									//트레이너 이름으로 강사번호찾기
-									str = "SELECT 강사번호 FROM DB2022_트레이너 WHERE 이름=?";
-									pstmt = conn.prepareStatement(str);
-									pstmt.setString(1, Tname);
-									rset = pstmt.executeQuery();
-									String Tid = null;
-									
-									rset.next();
-									Tid = rset.getString(1);	
-									
-									//담당 트레이너 등록하기
+						if(check[1]==0) { //남은 횟수가 0이라면
+							
+							//소속헬스장과 선택한 트레이너 소속 헬스장이 같은지 확인
+							if(nowGymName.equals(Gname)) { //둘이 같다면 등록 가능!
+								str = "select 담당트레이너 from db2022_회원 where 회원번호=?";
+								pstmt = conn.prepareStatement(str);
+								pstmt.setString(1,ID);
+								rset=pstmt.executeQuery();	
+								
+								//현재 담당트레이너가 없다면
+								if(!rset.isBeforeFirst()) {
+									//등록 : 회원 담당트레이너 등록
 									str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
 									pstmt = conn.prepareStatement(str);
-									pstmt.setString(1, Tid);
+									pstmt.setString(1, selectT);
 									pstmt.setString(2, ID);
 									pstmt.executeUpdate();
 									
-									infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
-									infoText.setForeground(new Color(5,0,153));
-									btnGroup.revalidate();
-									btnGroup.repaint();
-								} catch (SQLException ee) {
-									ee.printStackTrace();
-								}
-							} else { //담당 트레이너가 있을 경우
-								try {
-									//현재 담당트레이너 강사번호(nowT)로 담당회원수찾기
+									//등록 : 트레이너 담당회원수 +1
+									str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setInt(1, selectTnum+1);
+									pstmt.setString(2, selectT);
+									pstmt.executeUpdate();
+									
+								} else { //현재 담당트레이너가 있다면
+									rset.next();
+									String nowT = rset.getString(1);
+									
+									//현재 담당트레이너 번호로 담당회원수찾기
 									str = "SELECT 담당회원수 FROM DB2022_트레이너 WHERE 강사번호=?";
 									pstmt = conn.prepareStatement(str);
 									pstmt.setString(1, nowT);
 									rset = pstmt.executeQuery();
 									int nowTnum = 0; //기존 담당트레이너 담당회원수
-									
 									rset.next();
-									nowTnum = rset.getInt(1);	
+									nowTnum = rset.getInt(1);
 									
-									//기존 담당트레이너 담당회원수 -1
+									//등록해제 : 기존 담당트레이너 담당회원수 -1
 									str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
 									pstmt = conn.prepareStatement(str);
 									pstmt.setInt(1, nowTnum-1);
 									pstmt.setString(2, nowT);
 									pstmt.executeUpdate();
 									
-									//트레이너 이름으로 선택한 강사번호, 담당회원수 찾기 
-									str = "SELECT 강사번호,담당회원수 FROM DB2022_트레이너 WHERE 이름=?";
-									pstmt = conn.prepareStatement(str);
-									pstmt.setString(1, Tname);
-									rset = pstmt.executeQuery();
-									String Tid = null;
-									int Tnum = 0;
-									
-									rset.next();
-									Tid = rset.getString(1);	
-									Tnum = rset.getInt(2);
-									
-									//담당 트레이너 등록하기 : 회원 담당 트레이너 update
+									//등록 : 회원 담당트레이너 등록
 									str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
 									pstmt = conn.prepareStatement(str);
-									pstmt.setString(1, Tid);
+									pstmt.setString(1, selectT);
 									pstmt.setString(2, ID);
 									pstmt.executeUpdate();
 									
-									//담당 트레이너 등록하기 : 담당 트레이너 담당 회원 수 +1
+									//등록 : 트레이너 담당회원수 +1
 									str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
 									pstmt = conn.prepareStatement(str);
-									pstmt.setInt(1, Tnum+1);
-									pstmt.setString(2, Tid);
+									pstmt.setInt(1, selectTnum+1);
+									pstmt.setString(2, selectT);
 									pstmt.executeUpdate();
-									
-									infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
-									infoText.setForeground(new Color(5,0,153));
-									btnGroup.revalidate();
-									btnGroup.repaint();
-								} catch (SQLException ee) {
-									ee.printStackTrace();
 								}
-							}							
-						} else {
+							} else { //다르다면
+								infoText.setText("소속헬스장의 트레이너만 등록가능합니다.(소속헬스장:"+nowGymName+")");
+								infoText.setForeground(new Color(153,0,5));
+								btnGroup.revalidate();
+								btnGroup.repaint();
+							}
+						} else { //남은 횟수가 0이 아니라면 
 							//textfield띄우기
-							infoText.setText("아직 수업횟수가 남아서 헬스장을 변경할 수 없습니다.");
+							infoText.setText("아직 수업횟수가 남아서 헬스장을 등록할 수 없습니다.");
 							infoText.setForeground(new Color(153,0,5));
 							btnGroup.revalidate();
 							btnGroup.repaint();
+							return;
 						}
-						
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-					try {
-						//textfield띄우기
-						str = "SELECT 이름 FROM DB2022_헬스장 WHERE 헬스장번호=?";
-						pstmt = conn.prepareStatement(str);
-						pstmt.setString(1, GYMid_M);
-						rset = pstmt.executeQuery();
-						rset.next();
-						infoText.setText("소속헬스장의 트레이너만 등록가능합니다.(소속헬스장:"+rset.getString(1)+")");
-						infoText.setForeground(new Color(153,0,5));
-						btnGroup.revalidate();
-						btnGroup.repaint();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-				}			
+					}	
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	

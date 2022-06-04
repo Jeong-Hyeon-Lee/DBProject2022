@@ -303,6 +303,7 @@ public class M_searchGYM extends JFrame {
 				try { //남은수업횟수가 0인지 확인
 					int check[] = M_totalLeft.M_totalLeft(conn, ID);
 					if(check[1]==0) { //남은수업횟수 == 0
+						
 						//선택한 헬스장 이름으로 번호,전체회원수 찾기
 						str = "SELECT 헬스장번호,전체회원수 FROM DB2022_헬스장 WHERE 이름=?";
 						pstmt = conn.prepareStatement(str);
@@ -316,20 +317,12 @@ public class M_searchGYM extends JFrame {
 						GYMid = rset.getString(1); 
 						GYMnumM = rset.getInt(2);
 						
-						//현재 헬스장 확인 후 있으면 회원 수에서 삭제
-						str = "SELECT G.헬스장번호, G.전체회원수 FROM db2022_회원 as M, db2022_헬스장 as G WHERE M.소속헬스장=G.헬스장번호 and M.회원번호 = ?";
+						//현재 등록된 헬스장 확인 후 있으면 회원 수에서 삭제
+						String str = "SELECT G.헬스장번호, G.전체회원수 FROM db2022_회원 as M, db2022_헬스장 as G WHERE M.소속헬스장=G.헬스장번호 and M.회원번호 = ?";
 						pstmt = conn.prepareStatement(str);
-						pstmt.setString(1, ID);
-						rset = pstmt.executeQuery();
 						
-						String GYMidNow = null;
-						int GYMnumMNow=0;
 						
-						rset.next();
-						GYMidNow = rset.getString(1); //소속 헬스장 번호
-						GYMnumMNow = rset.getInt(2); //소속 헬스장 전체회원수
-						
-						if(GYMidNow==null) { //소속된 헬스장이 없을 경우
+						if(!rset.isBeforeFirst()) { //소속된 헬스장이 없으면 
 							try {
 								//헬스장 등록하기 : 회원 소속헬스장 update
 								str = "UPDATE DB2022_회원 SET 소속헬스장=? WHERE 회원번호=?";
@@ -351,11 +344,22 @@ public class M_searchGYM extends JFrame {
 							} catch (SQLException e2) {
 								e2.printStackTrace();
 							}
+						} else { //소속된 헬스장이 있으면
 							
-						} else { //소속된 헬스장이 있을 경우
+							//소속된 헬스장 정보
+							pstmt.setString(1, ID);
+							rset = pstmt.executeQuery();
+							
+							String GYMidNow = null;
+							int GYMnumMNow=0;
+							
+							rset.next();
+							GYMidNow = rset.getString(1); //소속 헬스장 번호
+							GYMnumMNow = rset.getInt(2); //소속 헬스장 전체회원수
+							
 							try{
 								//기존 헬스장 전체 회원수 -1
-								str = "UPDATE DB2022_헬스장 SET 전체회원수=? WHERE 헬스장번호=?";
+								str = "UPDATE DB2022_헬스장 SET 전체회원수=? WHERE 헬스장번호=?"; //왜... 안  되는 걸까................. 죽싶........
 								pstmt = conn.prepareStatement(str);
 								pstmt.setInt(1, GYMnumMNow-1);
 								pstmt.setString(2, GYMidNow);
@@ -367,6 +371,7 @@ public class M_searchGYM extends JFrame {
 								pstmt.setString(1, GYMid);
 								pstmt.setString(2, ID);
 								pstmt.executeUpdate();
+								
 								//헬스장 등록하기 : 헬스장 전체 회원 수 +1
 								str = "UPDATE DB2022_헬스장 SET 전체회원수=? WHERE 헬스장번호=?";
 								pstmt = conn.prepareStatement(str);
@@ -381,9 +386,7 @@ public class M_searchGYM extends JFrame {
 							} catch (SQLException e2) {
 								e2.printStackTrace();
 							}
-							
-						}
-						
+						}						
 					} else {
 						//textfield띄우기
 						infoText.setText("아직 수업횟수가 남아서 헬스장을 변경할 수 없습니다.");
