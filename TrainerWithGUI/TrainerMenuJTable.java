@@ -92,7 +92,6 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == leave) {
 			new DeleteScreen(tmdb.con, "트레이너",trainer_pk);
-			new StartScreen(tmdb.con);
 			dispose();
 		}
 		
