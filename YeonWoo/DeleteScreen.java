@@ -7,9 +7,13 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 
+import DB2022Team03.GEUNJU.M_MainScreen;
+import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
+import DB2022Team03.Gym.G_selectMenu;
+
 public class DeleteScreen extends JFrame {
 
-	public DeleteScreen(Connection conn, String userType, String ID) { 
+	public DeleteScreen(Connection conn, String userType, String ID) {
 		setTitle("탈퇴");
 
 		// title
@@ -24,7 +28,7 @@ public class DeleteScreen extends JFrame {
 		JLabel check = new JLabel(" ", JLabel.CENTER);
 		check.setText(ID + "님, 정말 탈퇴하시겠습니까?");
 		checkPanel.add(check);
-		
+
 		JLabel check2 = new JLabel(" ", JLabel.CENTER);
 		check2.setText("탈퇴 시 관련된 모든 정보가 삭제됩니다.");
 		checkPanel.add(check2);
@@ -32,11 +36,11 @@ public class DeleteScreen extends JFrame {
 		// 버튼
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		
+
 		JPanel deletePanel = new JPanel(new FlowLayout());
 		JButton deleteButton = new JButton("탈퇴");
 		deletePanel.add(deleteButton);
-		
+
 		JPanel backPanel = new JPanel(new FlowLayout());
 		JButton backButton = new JButton("취소");
 		backPanel.add(backButton);
@@ -62,7 +66,7 @@ public class DeleteScreen extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setVisible(true);
-		
+
 		// 탈퇴 버튼 눌렀을 때 이벤트처리
 		deleteButton.addActionListener(new ActionListener() {
 
@@ -72,80 +76,80 @@ public class DeleteScreen extends JFrame {
 
 				// =================================================
 				// ===================== 회원 =======================
-				if (userType.equals("회원")) { //회원삭제시, 회원 테이블, 수업 테이블에서 삭제 이뤄져야함
+				if (userType.equals("회원")) { // 회원삭제시, 회원 테이블, 수업 테이블에서 삭제 이뤄져야함
 					try {
-						//transaction 시작
+						// transaction 시작
 						conn.setAutoCommit(false);
-						
-						//STEP0. 필요한 값들 찾아서 저장해두기
+
+						// STEP0. 필요한 값들 찾아서 저장해두기
 						String member_gym = null; // 로그인한 회원의 소속 헬스장번호
-						String member_trainer = null; //로그인한 회원의 담당 트레이너번호
-						
-						String loginquery 
-						= " SELECT * " 
-						+ " FROM DB2022_회원" 
-						+ " WHERE (회원번호=?) ";
-						
+						String member_trainer = null; // 로그인한 회원의 담당 트레이너번호
+
+						String loginquery = " SELECT * "
+								+ " FROM DB2022_회원"
+								+ " WHERE (회원번호=?) ";
+
 						PreparedStatement pst = conn.prepareStatement(loginquery);
 						pst.setString(1, ID);
 						ResultSet rs = pst.executeQuery();
-						
-						while(rs.next()) {
+
+						while (rs.next()) {
 							member_gym = rs.getString("소속헬스장");
 							member_trainer = rs.getString("담당트레이너");
 						}
-						
-						//STEP1. 수업 테이블에서 해당 회원의 정보 삭제
-						//수업이 회원을 참조하므로, 수업 먼저 삭제
-						String deleteQuery1
-						= " DELETE FROM DB2022_수업 "
-						+ " WHERE 회원번호 = ? ";
-						
-						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
-						pst1.setString(1, ID);
-						pst1.executeUpdate();
-						
-						//STEP2. 회원 테이블에서 해당 회원 삭제
-						String deleteQuery2
-						= " DELETE FROM DB2022_회원 "
-						+ " WHERE 회원번호 = ? ";
-						
+
+						/*
+						 * ON DELETE CASCADE 되어있음
+						 * //STEP1. 수업 테이블에서 해당 회원의 정보 삭제
+						 * //수업이 회원을 참조하므로, 수업 먼저 삭제
+						 * String deleteQuery1
+						 * = " DELETE FROM DB2022_수업 "
+						 * + " WHERE 회원번호 = ? ";
+						 * 
+						 * PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
+						 * pst1.setString(1, ID);
+						 * pst1.executeUpdate();
+						 */
+
+						// STEP2. 회원 테이블에서 해당 회원 삭제
+						String deleteQuery2 = " DELETE FROM DB2022_회원 "
+								+ " WHERE 회원번호 = ? ";
+
 						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
 						pst2.setString(1, ID);
 						pst2.executeUpdate();
-						
-						//STEP3. 헬스장에서 전체회원수 변경
-						String deleteQuery3
-						= " UPDATE DB2022_헬스장 "
-						+ " SET 전체회원수 = 전체회원수 - 1 "
-						+ " WHERE 헬스장 = ? ";
-						
+
+						// STEP3. 헬스장에서 전체회원수 변경
+						String deleteQuery3 = " UPDATE DB2022_헬스장 "
+								+ " SET 전체회원수 = 전체회원수 - 1 "
+								+ " WHERE 헬스장번호 = ? ";
+
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, member_gym);
 						pst3.executeUpdate();
-						
-						//STEP4. 담당트레이너의 담당 회원수 변경
-						String deleteQuery4
-						= " UPDATE DB2022_트레이너 "
-						+ " SET 담당회원수 = 담당회원수 - 1 "
-						+ " WHERE 강사번호 = ? ";
-						
+
+						// STEP4. 담당트레이너의 담당 회원수 변경
+						String deleteQuery4 = " UPDATE DB2022_트레이너 "
+								+ " SET 담당회원수 = 담당회원수 - 1 "
+								+ " WHERE 강사번호 = ? ";
+
 						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
 						pst4.setString(1, member_trainer);
 						pst4.executeUpdate();
-						
-						conn.commit(); //transaction 끝, 정상수해오댔을 때 commit();
+
+						conn.commit(); // transaction 끝, 정상수해오댔을 때 commit();
 						conn.setAutoCommit(true);
+
 					} catch (SQLException se) {
 						deleteSuccess = false;
 						se.printStackTrace();
-						
+
 						System.out.println("Roll Back 실행");
-						
+
 						try {
-							if(conn!=null)
-								conn.rollback(); //정상 수행되지 않았을 시 rollback();
-						} catch(SQLException se2) {
+							if (conn != null)
+								conn.rollback(); // 정상 수행되지 않았을 시 rollback();
+						} catch (SQLException se2) {
 							se2.printStackTrace();
 						}
 					}
@@ -153,149 +157,172 @@ public class DeleteScreen extends JFrame {
 
 				// =================================================
 				// ===================== 트레이너 =======================
-								else if (userType.equals("트레이너")) { 
+				else if (userType.equals("트레이너")) {
 					try {
-						//transaction 시작
+						// transaction 시작
 						conn.setAutoCommit(false);
-						
-						//STEP0. 필요한 값들 찾아서 저장해두기
+
+						// STEP0. 필요한 값들 찾아서 저장해두기
 						String trainer_gym = null; // 로그인한 트레이너의 소속 헬스장번호
-						
-						String loginquery 
-						= " SELECT * " 
-						+ " FROM DB2022_트레이너" 
-						+ " WHERE (강사번호=?) ";
-						
+
+						String loginquery = " SELECT * "
+								+ " FROM DB2022_트레이너"
+								+ " WHERE (강사번호=?) ";
+
 						PreparedStatement pst = conn.prepareStatement(loginquery);
 						pst.setString(1, ID);
 						ResultSet rs = pst.executeQuery();
-						
-						while(rs.next()) {
+
+						while (rs.next()) {
 							trainer_gym = rs.getString("헬스장번호");
 						}
-						
-						//STEP1. 수업 테이블에서 해당 트레이너의 정보 삭제
-						//수업이 트레이너를 참조하므로, 수업 먼저 삭제
-						String deleteQuery1
-						= " DELETE FROM DB2022_수업"
-						+ " WHERE(강사번호=?)";
-						
+
+						/*
+						 * ON DELETE CASCADE 되어있음.
+						 * //STEP1. 수업 테이블에서 해당 트레이너의 정보 삭제
+						 * //수업이 트레이너를 참조하므로, 수업 먼저 삭제
+						 * String deleteQuery1
+						 * = " DELETE FROM DB2022_수업 "
+						 * + " WHERE 강사번호 = ? ";
+						 * 
+						 * PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
+						 * pst1.setString(1, ID);
+						 * pst1.executeUpdate();
+						 */
+
+						// STEP1. 담당회원의 담당트레이너를 null로
+						// 회원이 트레이너를 참조하고 있으므로, 회원쪽을 먼저 null로 변경해줘야 삭제 가능.
+						String deleteQuery1 = " UPDATE DB2022_회원 "
+								+ " SET 담당트레이너 = null "
+								+ " WHERE 담당트레이너 = ? ";
+
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
 						pst1.setString(1, ID);
 						pst1.executeUpdate();
-						
-						//STEP2. 트레이너 테이블에서 해당 트레이너 삭제
-						String deleteQuery2
-						= " DELETE FROM DB2022_트레이너"
-						+ " WHERE(강사번호=?)";
-						
+
+						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
+						String deleteQuery2 = " DELETE FROM DB2022_트레이너 "
+								+ " WHERE 강사번호 = ? ";
+
 						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
 						pst2.setString(1, ID);
 						pst2.executeUpdate();
-						
-						//STEP3. 헬스장에서 전체트레이너수 변경
-						String deleteQuery3
-						= " UPDATE DB2022_헬스장"
-						+ " SET 전체트레이너수 = 전체트레이너수 - 1"
-						+ " WHERE(헬스장번호=?)";
-						
+
+						// STEP3. 헬스장에서 전체트레이너수 변경
+						String deleteQuery3 = " UPDATE DB2022_헬스장 "
+								+ " SET 전체트레이너수 = 전체트레이너수 - 1 "
+								+ " WHERE 헬스장번호 = ? ";
+
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, trainer_gym);
 						pst3.executeUpdate();
-						
-						//STEP4. 담당회원의 담당트레이너를 null로
-						String deleteQuery4
-						= " UPDATE DB2022_회원 "
-						+ " SET 담당트레이너 = null"
-						+ " WHERE(담당트레이너=?)";
-						
-						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
-						pst4.setString(1, ID);
-						pst4.executeUpdate();
-						
-						conn.commit(); //transaction 끝
-						conn.setAutoCommit(true);
-						
-					} catch (SQLException se) {
-						deleteSuccess = false;
-						se.printStackTrace();
-						
-						System.out.println("Roll Back 실행");
-						
-						try {
-							if(conn!=null)
-								conn.rollback(); //정상 수행되지 않았을 시 rollback();
-						} catch(SQLException se2) {
-							se2.printStackTrace();
-						}
-					}	
-				}
 
-				// =================================================
-				// ===================== 관장 =======================
-				else if (userType.equals("관장")) { 
-					try {
-						//transaction 시작
-						conn.setAutoCommit(false);
-						
-						//STEP0. 해당 헬스장에 소속한 트레이너, 회원 정보 저장
-						// [질문] create table로 저장해두고 이거에 속한 사람들 다 삭제한 후 table을 없애고 싶은데, JDBC문에서 table만들어도되는지, 아니면 어떻게 하는지.
-						// [질문] 소속트레이너, 소속회원 둘다 헬스장번호만 삭제하고 정보는 냅두는 거 맞는지.
-						// [질문] on delete cascade있으니까 수업만 삭제하면 그 수업 듣는 회원, 트레이너 등은 따로 삭제안해도되나? 근데, 수업엔 왜 cascade가 있지..?
-						
-						String trainer_gym = null; // 로그인한 회원의 소속 헬스장번호
-						
-						String loginquery 
-						= " SELECT 강사번호 " 
-						+ " FROM DB2022_트레이너" 
-						+ " WHERE (헬스장번호=?) ";
-						
-						PreparedStatement pst = conn.prepareStatement(loginquery);
-						pst.setString(1, ID);
-						ResultSet rs1 = pst.executeQuery();
-						
-						while(rs1.next()) {
-							
-						}
-						
-						// STEP1. 가격정보 삭제
-						// STEP1. 수업정보 삭제
-						// STEP1. 회원정보에서 헬스장번호 null로
-						// STEP1. 트레이너정보에서 헬스장번호 null로
-						// STEP1. 헬스장 정보 삭제
-						
+						conn.commit(); // transaction 끝
+						conn.setAutoCommit(true);
+
 					} catch (SQLException se) {
 						deleteSuccess = false;
 						se.printStackTrace();
-						
+
 						System.out.println("Roll Back 실행");
-						
+
 						try {
-							if(conn!=null)
-								conn.rollback(); //정상 수행되지 않았을 시 rollback();
-						} catch(SQLException se2) {
+							if (conn != null)
+								conn.rollback(); // 정상 수행되지 않았을 시 rollback();
+						} catch (SQLException se2) {
 							se2.printStackTrace();
 						}
 					}
 				}
-		
-				
+
+				// =================================================
+				// ===================== 관장 =======================
+				else if (userType.equals("관장")) {
+					try {
+						// transaction 시작
+						conn.setAutoCommit(false);
+
+						// STEP0. 해당 헬스장에 소속한 트레이너, 회원이 0명일 때만 탈퇴를 허락함
+						int trainerNum = -1;
+						int memberNum = -1;
+
+						// 소속트레이너수, 소속회원수 찾기
+						String loginquery = " SELECT 전체회원수, 전체트레이너수 "
+								+ " FROM DB2022_헬스장"
+								+ " WHERE (헬스장번호=?) ";
+
+						PreparedStatement pst = conn.prepareStatement(loginquery);
+						pst.setString(1, ID);
+						ResultSet rs = pst.executeQuery();
+
+						while (rs.next()) {
+							trainerNum = rs.getInt("전체트레이너수");
+							memberNum = rs.getInt("전체회원수");
+						}
+
+						// 소속 트레이너, 소속 회원 수가 0명일 때만 탈퇴 허용
+						if (trainerNum == 0 && memberNum == 0) {
+							// STEP1. 가격정보 삭제 >> ON DELETE CASCADE 되어있음.
+							// STEP2. 수업정보 삭제 >> 이미 회원이나 트레이너 삭제될 때 삭제됨.
+							// STEP3. 회원정보 삭제 >> 이미 0명이라 삭제할 거 없음
+							// STEP4. 트레이너정보 삭제 >> 이미 0명이라 삭제할 거 없음
+							// STEP5. 헬스장 정보 삭제
+							String deleteQuery1 = " DELETE FROM DB2022_헬스장 "
+									+ " WHERE 헬스장번호 = ? ";
+
+							PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
+							pst1.setString(1, ID);
+							pst1.executeUpdate();
+
+							conn.commit(); // transaction 끝
+							conn.setAutoCommit(true);
+						} else {
+							deleteSuccess = false;
+							JOptionPane.showMessageDialog(null, "해당 헬스장에 속한 트레이너와 회원이 모두 탈퇴했을 때만 탈퇴가능합니다."
+									+ "\n"
+									+ "현재 전체 트레이너 수: " + trainerNum + "\n"
+									+ "현재 전체 회원 수: " + memberNum + "\n"
+									+ "이므로 탈퇴가 불가능합니다.");
+						}
+
+					} catch (SQLException se) {
+						deleteSuccess = false;
+						se.printStackTrace();
+
+						System.out.println("Roll Back 실행");
+
+						try {
+							if (conn != null)
+								conn.rollback(); // 정상 수행되지 않았을 시 rollback();
+						} catch (SQLException se2) {
+							se2.printStackTrace();
+						}
+					}
+				}
+
 				if (deleteSuccess == true) {
-					//탈퇴성공시 다시 start화면으로
+					// 탈퇴성공시 다시 start화면으로
 					JOptionPane.showMessageDialog(null, "탈퇴처리 되었습니다.");
 					new StartScreen(conn);
 					dispose(); // 현재의 frame을 종료시키는 메서드.
 				}
 			}
 		});
-				
+
 		// 취소 버튼을 클릭했을 때 이벤트 처리
 		backButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
-				new LoginScreen(conn, userType);
+				// 다시 각자 메뉴 페이지로 돌아가기
+				if (userType.equals("회원")) {
+					new M_MainScreen(conn, member_id);
+				} else if (userType.equals("트레이너")) {
+					new TrainerMenuJTable(trainer_id);
+				} else if (userType.equals("관장")) {
+					new G_selectMenu(owner_gym, owner_name);
+				}
 				dispose();
 
 			}
