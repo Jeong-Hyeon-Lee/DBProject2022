@@ -181,14 +181,15 @@ public class M_enrollMembership extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				int input = Integer.parseInt(inputText.getText());
-				/*
-				if(input!=1&&input!=10&&input!=20) {
+				
+				if(input!=1&&input!=10&&input!=20) { //셋 다 아닐 때.. 
 					infoText.setText("1회권, 10회권, 20회권 중 하나를 선택해주세요.");
 					infoText.setForeground(new Color(153,0,5));
 					btnGroup.revalidate();
 					btnGroup.repaint();
+					return;
 				}
-				*/
+				
 				//소속헬스장, 담당트레이너 번호찾기 -> null이라면 등록X되도록 구현
 				String GYMid_M = null;
 				String Tid_M = null;
