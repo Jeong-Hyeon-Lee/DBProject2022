@@ -153,7 +153,7 @@ public class DeleteScreen extends JFrame {
 
 				// =================================================
 				// ===================== 트레이너 =======================
-				else if (userType.equals("트레이너")) { 
+								else if (userType.equals("트레이너")) { 
 					try {
 						//transaction 시작
 						conn.setAutoCommit(false);
@@ -177,8 +177,8 @@ public class DeleteScreen extends JFrame {
 						//STEP1. 수업 테이블에서 해당 트레이너의 정보 삭제
 						//수업이 트레이너를 참조하므로, 수업 먼저 삭제
 						String deleteQuery1
-						= " DELETE FROM DB2022_수업 "
-						+ " WHERE 강사번호 = ? ";
+						= " DELETE FROM DB2022_수업"
+						+ " WHERE(강사번호=?)";
 						
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
 						pst1.setString(1, ID);
@@ -186,8 +186,8 @@ public class DeleteScreen extends JFrame {
 						
 						//STEP2. 트레이너 테이블에서 해당 트레이너 삭제
 						String deleteQuery2
-						= " DELETE FROM DB2022_트레이너 "
-						+ " WHERE 강사번호 = ? ";
+						= " DELETE FROM DB2022_트레이너"
+						+ " WHERE(강사번호=?)";
 						
 						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
 						pst2.setString(1, ID);
@@ -195,9 +195,9 @@ public class DeleteScreen extends JFrame {
 						
 						//STEP3. 헬스장에서 전체트레이너수 변경
 						String deleteQuery3
-						= " UPDATE DB2022_헬스장 "
-						+ " SET 전체트레이너수 = 전체트레이너수 - 1 "
-						+ " WHERE 헬스장 = ? ";
+						= " UPDATE DB2022_헬스장"
+						+ " SET 전체트레이너수 = 전체트레이너수 - 1"
+						+ " WHERE(헬스장번호=?)";
 						
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, trainer_gym);
@@ -206,8 +206,8 @@ public class DeleteScreen extends JFrame {
 						//STEP4. 담당회원의 담당트레이너를 null로
 						String deleteQuery4
 						= " UPDATE DB2022_회원 "
-						+ " SET 담당트레이너 = null "
-						+ " WHERE 강사번호 = ? ";
+						+ " SET 담당트레이너 = null"
+						+ " WHERE(담당트레이너=?)";
 						
 						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
 						pst4.setString(1, ID);
