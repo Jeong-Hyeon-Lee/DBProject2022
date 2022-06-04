@@ -167,7 +167,7 @@ public class DeleteScreen extends JFrame {
 
 						String loginquery = " SELECT * "
 								+ " FROM DB2022_트레이너"
-								+ " WHERE (강사번호=?) ";
+								+ " WHERE(강사번호=?) ";
 
 						PreparedStatement pst = conn.prepareStatement(loginquery);
 						pst.setString(1, ID);
@@ -192,26 +192,26 @@ public class DeleteScreen extends JFrame {
 
 						// STEP1. 담당회원의 담당트레이너를 null로
 						// 회원이 트레이너를 참조하고 있으므로, 회원쪽을 먼저 null로 변경해줘야 삭제 가능.
-						String deleteQuery1 = " UPDATE DB2022_회원 "
-								+ " SET 담당트레이너 = null "
-								+ " WHERE 담당트레이너 = ? ";
+						String deleteQuery1 = " UPDATE DB2022_회원"
+								+ " SET 담당트레이너 = null"
+								+ " WHERE(담당트레이너 = ?)";
 
 						PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);
 						pst1.setString(1, ID);
 						pst1.executeUpdate();
 
 						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
-						String deleteQuery2 = " DELETE FROM DB2022_트레이너 "
-								+ " WHERE 강사번호 = ? ";
+						String deleteQuery2 = " DELETE FROM DB2022_트레이너"
+								+ " WHERE(강사번호=?)";
 
 						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
 						pst2.setString(1, ID);
 						pst2.executeUpdate();
 
 						// STEP3. 헬스장에서 전체트레이너수 변경
-						String deleteQuery3 = " UPDATE DB2022_헬스장 "
-								+ " SET 전체트레이너수 = 전체트레이너수 - 1 "
-								+ " WHERE 헬스장번호 = ? ";
+						String deleteQuery3 = " UPDATE DB2022_헬스장"
+								+ " SET 전체트레이너수 = 전체트레이너수 - 1"
+								+ " WHERE(헬스장번호=?)";
 
 						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
 						pst3.setString(1, trainer_gym);
