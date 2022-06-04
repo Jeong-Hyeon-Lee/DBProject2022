@@ -320,10 +320,12 @@ public class M_searchGYM extends JFrame {
 						//현재 등록된 헬스장 확인 후 있으면 회원 수에서 삭제
 						String str = "SELECT G.헬스장번호, G.전체회원수 FROM db2022_회원 as M, db2022_헬스장 as G WHERE M.소속헬스장=G.헬스장번호 and M.회원번호 = ?";
 						pstmt = conn.prepareStatement(str);
-						
+						pstmt.setString(1, ID);
+						rset = pstmt.executeQuery();
 						
 						if(!rset.isBeforeFirst()) { //소속된 헬스장이 없으면 
 							try {
+								System.out.println("소속 헬스장 없음~~~~");
 								//헬스장 등록하기 : 회원 소속헬스장 update
 								str = "UPDATE DB2022_회원 SET 소속헬스장=? WHERE 회원번호=?";
 								pstmt = conn.prepareStatement(str);
@@ -345,10 +347,8 @@ public class M_searchGYM extends JFrame {
 								e2.printStackTrace();
 							}
 						} else { //소속된 헬스장이 있으면
-							
+							System.out.println("소속 헬스장 있음!!!!!");
 							//소속된 헬스장 정보
-							pstmt.setString(1, ID);
-							rset = pstmt.executeQuery();
 							
 							String GYMidNow = null;
 							int GYMnumMNow=0;
