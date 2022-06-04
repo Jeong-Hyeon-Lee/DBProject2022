@@ -41,8 +41,8 @@ CREATE TABLE DB2022_회원(
 	현재회원권 varchar(5) DEFAULT '없음' CHECK (현재회원권 IN ('1회권', '10회권', '20회권', '없음')),
 	비밀번호 varchar(20) NOT NULL,
 	PRIMARY KEY (회원번호),
-	FOREIGN KEY (담당트레이너) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE,
-	FOREIGN KEY (소속헬스장) REFERENCES DB2022_헬스장(헬스장번호) ON DELETE CASCADE
+	FOREIGN KEY (담당트레이너) REFERENCES DB2022_트레이너(강사번호),
+	FOREIGN KEY (소속헬스장) REFERENCES DB2022_헬스장(헬스장번호)
 );
 
 CREATE TABLE DB2022_수업(
@@ -51,8 +51,8 @@ CREATE TABLE DB2022_수업(
 	수업시간 datetime,
     	수업진행현황 char(6),
 	PRIMARY KEY (회원번호, 수업시간),
-	FOREIGN KEY (회원번호) REFERENCES DB2022_회원(회원번호) ON DELETE CASCADE,
-	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE
+	FOREIGN KEY (회원번호) REFERENCES DB2022_회원(회원번호),
+	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호) 
 );
 
 CREATE TABLE DB2022_가격(
