@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import DB2022Team03.MemberInfo.M_MainScreen;
 import DB2022Team03.YeonWoo.StartScreen;
-import DB2022Team03.GEUNJU.M_MainScreen;
 
 public class M_manageClass extends JFrame {
 /*

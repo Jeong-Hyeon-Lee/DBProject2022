@@ -4,7 +4,7 @@
 *  => 해당 버튼을 누르면 회원권을 등록하지 않았다는 메세지창이 뜬다.
 */
 
-package DB2022Team03.GEUNJU;
+package DB2022Team03.MemberInfo;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

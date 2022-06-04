@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 
-import DB2022Team03.GEUNJU.M_MainScreen;
 import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
 import DB2022Team03.Gym.G_selectMenu;
+import DB2022Team03.MemberInfo.M_MainScreen;
 
 public class DeleteScreen extends JFrame {
 	
