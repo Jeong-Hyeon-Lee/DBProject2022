@@ -32,13 +32,8 @@ public class TrainerMenuJDBC {
 	}
 
 	public int checkLogin(String tID, String tPW) {
-		String loginquery = "SELECT 비밀번호, 이름, 강사번호, 헬스장번호, 담당회원수, 총근무시간 "
-<<<<<<< HEAD
-				+ "FROM DB2022_트레이너 USE INDEX (트레이너인덱스) WHERE (강사번호=?)"; // 트레이너 인덱스 사용
+		String loginquery = "SELECT 비밀번호, 이름, 강사번호, 헬스장번호, 담당회원수, 총근무시간 FROM DB2022_트레이너 USE INDEX (강사번호인덱스) WHERE (강사번호=?)";
 
-=======
-				+ "FROM DB2022_트레이너 USE INDEX (강사번호인덱스)" + " WHERE (강사번호=?)";
->>>>>>> 28d8083a767ee6ce20f18e2365b013e65bd1553e
 		boolean login_success = false;
 		try {
 			pst = con.prepareStatement(loginquery);
@@ -106,11 +101,8 @@ public class TrainerMenuJDBC {
 	// 로그인한 trainer의 모든 정보를 보여줌
 	public void trainerInfoAll(DefaultTableModel trainer_table, String trainer_id) {
 		try {
-<<<<<<< HEAD
-			pst = con.prepareStatement("SELECT 강사번호, 이름, 헬스장번호, 담당회원수, 총근무시간 FROM DB2022_트레이너 USE INDEX (트레이너인덱스) WHERE(강사번호=?)");
-=======
+
 			pst = con.prepareStatement("SELECT 강사번호, 이름, 헬스장번호, 담당회원수, 총근무시간 FROM DB2022_트레이너 USE INDEX (강사번호인덱스) WHERE(강사번호=?)");
->>>>>>> 28d8083a767ee6ce20f18e2365b013e65bd1553e
 			
 			pst.setString(1, trainer_id);
 			rs = pst.executeQuery();
