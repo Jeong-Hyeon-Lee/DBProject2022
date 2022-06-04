@@ -3,7 +3,7 @@
 * 1) '예약완료'인 수업을 취소하면 남은횟수+1
 * 2) '예약확인중'인 수업을 취소하면 남은횟수는 변화X
 */
-package DB2022Team03.EUNSOO;
+package DB2022Team03.Member_manageClass;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
