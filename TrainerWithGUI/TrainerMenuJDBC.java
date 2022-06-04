@@ -200,6 +200,7 @@ public class TrainerMenuJDBC {
 			pstDetail.executeUpdate();
 			
 			con.commit();
+			con.setAutoCommit(true);
 		}catch(Throwable e) {
 			if (con!=null) {
 				try {
@@ -232,6 +233,7 @@ public class TrainerMenuJDBC {
 			pstDetail.executeUpdate();
 			
 			con.commit();
+			con.setAutoCommit(true);
 		}catch(Throwable e) {
 			if (con!=null) {
 				try {
@@ -262,6 +264,7 @@ public class TrainerMenuJDBC {
 				pstDetail.executeUpdate();
 				
 				con.commit();
+				con.setAutoCommit(true);
 			}catch(Throwable e) {
 				if (con!=null) {
 					try {
@@ -300,7 +303,7 @@ public class TrainerMenuJDBC {
 			pstDetail.executeUpdate();
 			
 			con.commit();
-			
+			con.setAutoCommit(true);
 		}catch(Throwable e) {
 			if (con!=null) {
 				try {
