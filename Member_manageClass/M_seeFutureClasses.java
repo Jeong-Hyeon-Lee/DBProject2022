@@ -1,4 +1,4 @@
-package DB2022Team03.EUNSOO;
+package DB2022Team03.Member_manageClass;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
