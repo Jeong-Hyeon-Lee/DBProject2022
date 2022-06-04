@@ -57,6 +57,9 @@ CREATE TABLE DB2022_수업(
 	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호) ON DELETE CASCADE
 );
 
+CREATE INDEX 회원번호인덱스 ON DB2022_수업(회원번호);
+
+
 CREATE TABLE DB2022_가격(
 	헬스장번호 char(6),
 	1회가격 int NOT NULL,
