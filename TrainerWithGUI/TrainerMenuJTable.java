@@ -123,27 +123,23 @@ public class TrainerMenuJTable extends JFrame implements ActionListener {
 
 		else if (e.getSource() == update) {
 			int row = class_jt.getSelectedRow();
-
-			System.out.println("선택한 행 : " + row);
-			String student_name = (String) class_jt.getValueAt(row, 0);
-			String class_t = (String) class_jt.getValueAt(row, 1);
-			String status = (String) class_jt.getValueAt(row, 2);
-			String fieldName = combo.getSelectedItem().toString();
-			String student_no = (String) class_jt.getValueAt(row, 3);
-
-			switch (fieldName) {
-				case "거절":
-					tmdb.rejectClass(student_no, class_t, status, trainer_pk);
-					break;
-				case "예약완료":
-					tmdb.acceptClass(student_name, student_no, class_t, status, trainer_pk);
-					break;
-				case "불참":
-					tmdb.noshowClass(student_no, class_t, status, trainer_pk);
-					break;
-				case "완료":
-					tmdb.endClass(student_no, class_t, status, trainer_pk);
-					break;
+			if (row == -1) {
+				JOptionPane.showMessageDialog(class_jt, "선택된 수업이 없습니다. 변경하고자 하는 수업을 클릭한 뒤 <수업현황업데이트> 버튼을 눌러주세요");
+			}
+			else {
+				System.out.println("선택한 행 : " + row);
+				String student_name = (String) class_jt.getValueAt(row, 0);
+				String class_t = (String) class_jt.getValueAt(row, 1);
+				String status = (String) class_jt.getValueAt(row, 2);
+				String fieldName = combo.getSelectedItem().toString();
+				String student_no = (String) class_jt.getValueAt(row, 3);
+			
+				switch(fieldName) {
+				case "거절" : tmdb.rejectClass(student_no, class_t, status, trainer_pk);break;
+				case "예약완료" : tmdb.acceptClass(student_name, student_no,class_t , status, trainer_pk);break;
+				case "불참" : tmdb.noshowClass(student_no, class_t, status, trainer_pk);break;
+				case "완료" : tmdb.endClass(student_no, class_t, status, trainer_pk);break;
+				}
 			}
 
 			int length = class_table.getRowCount();

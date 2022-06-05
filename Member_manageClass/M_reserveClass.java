@@ -299,6 +299,7 @@ public class M_reserveClass extends JFrame {
 						pStmt3.setString(1, ID);
 						rs3 = pStmt3.executeQuery();
 						if(rs3.next()) trainerId = rs3.getString(1);
+						System.out.println(trainerId);
 						
 						if(classDateTime.isAfter(currentDateTime)) {  // Check the reservation time (only available after now).
 							pStmt4 = conn.prepareStatement(query4);
@@ -339,12 +340,12 @@ public class M_reserveClass extends JFrame {
 								System.out.println("**정상적으로 예약 처리되었습니다.**");
 							}
 							else {
-								JOptionPane.showMessageDialog(null, "이미 존재하는 수업입니다.");
+								JOptionPane.showMessageDialog(panel_main, "이미 존재하는 수업입니다.");
 								System.out.println("**이미 존재하는 수업입니다.**");
 							}
 						}
 						else {  // If not reservable: 1) If class dateTime is before now, 2) If the same class is already reserved
-							JOptionPane.showMessageDialog(null, "예약 가능한 시간이 아닙니다.");
+							JOptionPane.showMessageDialog(panel_main, "예약 가능한 시간이 아닙니다.");
 							System.out.println("**예약 가능한 수업시간이 아닙니다.**");
 						}
 					} catch (SQLException sqle2) {
@@ -354,7 +355,7 @@ public class M_reserveClass extends JFrame {
 					}
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "더 이상 예약할 수 없습니다.");
+					JOptionPane.showMessageDialog(panel_main, "더 이상 예약할 수 없습니다.");
 				}
 			}
 		});			

@@ -110,6 +110,7 @@ public class M_searchTrainer extends JFrame {
 					} 	
 				}
 				jt = new JTable(tableModel);
+				jt.setRowSelectionInterval(0,0); 
 				
 				//스크롤&column명을 위해 JScrollPane 적용
 				JScrollPane scrollpane=new JScrollPane(jt);
@@ -198,6 +199,7 @@ public class M_searchTrainer extends JFrame {
 							}
 						}
 						jt.setModel(tableModel);					
+						jt.setRowSelectionInterval(0,0); 
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -244,7 +246,8 @@ public class M_searchTrainer extends JFrame {
 								tableModel.addRow(data);
 							}
 						}
-						jt.setModel(tableModel);					
+						jt.setModel(tableModel);	
+						jt.setRowSelectionInterval(0,0); 
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -300,6 +303,7 @@ public class M_searchTrainer extends JFrame {
 							}
 						}
 						jt.setModel(tableModel);					
+						jt.setRowSelectionInterval(0,0); 
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -316,6 +320,13 @@ public class M_searchTrainer extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) { 
 				int row = jt.getSelectedRow();
+				if(row==-1) {
+					infoText.setText("원하는 트레이너를 클릭한 뒤, 등록하기 버튼을 눌러주세요.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
+					return;
+				}
 				
 				String Tname = (String) jt.getValueAt(row, 1); //선택한 트레이너 이름
 				

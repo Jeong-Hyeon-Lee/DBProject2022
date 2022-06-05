@@ -105,6 +105,7 @@ public class M_cancelClass extends JFrame {
 					//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
 				}
 				table.setModel(tModel);
+				table.setRowSelectionInterval(0,0); 
 			}
 		}catch(SQLException sqle1) {
 			System.out.println("SQLException_1: " + sqle1);
@@ -159,6 +160,10 @@ public class M_cancelClass extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				int row = table.getSelectedRow();  // selected column(class)
+				if(row==-1) {
+					JOptionPane.showMessageDialog(panel_main, "선택된 수업이 없습니다.");
+					return;
+				}
 				String dateTime = (String) table.getValueAt(row, 0);  // dateTime of the selected class
 				System.out.println(dateTime);
 								
@@ -201,6 +206,7 @@ public class M_cancelClass extends JFrame {
 						tModel.addRow(column);  // Add the column into the table.	
 						//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
 						table.setModel(tModel);
+						table.setRowSelectionInterval(0,0); 
 					}
 										
 				} catch (SQLException sqle2) {
