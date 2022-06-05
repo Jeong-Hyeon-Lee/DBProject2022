@@ -48,7 +48,7 @@ CREATE TABLE DB2022_회원(
 	FOREIGN KEY (소속헬스장) REFERENCES DB2022_헬스장(헬스장번호)
 );
 
-/*헬스장 정보를 저장하는 CREATE TABLE*/
+/*수업 정보를 저장하는 CREATE TABLE*/
 CREATE TABLE DB2022_수업(
 	회원번호 char(6) NOT NULL,
     강사번호 char(6),
