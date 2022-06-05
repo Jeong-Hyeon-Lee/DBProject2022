@@ -56,7 +56,7 @@ public class M_reserveClass extends JFrame {
 	/* Constructor */
 	public M_reserveClass(Connection conn, String ID) throws SQLException {
 		
-		setTitle("헬스장 PT 예약 시스템");
+		setTitle("헬스장 통합 관리 프로그램");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // End program if the window is closed.
 		
 		/* Main Panel */
@@ -156,7 +156,7 @@ public class M_reserveClass extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+			query1 = "SELECT 수업시간, 수업진행현황 FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
@@ -253,7 +253,7 @@ public class M_reserveClass extends JFrame {
 					rs_test = pstm_test.executeQuery();
 					
 					// 현재 예약된 수업 개수 확인
-					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 					pstm_test2 = conn.prepareStatement(query_test2);
 					pstm_test2.setString(1, ID);
 					rs_test2 = pstm_test2.executeQuery();
