@@ -83,10 +83,15 @@ public class G_changePriceInformation extends JFrame {
 					if(s == null || s.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;
 					
+					int newPrice = 0;
 					try {
 						//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같다면 1회가격 값을 위에서 입력받은 값으로 update
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 1회가격 = ? where 헬스장번호 = ?");
-						int newPrice = Integer.parseInt(s);
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 10회가격 = ? where 헬스장번호 = ?");
+						try {
+							newPrice = Integer.parseInt(s);
+						} catch (NumberFormatException e2) {
+							JOptionPane.showMessageDialog(rootPane, "숫자만 입력 가능합니다");
+						}
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
@@ -116,10 +121,15 @@ public class G_changePriceInformation extends JFrame {
 					if(s == null || s.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;
 					
+					int newPrice = 0;
 					try {
 						//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같다면 10회가격 값을 위에서 입력받은 값으로 update
 						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 10회가격 = ? where 헬스장번호 = ?");
-						int newPrice = Integer.parseInt(s);
+						try {
+							newPrice = Integer.parseInt(s);
+						} catch (NumberFormatException e2) {
+							JOptionPane.showMessageDialog(rootPane, "숫자만 입력 가능합니다");
+						}
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
@@ -149,10 +159,15 @@ public class G_changePriceInformation extends JFrame {
 					if(s == null || s.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;
 					
+					int newPrice = 0;
 					try {
 						//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같다면 20회가격 값을 위에서 입력받은 값으로 update
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 20회가격 = ? where 헬스장번호 = ?");
-						int newPrice = Integer.parseInt(s);
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 10회가격 = ? where 헬스장번호 = ?");
+						try {
+							newPrice = Integer.parseInt(s);
+						} catch (NumberFormatException e2) {
+							JOptionPane.showMessageDialog(rootPane, "숫자만 입력 가능합니다");
+						}
 						pStmt2.setInt(1, newPrice);
 						pStmt2.setString(2, gymID);
 						pStmt2.executeUpdate();
