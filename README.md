@@ -26,8 +26,8 @@
   * The order of enrollment is as follows : Gym -> Trainer -> Membership
 
 ### `Member_manageClass`
-|__ `M_cancelClass.java` :      
-|__ `M_manageClass.java` :   
-|__ `M_reserveClass.java` :     
-|__ `M_seeFutureClasses.java` :   
-|__ `M_seepastClasses.java` :    
+|__ `M_cancelClass.java` : Cancel a reserved class (Classes can be cancelled at least 5 hours before the start time).  
+|__ `M_manageClass.java` : Menu page for class management of the current member.  
+|__ `M_reserveClass.java` : Reserve a new class (Classes can neither be duplicated nor against time).  
+|__ `M_seeFutureClasses.java` : View all the reserved classes of the current member.
+|__ `M_seepastClasses.java` : View all the expired classes of the current member.
