@@ -56,7 +56,7 @@ public class M_reserveClass extends JFrame {
 	/* Constructor */
 	public M_reserveClass(Connection conn, String ID) throws SQLException {
 		
-		setTitle("헬스장 통합 관리 프로그램");
+		setTitle("헬스장 PT 예약 시스템");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // End program if the window is closed.
 		
 		/* Main Panel */
@@ -156,7 +156,7 @@ public class M_reserveClass extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
@@ -253,7 +253,7 @@ public class M_reserveClass extends JFrame {
 					rs_test = pstm_test.executeQuery();
 					
 					// 현재 예약된 수업 개수 확인
-					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 					pstm_test2 = conn.prepareStatement(query_test2);
 					pstm_test2.setString(1, ID);
 					rs_test2 = pstm_test2.executeQuery();
@@ -299,6 +299,7 @@ public class M_reserveClass extends JFrame {
 						pStmt3.setString(1, ID);
 						rs3 = pStmt3.executeQuery();
 						if(rs3.next()) trainerId = rs3.getString(1);
+						System.out.println(trainerId);
 						
 						if(classDateTime.isAfter(currentDateTime)) {  // Check the reservation time (only available after now).
 							pStmt4 = conn.prepareStatement(query4);
@@ -339,12 +340,12 @@ public class M_reserveClass extends JFrame {
 								System.out.println("**정상적으로 예약 처리되었습니다.**");
 							}
 							else {
-								JOptionPane.showMessageDialog(null, "이미 존재하는 수업입니다.");
+								JOptionPane.showMessageDialog(panel_main, "이미 존재하는 수업입니다.");
 								System.out.println("**이미 존재하는 수업입니다.**");
 							}
 						}
 						else {  // If not reservable: 1) If class dateTime is before now, 2) If the same class is already reserved
-							JOptionPane.showMessageDialog(null, "예약 가능한 시간이 아닙니다.");
+							JOptionPane.showMessageDialog(panel_main, "예약 가능한 시간이 아닙니다.");
 							System.out.println("**예약 가능한 수업시간이 아닙니다.**");
 						}
 					} catch (SQLException sqle2) {
@@ -354,7 +355,7 @@ public class M_reserveClass extends JFrame {
 					}
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "더 이상 예약할 수 없습니다.");
+					JOptionPane.showMessageDialog(panel_main, "더 이상 예약할 수 없습니다.");
 				}
 			}
 		});			
