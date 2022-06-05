@@ -473,7 +473,7 @@ public class JoinScreen extends JFrame {
 						// 2. 입력한 정보 확인
 						JOptionPane.showMessageDialog(null,
 								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 헬스장 이름 : " + myName
-										+ "\n주소 : " + myAddress1 + " " + myAddress2 + " " + myAddress3 + "\n"
+										+ "\n주소 : " + myAddress1 + " " + myAddress2 + " " + "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
 										+ "아이디는 (Gym의 G) + (핸드폰 번호 뒷자리) + (숫자 하나)로 구성되어있습니다.");
 
