@@ -19,7 +19,7 @@ create table DB2022_헬스장(
 );
 
 create table DB2022_트레이너(
-    	헬스장번호 char(6),
+    	헬스장번호 char(6) not null,
     	강사번호 char(6),
     	이름 varchar(10) not null,
     	담당회원수 int default 0,

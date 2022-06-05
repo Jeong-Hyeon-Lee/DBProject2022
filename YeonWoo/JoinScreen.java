@@ -41,6 +41,7 @@ public class JoinScreen extends JFrame {
 		JTextField phone = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);
 		JTextField name = new JTextField(10);
+		JTextField Tgym = new JTextField(columns:10);
 
 		JTextField address1 = new JTextField(10);
 		address1.setText("ex) 서울");
@@ -92,7 +93,7 @@ public class JoinScreen extends JFrame {
 			formPanel.add(address2Panel);
 		}
 
-		// 트레이너면, 이름 추가
+		// 트레이너면, 이름과 소속 헬스장 추가
 		if (userType.equals("트레이너")) {
 			// 이름
 			JPanel namePanel = new JPanel();
@@ -101,6 +102,14 @@ public class JoinScreen extends JFrame {
 			namePanel.add(name);
 
 			formPanel.add(namePanel);
+
+			// 소속 헬스장
+			JPanel gymPanel = new JPanel();
+			gymPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			gymPanel.add(new JLabel(text : "소속 헬스장 :  "));
+			gymPanel.add(TGym);
+			
+			formPanel.add(gymPanel);
 		}
 
 		// 관장이면, 헬스장이름, 도시, 지역, 도로명주소, 1회가격, 10회가격, 20회 가격 추가.
@@ -179,6 +188,7 @@ public class JoinScreen extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				String myId = "";
+				String myGym = TGym.getText();
 				String myPhoneNum = phone.getText();
 				String myPwd = new String(pwd.getPassword());
 				String myName = name.getText();
@@ -338,11 +348,21 @@ public class JoinScreen extends JFrame {
 						sqle.printStackTrace();
 					}
 					// 전화번호로 아이디 만들기 END
-
+					try{
+						PreparedStatement pst = conn.prepareStatement("SELECT * FROM DB2022_헬스장 WHERE(헬스장번호=?)");
+						pst.setString(1, myGym);
+						ResultSet rs = pst.executeQuery();
+						if(rs.next() == false){
+							JOptionPane.showMessageDialog(null, "입력하신 헬스장은 존재하지 않습니다. 다시 입력해 주세요");
+							JoinSuccess = false;
+						}
+					}catch (SQLException e){
+						e.printStackTrace();
+					}
 					if (JoinSuccess == true) {
 						// 2. 입력한 정보 확인
 						JOptionPane.showMessageDialog(null,
-								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName + "\n"
+								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName +  "소속 헬스장 : " + myGym + "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
 										+ "아이디는 (Trainer의 T) + (핸드폰 번호 뒷자리) + (숫자 하나)로 구성되어있습니다.");
 
@@ -351,7 +371,7 @@ public class JoinScreen extends JFrame {
 							// insert into DB2022_트레이너 values (헬스장번호, 강사번호, 이름, 담당회원수, 총근무시간, 비밀번호);
 							String JoinQuery = "insert into DB2022_트레이너 values (?, ?, ?, ?, ?, ?);";
 							PreparedStatement pst = conn.prepareStatement(JoinQuery);
-							pst.setString(1, null);
+							pst.setString(1, MyGym);
 							pst.setString(2, myId);
 							pst.setString(3, myName);
 							pst.setInt(4, 0);
