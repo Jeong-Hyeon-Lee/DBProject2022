@@ -197,14 +197,6 @@ public class DeleteScreen extends JFrame {
 						pst1.setString(2, ID);
 						pst1.executeUpdate();
 
-						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
-						String deleteQuery2 = " DELETE FROM DB2022_트레이너"
-								+ " WHERE(강사번호=?)";
-
-						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
-						pst2.setString(1, ID);
-						pst2.executeUpdate();
-
 						// STEP3. 헬스장에서 전체트레이너수 변경
 						String deleteQuery3 = " UPDATE DB2022_헬스장"
 								+ " SET 전체트레이너수 = 전체트레이너수 - 1"
@@ -233,6 +225,15 @@ public class DeleteScreen extends JFrame {
 						pst5.setString(1, "000000");
 						pst5.setString(2, "000000");
 						pst5.executeUpdate();
+
+						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
+						// 수업이 트레이너를 참조하므로, 트레이너는 제일 마지막에 삭제해야함. 먼저 삭제할 수 없음.
+						String deleteQuery2 = " DELETE FROM DB2022_트레이너"
+								+ " WHERE(강사번호=?)";
+
+						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
+						pst2.setString(1, ID);
+						pst2.executeUpdate();
 
 						conn.commit(); // transaction 끝
 						conn.setAutoCommit(true);
