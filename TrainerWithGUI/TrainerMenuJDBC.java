@@ -172,6 +172,10 @@ public class TrainerMenuJDBC {
 
 	public void rejectClass(String student_no, String class_t, String status, String trainer_pk) {
 		// 예약 거절 (숫자 불변 / 수업 삭제)
+		if (status.equals("예약확인중") == false){
+			JOptionPane.showMessageDialog(null, "예약 확인중이 아닙니다. 거절할 수 없습니다.");
+			return;
+		}
 		try {
 			pst = con.prepareStatement("DELETE FROM DB2022_수업 WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
 			pst.setString(1, student_no);pst.setString(2, class_t);pst.setString(3, trainer_pk);
@@ -187,6 +191,10 @@ public class TrainerMenuJDBC {
 	public void acceptClass(String student_name, String student_no, String class_t, String status, String trainer_pk) {
 		// 예약 수락 (회원 남은 수업 횟수 -1 : 예약 수락되는 시점에 무조건 회원 남은 횟수는 차감)
 		PreparedStatement pstDetail = null;
+		if (status.equals("예약완료")){
+			JOptionPane.setMessageDialog(null, "이미 <예약완료> 되었습니다.");
+			return;
+		}
 		try {
 			con.setAutoCommit(false); // transaction 시작
 			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='예약완료' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
@@ -220,6 +228,10 @@ public class TrainerMenuJDBC {
 	public void endClass(String student_no, String class_t, String status, String trainer_pk) {
 		// 수업 완료 (강사 근무시간 +1)
 		PreparedStatement pstDetail = null;
+		if (status.equals("완료")){
+			JOptionPane.setMessageDialog(null, "수업이 이미 <완료> 상태입니다.");
+			return;
+		}
 		try {
 			con.setAutoCommit(false); // transaction 시작
 			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='완료' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
@@ -254,6 +266,10 @@ public class TrainerMenuJDBC {
 		// 수업 불참 (강사 근무시간 +1)
 		PreparedStatement pstDetail = null;
 		boolean noshow_valid = true;
+		if (status.equals("불참")){
+			JOptionPane.showMessageDialog(null, "수업이 이미 <불참>압니다.");
+			return;
+		}
 		if (status.equals("예약완료")==false) { 
 			JOptionPane.showMessageDialog(null, "<예약완료>인 수업만 <불참>으로 변경이 가능합니다.");
 			return;
