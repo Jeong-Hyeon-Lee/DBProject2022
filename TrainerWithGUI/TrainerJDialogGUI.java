@@ -37,7 +37,7 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 			JTable salary_table = tm.salary_jt;
 			JScrollPane jsp = new JScrollPane(salary_table);
 			add(jsp, "Center");
-			setSize(500, 500);
+			setBounds(200, 200, 400, 250);
 			setVisible(true);
 			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		}
