@@ -69,7 +69,7 @@ public class G_changePromotionInformation extends JFrame {
 			button.addActionListener(new ActionListener() { //수정하기 버튼 누를 시
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String newPromotion = JOptionPane.showInputDialog("프로모션 수정: ");
+					String newPromotion = JOptionPane.showInputDialog(rootPane,"프로모션 수정: ");
 					
 					if(newPromotion == null || newPromotion.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;

@@ -78,7 +78,7 @@ public class G_changePriceInformation extends JFrame {
 			menu1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String s = JOptionPane.showInputDialog("수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
+					String s = JOptionPane.showInputDialog(rootPane,"수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
 					
 					if(s == null || s.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;
@@ -111,7 +111,7 @@ public class G_changePriceInformation extends JFrame {
 
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String s = JOptionPane.showInputDialog("수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
+					String s = JOptionPane.showInputDialog(rootPane,"수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
 					
 					if(s == null || s.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;
@@ -144,7 +144,7 @@ public class G_changePriceInformation extends JFrame {
 
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String s = JOptionPane.showInputDialog("수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
+					String s = JOptionPane.showInputDialog(rootPane,"수정할 가격 입력하기"); //String 형태로 받음, 나중에 Integer.parseInt 해줘야
 					
 					if(s == null || s.equals("")) //아무것도 안 입력하거나 취소 버튼 누를 경우 오류 방지
 						return;
