@@ -11,7 +11,7 @@ import java.awt.event.*;
 
 public class TrainerMenuJDBC {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; // java-sql 연결 서버
-	static final String DB_URL = "jdbc:mysql://localhost/DB2022Team03"; // database url
+	static final String DB_URL = "jdbc:mysql://localhost:3306/DB2022Team03"; // database url
 	static final String USER = "DB2022Team03";     // 작성자 이름
 	static final String PASS = "DB2022Team03"; // sql 연결 비밀번호
 	
