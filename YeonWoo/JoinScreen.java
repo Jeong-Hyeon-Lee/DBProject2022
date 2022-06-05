@@ -356,8 +356,8 @@ public class JoinScreen extends JFrame {
 							JOptionPane.showMessageDialog(null, "입력하신 헬스장은 존재하지 않습니다. 다시 입력해 주세요");
 							JoinSuccess = false;
 						}
-					}catch (SQLException e){
-						e.printStackTrace();
+					}catch (SQLException ex){
+						ex.printStackTrace();
 					}
 					if (JoinSuccess == true) {
 						// 2. 입력한 정보 확인
