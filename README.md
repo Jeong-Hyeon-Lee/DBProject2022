@@ -26,3 +26,10 @@
   * Gym and trainer must be enrolled first before check the account info.
   * Gym, trainer, and membership can only be changed when the number of remaining classes is zero.
   * The order of enrollment is as follows : Gym -> Trainer -> Membership
+
+### `Member_manageClass`
+|__ `M_cancelClass.java` :      
+|__ `M_manageClass.java` :   
+|__ `M_reserveClass.java` :     
+|__ `M_seeFutureClasses.java` :   
+|__ `M_seepastClasses.java` :    
