@@ -10,7 +10,6 @@ use DB2022Team03;
 create table DB2022_헬스장(
     	헬스장번호 char(6),
     	이름 varchar(25) not null,
-    	도시 varchar(6) not null,
     	지역 varchar(6) not null,
     	도로명주소 varchar(20) not null,
     	전체회원수 int default 0,
@@ -74,26 +73,26 @@ CREATE TABLE DB2022_가격(
 CREATE INDEX 헬스장번호인덱스 ON DB2022_가격(헬스장번호);
 
 /*DB2022_헬스장 insert*/
-insert into DB2022_헬스장 values ('000000', '탈퇴', '00', '000', '000', 0, 0, 'none');
-insert into DB2022_헬스장 values ('G10230','EE health','서울', '서대문구','이화여대길 52',1,1,'ee10235');
-insert into DB2022_헬스장 values ('G05910','Good GYM','서울', '은평구','은평로 195',2,1,'gg05910');
-insert into DB2022_헬스장 values ('G28100','함께운동','서울', '마포구','마포나루길 467',0,1,'uu28100');
+insert into DB2022_헬스장 values ('000000', '탈퇴', '000', '000', 0, 0, 'none');
+insert into DB2022_헬스장 values ('G10230','EE health', '서대문구','이화여대길 52',1,1,'ee10235');
+insert into DB2022_헬스장 values ('G05910','Good GYM', '은평구','은평로 195',2,1,'gg05910');
+insert into DB2022_헬스장 values ('G28100','함께운동','마포구','마포나루길 467',0,1,'uu28100');
 
-insert into DB2022_헬스장 values ('G29980','2X fitness','서울', '강남구','언주로 101',2,1,'xxfitxx');
-insert into DB2022_헬스장 values ('G10340','Able gym','서울', '서초구','사평대로 371',1,2,'able0816');
-insert into DB2022_헬스장 values ('G52390','더건강한피티','서울','마포구','마포대로 11길 7-18',0,0,'tgp1111');
+insert into DB2022_헬스장 values ('G29980','2X fitness','강남구','언주로 101',2,1,'xxfitxx');
+insert into DB2022_헬스장 values ('G10340','Able gym','서초구','사평대로 371',1,2,'able0816');
+insert into DB2022_헬스장 values ('G52390','더건강한피티','마포구','마포대로 11길 7-18',0,0,'tgp1111');
 
-insert into DB2022_헬스장 values ('G43240','Bally Total Fitness','서울','서초구','방배로 4길',3,3,'btf1234');
-insert into DB2022_헬스장 values ('G45620','The Gym','서울','서대문구','신촌로 33',0,0,'thegym00');
-insert into DB2022_헬스장 values ('G19320','데일리 짐','서울','동작구','동작대로 98',0,0,'daily2gym');
+insert into DB2022_헬스장 values ('G43240','Bally Total Fitness','서초구','방배로 4길',3,3,'btf1234');
+insert into DB2022_헬스장 values ('G45620','The Gym','서대문구','신촌로 33',0,0,'thegym00');
+insert into DB2022_헬스장 values ('G19320','데일리 짐','동작구','동작대로 98',0,0,'daily2gym');
 
-insert into DB2022_헬스장 values ('G18340','스포짐','서울','양천구','오목로 344',3,3,'health');
-insert into DB2022_헬스장 values ('G12030','스포애니','서울','양천구','목동로 189',0,0,'anybody');
-insert into DB2022_헬스장 values ('G34510','피트니스포애버','서울','양천구','오목로 279',0,0,'forever');
+insert into DB2022_헬스장 values ('G18340','스포짐','양천구','오목로 344',3,3,'health');
+insert into DB2022_헬스장 values ('G12030','스포애니','양천구','목동로 189',0,0,'anybody');
+insert into DB2022_헬스장 values ('G34510','피트니스포애버','양천구','오목로 279',0,0,'forever');
 
-insert into DB2022_헬스장 values ('G18860','이대로헬스','서울','서대문구','이화여대길 34',2,1,'ewha1886');
-insert into DB2022_헬스장 values ('G95610','May Gym','서울','관악구','관악로 168',1,2,'may05');
-insert into DB2022_헬스장 values ('G54360','무브짐','서울','송파구','백제고분로 275',0,0,'move2');
+insert into DB2022_헬스장 values ('G18860','이대로헬스','서대문구','이화여대길 34',2,1,'ewha1886');
+insert into DB2022_헬스장 values ('G95610','May Gym','관악구','관악로 168',1,2,'may05');
+insert into DB2022_헬스장 values ('G54360','무브짐','송파구','백제고분로 275',0,0,'move2');
 
 select * from DB2022_헬스장;
 
