@@ -12,7 +12,7 @@ import DB2022Team03.Gym.G_selectMenu;
 import DB2022Team03.MemberInfo.M_MainScreen;
 
 public class DeleteScreen extends JFrame {
-	
+
 	String owner_name = null;
 
 	public DeleteScreen(Connection conn, String userType, String ID) {
@@ -285,8 +285,7 @@ public class DeleteScreen extends JFrame {
 							// STEP3. 회원정보 삭제 >> 이미 0명이라 삭제할 거 없음
 							// STEP4. 트레이너정보 삭제 >> 이미 0명이라 삭제할 거 없음
 							// STEP5. 헬스장 정보 삭제
-							String deleteQuery1 
-									= " DELETE FROM DB2022_헬스장 "
+							String deleteQuery1 = " DELETE FROM DB2022_헬스장 "
 									+ " WHERE 헬스장번호 = ? ";
 
 							PreparedStatement pst1 = conn.prepareStatement(deleteQuery1);

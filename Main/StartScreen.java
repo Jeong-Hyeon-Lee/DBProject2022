@@ -7,11 +7,11 @@ import java.sql.*;
 
 public class StartScreen extends JFrame {
 
-	public static String userType; //회원, 트레이너, 관장 중 하나
-	
+	public static String userType; // 회원, 트레이너, 관장 중 하나
+
 	public StartScreen(Connection conn) {
 		setTitle("헬스장 PT 예약 시스템");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임 윈도우를 닫으면 프로그램 종료
 
 		JPanel title = new JPanel();
 
@@ -24,7 +24,6 @@ public class StartScreen extends JFrame {
 		JPanel jp1 = new JPanel();
 		jp1.setLayout(new FlowLayout());
 
-
 		JPanel MemberPanel = new JPanel();
 		JButton member = new JButton("회원");
 
@@ -33,7 +32,7 @@ public class StartScreen extends JFrame {
 
 		JPanel OwnerPanel = new JPanel();
 		JButton owner = new JButton("관장");
-		
+
 		MemberPanel.add(member);
 		TrainerPanel.add(trainer);
 		OwnerPanel.add(owner);
@@ -69,7 +68,7 @@ public class StartScreen extends JFrame {
 
 			}
 		});
-		
+
 		trainer.addActionListener(new ActionListener() {
 
 			@Override
@@ -81,7 +80,7 @@ public class StartScreen extends JFrame {
 
 			}
 		});
-		
+
 		owner.addActionListener(new ActionListener() {
 
 			@Override
