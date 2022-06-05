@@ -348,11 +348,21 @@ public class JoinScreen extends JFrame {
 						sqle.printStackTrace();
 					}
 					// 전화번호로 아이디 만들기 END
-
+					try{
+						PreparedStatement pst = conn.prepareStatement("SELECT * FROM DB2022_헬스장 WHERE(헬스장번호=?)");
+						pst.setString(1, myGym);
+						ResultSet rs = pst.executeQuery();
+						if(rs.next() == false){
+							JOptionPane.showMessageDialog(null, "입력하신 헬스장은 존재하지 않습니다. 다시 입력해 주세요");
+							JoinSuccess = false;
+						}
+					}catch (SQLException e){
+						e.printStackTrace();
+					}
 					if (JoinSuccess == true) {
 						// 2. 입력한 정보 확인
 						JOptionPane.showMessageDialog(null,
-								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName +  "소속 헬스장 : " + MyGym + "\n"
+								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName +  "소속 헬스장 : " + myGym + "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
 										+ "아이디는 (Trainer의 T) + (핸드폰 번호 뒷자리) + (숫자 하나)로 구성되어있습니다.");
 
