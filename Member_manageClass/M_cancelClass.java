@@ -161,7 +161,7 @@ public class M_cancelClass extends JFrame {
 				
 				int row = table.getSelectedRow();  // selected column(class)
 				if(row==-1) {
-
+					JOptionPane.showMessageDialog(panel_main, "선택된 수업이 없습니다.");
 					return;
 				}
 				String dateTime = (String) table.getValueAt(row, 0);  // dateTime of the selected class
