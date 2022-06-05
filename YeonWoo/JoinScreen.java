@@ -106,7 +106,7 @@ public class JoinScreen extends JFrame {
 			JPanel gymPanel = new JPanel();
 			gymPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			gymPanel.add(new JLabel("소속 헬스장 :  "));
-			gymPanel.add(TGym);
+			gymPanel.add(Tgym);
 			
 			formPanel.add(gymPanel);
 		}
