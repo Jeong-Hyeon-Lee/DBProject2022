@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 
 import DB2022Team03.YeonWoo.DeleteScreen;
 import DB2022Team03.YeonWoo.StartScreen;
-import DB2022Team03.EUNSOO.M_manageClass;
+import DB2022Team03.Member_manageClass.M_manageClass;
 
 public class M_MainScreen extends JFrame {
 	public M_MainScreen(Connection conn,String ID) {

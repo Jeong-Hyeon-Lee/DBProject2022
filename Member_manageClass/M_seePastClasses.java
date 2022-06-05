@@ -1,24 +1,17 @@
-/*
-* 수정사항:
-* 1) '예약완료'인 수업을 취소하면 남은횟수+1
-* 2) '예약확인중'인 수업을 취소하면 남은횟수는 변화X
-*/
-package DB2022Team03.EUNSOO;
+package DB2022Team03.Member_manageClass;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.time.LocalDateTime;
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import DB2022Team03.MemberInfo.M_MainScreen;
 
 
-public class M_cancelClass extends JFrame {
-		
+public class M_seePastClasses extends JFrame {
+	
 	/* Member Variables */
 	// Swing Class Objects
 	public static JPanel panel_main, panel_title, panel_table, panel_bottom, panel_msg, panel_buttons;
@@ -29,7 +22,7 @@ public class M_cancelClass extends JFrame {
 	public static DefaultTableModel tModel;
 	static String attributes[]= {"수업시간","수업진행현황"};
 	
-	public static JButton button_undo, button_cancel;
+	public static JButton button_undo;
 		
     // SQL Queries
 	public static PreparedStatement pStmt1 = null;
@@ -42,7 +35,7 @@ public class M_cancelClass extends JFrame {
 
 	
 	/* Constructor */
-	public M_cancelClass(Connection conn, String ID) throws SQLException {
+	public M_seePastClasses(Connection conn, String ID) throws SQLException {
 		
 		setTitle("헬스장 PT 예약 시스템");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // End program if the window is closed.
@@ -54,7 +47,7 @@ public class M_cancelClass extends JFrame {
 		/* Title */
 		panel_title = new JPanel();
 		panel_title.setLayout(new FlowLayout());
-		label_title = new JLabel("수업 취소");
+		label_title = new JLabel("과거 수업 조회");
 		label_title.setForeground(new Color(5,0,153));
 		label_title.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		panel_title.add(label_title);
@@ -62,7 +55,7 @@ public class M_cancelClass extends JFrame {
 		/* Message */
 		panel_msg = new JPanel();
 		panel_msg.setLayout(new FlowLayout());
-		label_msg = new JLabel("수업 취소를 원하시면 취소할 수업을 클릭한 뒤, 취소하기 버튼을 눌러주세요.");
+		label_msg = new JLabel("예약 진행 중이거나 예약 완료된 수업 목록입니다.");
 		panel_msg.add(label_msg);
 		
 		/* Table of Classes */
@@ -84,13 +77,13 @@ public class M_cancelClass extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "USE INDEX(회원번호인덱스) " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료') AND 수업시간 > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
+			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "USE INDEX(회원번호인덱스) " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('완료', '불참', '취소')";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
 			
 			if(!rs1.isBeforeFirst()) {
-				label_msg.setText("취소 가능한 수업이 없습니다.");
+				label_msg.setText("과거 수업이 내역이 없습니다.");
 			}
 			else {
 				while(rs1.next()) {
@@ -117,9 +110,6 @@ public class M_cancelClass extends JFrame {
 		
 		button_undo = new JButton("뒤로가기");
 		panel_buttons.add(button_undo);
-
-		button_cancel = new JButton("취소하기");
-		panel_buttons.add(button_cancel);		
 		
 		/* Center Panel that includes panel_msg and panel_buttons */
 		panel_bottom = new JPanel();
@@ -139,6 +129,7 @@ public class M_cancelClass extends JFrame {
 		setVisible(true);
 		
 		
+		
 		/* ******************************
 		 * Action Listeners
 		 ********************************/
@@ -153,63 +144,7 @@ public class M_cancelClass extends JFrame {
 			}
 		});
 		
-		// (2) 취소하기: Cancel reservation of the selected class.
-		button_cancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				int row = table.getSelectedRow();  // selected column(class)
-				String dateTime = (String) table.getValueAt(row, 0);  // dateTime of the selected class
-				System.out.println(dateTime);
-								
-				try {
-					query2 = "DELETE FROM DB2022_수업 " + "WHERE 회원번호 = ? AND 수업시간  = ? AND 수업진행현황 = '예약확인중' AND 수업시간 > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
-					query3 = "UPDATE DB2022_수업 " + "SET 수업진행현황 = '취소' " + "WHERE 회원번호 = ? AND 수업시간 = ? AND 수업진행현황 = '예약완료' AND 수업시간 > DATE_ADD(NOW(), INTERVAL 5 HOUR)";
-
-					pStmt2 = conn.prepareStatement(query2);
-					pStmt3 = conn.prepareStatement(query3);
-					
-					pStmt2.setString(1, ID);
-					pStmt2.setTimestamp(2, Timestamp.valueOf(dateTime));  // '수업시간'
-					
-					pStmt3.setString(1, ID);  
-					pStmt3.setTimestamp(2, Timestamp.valueOf(dateTime));  // '수업시간'
-					
-					/* Update DB. */
-					int row2 = pStmt2.executeUpdate(); 
-					int row3 = pStmt3.executeUpdate();
-					
-					// 예약된 수업이 '예약완료'인 경우, 남은 수업횟수 += 1 ('예약확인중'은 변화 x)
-					if(row3 > 0) {
-						String query = "UPDATE DB2022_회원 SET 남은횟수 = 남은횟수 + ? WHERE 회원번호 = ?";
-						PreparedStatement pStmt = conn.prepareStatement(query);
-						pStmt.setInt(1, 1);  // '남은횟수'
-						pStmt.setString(2, ID);  // '회원번호'
-						pStmt.executeUpdate();
-					}
-				
-					// Update the JTable.
-					tModel.setNumRows(0);  // Erase all the columns.
-					pStmt1 = conn.prepareStatement(query1);  // Execute query1.
-					pStmt1.setString(1, ID);  // '회원번호'
-					rs1 = pStmt1.executeQuery();
-					while(rs1.next()) {
-						String classDatetime = rs1.getTimestamp(1).toString();
-						classDatetime = classDatetime.substring(0, 19);
-						String classState = rs1.getString(2);
-						String[] column = {classDatetime.toString(), classState};
-						tModel.addRow(column);  // Add the column into the table.	
-						//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
-						table.setModel(tModel);
-					}
-										
-				} catch (SQLException sqle2) {
-					// TODO Auto-generated catch block
-					System.out.println("SQLException_2: " + sqle2);
-					sqle2.printStackTrace();
-				}
-			}
-		});			
-		
 	}
+	
 }
+

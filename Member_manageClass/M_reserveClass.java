@@ -6,7 +6,7 @@
 *    => 예약을 한다고 해서 남은횟수가 차감되지는 않지만 너무 많은 수업을 예약하지 못하게 한다.
 */
 
-package DB2022Team03.EUNSOO;
+package DB2022Team03.Member_manageClass;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -156,7 +156,7 @@ public class M_reserveClass extends JFrame {
 		
 		// SQL Query
 		try {
-			query1 = "SELECT 수업시간, 수업진행현황 " + "FROM DB2022_수업 " + "WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+			query1 = "SELECT 수업시간, 수업진행현황 FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 			pStmt1 = conn.prepareStatement(query1);
 			pStmt1.setString(1, ID);  // '회원번호'
 			rs1 = pStmt1.executeQuery();
@@ -253,7 +253,7 @@ public class M_reserveClass extends JFrame {
 					rs_test = pstm_test.executeQuery();
 					
 					// 현재 예약된 수업 개수 확인
-					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+					query_test2 = "SELECT COUNT(*) FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
 					pstm_test2 = conn.prepareStatement(query_test2);
 					pstm_test2.setString(1, ID);
 					rs_test2 = pstm_test2.executeQuery();
