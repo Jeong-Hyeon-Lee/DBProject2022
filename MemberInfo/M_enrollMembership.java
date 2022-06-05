@@ -22,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.cj.util.StringUtils;
+
 public class M_enrollMembership extends JFrame {
 	public static JTable jt;
 	public static JTable jt2;
@@ -180,10 +182,17 @@ public class M_enrollMembership extends JFrame {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				//문자열일 때 걸러야 함
-				//String ifString = inputText.getText();
-				//if(ifString)
+				String ifString = inputText.getText();
+				boolean isNumeric = StringUtils.isStrictlyNumeric(ifString);
+				if(!isNumeric) {
+					infoText.setText("숫자를 입력해주세요.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
+					return;
+				}
 				
-				int input = Integer.parseInt(inputText.getText());
+				int input = Integer.parseInt(ifString);
 				
 				if(input!=1&&input!=10&&input!=20) { //셋 다 아닐 때.. 
 					infoText.setText("1회권, 10회권, 20회권 중 하나를 선택해주세요.");

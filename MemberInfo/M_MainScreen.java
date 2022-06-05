@@ -203,7 +203,7 @@ public class M_MainScreen extends JFrame {
 							new M_manageClass(conn, ID);
 							dispose(); // 현재의 frame을 종료시키는 메서드.
 						} else
-							JOptionPane.showMessageDialog(null, "아직 회원권을 등록하지 않았습니다.");
+							JOptionPane.showMessageDialog(null, "아직 회원권을 등록하지 않았습니다. 회원권을 먼저 등록해주세요.");
 					} else {
 						JOptionPane.showMessageDialog(null, "등록되지 않은 회원입니다.");
 					}
