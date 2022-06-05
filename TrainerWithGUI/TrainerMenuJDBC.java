@@ -192,7 +192,7 @@ public class TrainerMenuJDBC {
 		// 예약 수락 (회원 남은 수업 횟수 -1 : 예약 수락되는 시점에 무조건 회원 남은 횟수는 차감)
 		PreparedStatement pstDetail = null;
 		if (status.equals("예약완료")){
-			JOptionPane.setMessageDialog(null, "이미 <예약완료> 되었습니다.");
+			JOptionPane.showMessageDialog(null, "이미 <예약완료> 되었습니다.");
 			return;
 		}
 		try {
@@ -229,7 +229,7 @@ public class TrainerMenuJDBC {
 		// 수업 완료 (강사 근무시간 +1)
 		PreparedStatement pstDetail = null;
 		if (status.equals("완료")){
-			JOptionPane.setMessageDialog(null, "수업이 이미 <완료> 상태입니다.");
+			JOptionPane.showMessageDialog(null, "수업이 이미 <완료> 상태입니다.");
 			return;
 		}
 		try {
