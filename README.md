@@ -1,6 +1,6 @@
 # DBProject2022 ( PT Reservation System )
 
-### `Gym` (관장으로 로그인했을 때)
+### `Gym`
 |__ `G_selectMenu.java`   :  Menu page for gym owner  
 |__ `G_changePriceInformation.java` : change price information  
 |__ `G_changePromotionInformation.java` :  change promotion information  
