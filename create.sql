@@ -1,5 +1,6 @@
 CREATE DATABASE DB2022Team03;
 
+/* create user and give grant */
 use mysql;
 #select user, host from user;
 #drop user 'DB2022Team03'@localhost;
