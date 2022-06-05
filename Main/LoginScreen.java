@@ -109,8 +109,6 @@ public class LoginScreen extends JFrame {
 				// ================ 회원 로그인 ===============
 				if (userType.equals("회원")) {
 					String member_id = null; // 로그인한 회원의 회원번호
-					String member_name = null; // 로그인한 회원의 이름
-					String member_gym = null; // 로그인한 회원의 소속 헬스장번호
 
 					String loginquery = "SELECT * " + "FROM DB2022_회원 USE INDEX (회원번호인덱스)" + " WHERE (회원번호=?)";
 					// 어차피 회원번호 primary key라 null아니면 tuple한개짜리 ResultSet 반환 >> while(rs.next()) 필요없음
@@ -130,8 +128,6 @@ public class LoginScreen extends JFrame {
 						} else if (rs.getString("비밀번호").equals(myPwd)) {
 							JOptionPane.showMessageDialog(jp1, "로그인 성공");
 							member_id = rs.getString("회원번호");
-							member_name = rs.getString("이름");
-							member_gym = rs.getString("소속헬스장");
 
 							// 회원 메뉴 페이지
 							new M_MainScreen(conn, member_id);
@@ -148,8 +144,6 @@ public class LoginScreen extends JFrame {
 				// ================ 트레이너 로그인 ===============
 				else if (userType.equals("트레이너")) {
 					String trainer_id = null; // 로그인한 트레이너의 강사번호
-					String trainer_name = null; // 로그인한 트레이너의 이름
-					String trainer_gym = null; // 로그인한 트레이너의 소속 헬스장번호
 
 					String loginquery = "SELECT * " + "FROM DB2022_트레이너 USE INDEX (강사번호인덱스)" + " WHERE (강사번호=?)";
 					// 어차피 강사번호 primary key라 null아니면 tuple한개짜리 ResultSet 반환 >> while(rs.next()) 필요없음
@@ -170,8 +164,6 @@ public class LoginScreen extends JFrame {
 							JOptionPane.showMessageDialog(jp1, "로그인 성공");
 
 							trainer_id = rs.getString("강사번호");
-							trainer_name = rs.getString("이름");
-							trainer_gym = rs.getString("헬스장번호");
 
 							// 트레이너 메뉴 페이지
 							new TrainerMenuJTable(trainer_id);
@@ -188,7 +180,6 @@ public class LoginScreen extends JFrame {
 				// ================ 관장 로그인 ===============
 				else if (userType.equals("관장")) {
 					String owner_gym = null; // 로그인한 관장의 헬스장번호
-					String owner_name = null; // 로그인한 관장의 헬스장이름
 
 					String loginquery = "SELECT * " + "FROM DB2022_헬스장" + " WHERE (헬스장번호=?)";
 					// 헬스장번호 primary key라 null아니면 tuple한개짜리 ResultSet 반환 >> while(rs.next()) 필요없음
@@ -208,10 +199,9 @@ public class LoginScreen extends JFrame {
 						} else if (rs.getString("비밀번호").equals(myPwd)) {
 							JOptionPane.showMessageDialog(jp1, "로그인 성공");
 							owner_gym = rs.getString("헬스장번호");
-							owner_name = rs.getString("이름");
 
 							// 관장 메뉴 페이지
-							new G_selectMenu(owner_gym, owner_name);
+							new G_selectMenu(owner_gym);
 							dispose();
 						} else {
 							JOptionPane.showMessageDialog(jp1, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");

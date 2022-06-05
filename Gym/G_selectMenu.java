@@ -32,7 +32,7 @@ public class G_selectMenu extends JFrame {
 	
 	static Connection conn;
 	
-	public G_selectMenu(String gymID, String gymName) throws SQLException{
+	public G_selectMenu(String gymID) throws SQLException{
 		// TODO Auto-generated constructor stub
 		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); //데이터베이스 접속
 		
