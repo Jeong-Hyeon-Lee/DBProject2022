@@ -55,7 +55,7 @@ public class M_seePastClasses extends JFrame {
 		/* Message */
 		panel_msg = new JPanel();
 		panel_msg.setLayout(new FlowLayout());
-		label_msg = new JLabel("예약 진행 중이거나 예약 완료된 수업 목록입니다.");
+		label_msg = new JLabel("과거 수업 목록입니다.");
 		panel_msg.add(label_msg);
 		
 		/* Table of Classes */
