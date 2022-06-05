@@ -16,7 +16,7 @@ public class DeleteScreen extends JFrame {
 	String owner_name = null;
 
 	public DeleteScreen(Connection conn, String userType, String ID) {
-		
+
 		setTitle("헬스장 통합 관리 프로그램");
 
 		// title
@@ -198,43 +198,43 @@ public class DeleteScreen extends JFrame {
 						pst1.setString(2, ID);
 						pst1.executeUpdate();
 
-						// STEP3. 헬스장에서 전체트레이너수 변경
-						String deleteQuery3 = " UPDATE DB2022_헬스장"
+						// STEP2. 헬스장에서 전체트레이너수 변경
+						String deleteQuery2 = " UPDATE DB2022_헬스장"
 								+ " SET 전체트레이너수 = 전체트레이너수 - 1"
 								+ " WHERE(헬스장번호=?)";
 
-						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
-						pst3.setString(1, trainer_gym);
-						pst3.executeUpdate();
+						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
+						pst2.setString(1, trainer_gym);
+						pst2.executeUpdate();
 
-						// STEP4. 해당 트레이너의 수업에서 강사번호를 000000으로 변경
+						// STEP3. 해당 트레이너의 수업에서 강사번호를 000000으로 변경
 						// 수업이 트레이너를 참조함. 트레이너 테이블에 이미 탈퇴처리를 위해 000000인 tuple이 있음.
-						String deleteQuery4 = " UPDATE DB2022_수업 "
+						String deleteQuery3 = " UPDATE DB2022_수업 "
 								+ " SET 강사번호 = ? "
 								+ " WHERE 강사번호 = ? ";
 
-						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
-						pst4.setString(1, "000000");
-						pst4.setString(2, ID);
-						pst4.executeUpdate();
+						PreparedStatement pst3 = conn.prepareStatement(deleteQuery3);
+						pst3.setString(1, "000000");
+						pst3.setString(2, ID);
+						pst3.executeUpdate();
 
-						// STEP5. 수업에서, 회원번호 트레이너번호가 둘다 000000인 경우 해당 수업 삭제
-						String deleteQuery5 = " DELETE FROM DB2022_수업 "
+						// STEP4. 수업에서, 회원번호 트레이너번호가 둘다 000000인 경우 해당 수업 삭제
+						String deleteQuery4 = " DELETE FROM DB2022_수업 "
 								+ " WHERE 회원번호 = ? and 강사번호 = ?";
 
-						PreparedStatement pst5 = conn.prepareStatement(deleteQuery5);
-						pst5.setString(1, "000000");
-						pst5.setString(2, "000000");
-						pst5.executeUpdate();
+						PreparedStatement pst4 = conn.prepareStatement(deleteQuery4);
+						pst4.setString(1, "000000");
+						pst4.setString(2, "000000");
+						pst4.executeUpdate();
 
-						// STEP2. 트레이너 테이블에서 해당 트레이너 삭제
+						// STEP5. 트레이너 테이블에서 해당 트레이너 삭제
 						// 수업이 트레이너를 참조하므로, 트레이너는 제일 마지막에 삭제해야함. 먼저 삭제할 수 없음.
-						String deleteQuery2 = " DELETE FROM DB2022_트레이너"
+						String deleteQuery5 = " DELETE FROM DB2022_트레이너"
 								+ " WHERE(강사번호=?)";
 
-						PreparedStatement pst2 = conn.prepareStatement(deleteQuery2);
-						pst2.setString(1, ID);
-						pst2.executeUpdate();
+						PreparedStatement pst5 = conn.prepareStatement(deleteQuery5);
+						pst5.setString(1, ID);
+						pst5.executeUpdate();
 
 						conn.commit(); // transaction 끝
 						conn.setAutoCommit(true);

@@ -16,7 +16,7 @@ public class StartScreen extends JFrame {
 		JPanel title = new JPanel();
 
 		// title 컨테이너에 들어갈 컴포넌트를 만들어 보자.
-		JLabel login = new JLabel("헬스장 PT 예약 시스템");
+		JLabel login = new JLabel("헬스장 통합 관리 프로그램");
 		login.setForeground(new Color(5, 0, 153));
 		login.setFont(new Font("맑은 고딕", Font.BOLD, 25));
 		title.add(login);
