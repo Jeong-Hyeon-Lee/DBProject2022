@@ -187,8 +187,8 @@ public class JoinScreen extends JFrame {
 				String myPhoneNum = phone.getText();
 				String myPwd = new String(pwd.getPassword());
 				String myName = name.getText();
-				String myAddress1 = address1.getText();
-				String myAddress2 = address2.getText();
+				String myAddress1 = address1.getText(); //지역
+				String myAddress2 = address2.getText(); //도로명주소
 				String myPrice1 = price1.getText();
 				String myPrice10 = price10.getText();
 				String myPrice20 = price20.getText();
@@ -233,7 +233,7 @@ public class JoinScreen extends JFrame {
 				// ===================== 회원 =======================
 				if (userType.equals("회원")) {
 					// 0. 입력한 값들 형식에 맞게 예외 처리.
-					if (!(0 < myAddress2.length() && myAddress2.length() <= 6)) {
+					if (!(myAddress1.length()>0 && myAddress1.length() <= 6)) {
 						checkCondition.setText("지역명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
 						JoinSuccess = false;
 					}
