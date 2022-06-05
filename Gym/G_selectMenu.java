@@ -16,8 +16,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DB2022Team03.YeonWoo.DeleteScreen;
-import DB2022Team03.YeonWoo.StartScreen;
+import DB2022Team03.Main.DeleteScreen;
+import DB2022Team03.Main.StartScreen;
 
 //관장으로 로그인했을 때 보이는 메뉴 화면
 public class G_selectMenu extends JFrame {
