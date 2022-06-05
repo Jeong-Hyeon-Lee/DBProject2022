@@ -249,7 +249,11 @@ public class M_enrollMembership extends JFrame {
 				try { //남은수업횟수가 0인지 확인
 					int check[] = M_totalLeft.M_totalLeft(conn, ID);
 					if(check[1]==0) { //남은수업횟수 == 0
-						//Update
+						
+						try{ //update
+						
+						conn.setAutoCommit(false); //transaction 시작
+	
 						str = "UPDATE DB2022_회원 SET 현재회원권=?,전체횟수=?,남은횟수=? WHERE 회원번호=?";
 						pstmt = conn.prepareStatement(str);
 						pstmt.setString(1, input+"회권");
@@ -282,6 +286,22 @@ public class M_enrollMembership extends JFrame {
 						tableModel.addRow(data1);
 						jt.setModel(tableModel);
 						
+						infoText.setText("회원권을 등록했습니다.");
+						infoText.setForeground(new Color(5,0,153));
+						btnGroup.revalidate();
+						btnGroup.repaint();	
+						
+						conn.commit();
+						conn.setAutoCommit(true); //transaction 종료
+						
+						} catch (SQLException e2) {
+							// TODO Auto-generated catch block
+							infoText.setText("회원권 등록/변경에 실패했습니다. 다시 시도해주세요.");
+							infoText.setForeground(new Color(153,0,5));
+							btnGroup.revalidate();
+							btnGroup.repaint();
+							e2.printStackTrace();
+						}	
 					} else {
 						//안내문구 빨간색으로 표시
 						infoText.setText("회원권 등록 및 변경은 남은수업회차가 0일 때만 가능합니다.");

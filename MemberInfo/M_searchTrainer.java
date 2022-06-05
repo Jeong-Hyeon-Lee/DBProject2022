@@ -333,53 +333,66 @@ public class M_searchTrainer extends JFrame {
 								rset.next();
 								String nowT = rset.getString(1);
 								
-								
-								if(nowT!=null) { //현재 담당트레이너가 있다면 기존 담당트레이너 담당회원수 -1									
-									//현재 담당트레이너 번호로 담당회원수찾기
-									str = "SELECT 담당회원수 FROM DB2022_트레이너 use index(강사번호) WHERE 강사번호=?";
+								try {
+									//update
+									conn.setAutoCommit(false); //transaction 시작
+
+									if(nowT!=null) { //현재 담당트레이너가 있다면 기존 담당트레이너 담당회원수 -1									
+										//현재 담당트레이너 번호로 담당회원수찾기
+										str = "SELECT 담당회원수 FROM DB2022_트레이너 use index(강사번호) WHERE 강사번호=?";
+										pstmt = conn.prepareStatement(str);
+										pstmt.setString(1, nowT);
+										rset = pstmt.executeQuery();
+										int nowTnum = 0; //기존 담당트레이너 담당회원수
+										rset.next();
+										nowTnum = rset.getInt(1);
+										
+										//등록해제 : 기존 담당트레이너 담당회원수 -1
+										str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
+										pstmt = conn.prepareStatement(str);
+										pstmt.setInt(1, nowTnum-1);
+										pstmt.setString(2, nowT);
+										pstmt.executeUpdate();								
+									} 
+									//현재 담당트레이너가 없다면 바로 enroll								
+									//선택한 트레이너 이름(Tname) 으로 트레이너 번호 찾기
+									str = "SELECT 강사번호, 담당회원수 FROM DB2022_트레이너 WHERE 이름=?";
 									pstmt = conn.prepareStatement(str);
-									pstmt.setString(1, nowT);
-									rset = pstmt.executeQuery();
-									int nowTnum = 0; //기존 담당트레이너 담당회원수
-									rset.next();
-									nowTnum = rset.getInt(1);
+					                pstmt.setString(1, Tname);
+					                rset = pstmt.executeQuery();
+					                rset.next();
+					                String selectT = rset.getString(1); //선택한 트레이너 번호
+					                int selectTnum = rset.getInt(2); //선택한 트레이너의 담당회원 수 
 									
-									//등록해제 : 기존 담당트레이너 담당회원수 -1
+									//등록 : 회원 담당트레이너 등록
+									str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
+									pstmt = conn.prepareStatement(str);
+									pstmt.setString(1, selectT);
+									pstmt.setString(2, ID);
+									pstmt.executeUpdate();
+									
+									//등록 : 트레이너 담당회원수 +1
 									str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
 									pstmt = conn.prepareStatement(str);
-									pstmt.setInt(1, nowTnum-1);
-									pstmt.setString(2, nowT);
-									pstmt.executeUpdate();								
-								} 
-								//현재 담당트레이너가 없다면 바로 enroll								
-								//선택한 트레이너 이름(Tname) 으로 트레이너 번호 찾기
-								str = "SELECT 강사번호, 담당회원수 FROM DB2022_트레이너 WHERE 이름=?";
-								pstmt = conn.prepareStatement(str);
-				                pstmt.setString(1, Tname);
-				                rset = pstmt.executeQuery();
-				                rset.next();
-				                String selectT = rset.getString(1); //선택한 트레이너 번호
-				                int selectTnum = rset.getInt(2); //선택한 트레이너의 담당회원 수 
-								
-								//등록 : 회원 담당트레이너 등록
-								str = "UPDATE DB2022_회원 SET 담당트레이너=? WHERE 회원번호=?";
-								pstmt = conn.prepareStatement(str);
-								pstmt.setString(1, selectT);
-								pstmt.setString(2, ID);
-								pstmt.executeUpdate();
-								
-								//등록 : 트레이너 담당회원수 +1
-								str = "UPDATE DB2022_트레이너 SET 담당회원수=? WHERE 강사번호=?";
-								pstmt = conn.prepareStatement(str);
-								pstmt.setInt(1, selectTnum+1);
-								pstmt.setString(2, selectT);
-								pstmt.executeUpdate();
-								
-								infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
-								infoText.setForeground(new Color(5,0,135));
-								btnGroup.revalidate();
-								btnGroup.repaint();
-								
+									pstmt.setInt(1, selectTnum+1);
+									pstmt.setString(2, selectT);
+									pstmt.executeUpdate();
+									
+									infoText.setText("담당트레이너("+Tname+")가 등록되었습니다.");
+									infoText.setForeground(new Color(5,0,135));
+									btnGroup.revalidate();
+									btnGroup.repaint();
+									
+									conn.commit();
+									conn.setAutoCommit(true); //transaction 종료
+								} catch (SQLException e2) {
+									// TODO Auto-generated catch block
+									infoText.setText("트레이너 등록/변경에 실패했습니다. 다시 시도해주세요.");
+									infoText.setForeground(new Color(153,0,5));
+									btnGroup.revalidate();
+									btnGroup.repaint();
+									e2.printStackTrace();
+								}
 							} else { //다르다면
 								infoText.setText("소속헬스장의 트레이너만 등록가능합니다.(소속헬스장:"+nowGymName+")");
 								infoText.setForeground(new Color(153,0,5));

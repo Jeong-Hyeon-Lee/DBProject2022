@@ -323,42 +323,57 @@ public class M_searchGYM extends JFrame {
 						pstmt.setString(1, ID);
 						rset = pstmt.executeQuery();
 						
-						if(rset.isBeforeFirst()) { //소속된 헬스장이 있으면 기존 헬스장 전체 회원수 -1
-							//소속된 헬스장 정보
-							String GYMidNow = null;
-							int GYMnumMNow=0;
-							
-							rset.next();
-							GYMidNow = rset.getString(1); //소속 헬스장 번호
-							GYMnumMNow = rset.getInt(2); //소속 헬스장 전체회원수
+						try { //update
+							conn.setAutoCommit(false); //transaction 시작
 
-							//기존 헬스장 전체 회원수 -1
+							if(rset.isBeforeFirst()) { //소속된 헬스장이 있으면 기존 헬스장 전체 회원수 -1
+								//소속된 헬스장 정보
+								String GYMidNow = null;
+								int GYMnumMNow=0;
+								
+								rset.next();
+								GYMidNow = rset.getString(1); //소속 헬스장 번호
+								GYMnumMNow = rset.getInt(2); //소속 헬스장 전체회원수
+	
+								//기존 헬스장 전체 회원수 -1
+								str = "UPDATE DB2022_헬스장 SET 전체회원수=? WHERE 헬스장번호=?";
+								pstmt = conn.prepareStatement(str);
+								pstmt.setInt(1, GYMnumMNow-1);
+								pstmt.setString(2, GYMidNow);
+								pstmt.executeUpdate();
+							} 
+							
+							//소속된 헬스장이 없으면 바로 등록
+							//헬스장 등록하기 : 회원 소속헬스장 update
+							str = "UPDATE DB2022_회원 SET 소속헬스장=? WHERE 회원번호=?";
+							pstmt = conn.prepareStatement(str);
+							pstmt.setString(1, GYMid);
+							pstmt.setString(2, ID);
+							pstmt.executeUpdate();
+							
+							//헬스장 등록하기 : 헬스장 전체 회원 수 +1
 							str = "UPDATE DB2022_헬스장 SET 전체회원수=? WHERE 헬스장번호=?";
 							pstmt = conn.prepareStatement(str);
-							pstmt.setInt(1, GYMnumMNow-1);
-							pstmt.setString(2, GYMidNow);
+							pstmt.setInt(1, GYMnumM+1);
+							pstmt.setString(2, GYMid);
 							pstmt.executeUpdate();
-						} 
+							
+							infoText.setText(GYMname+"에 회원으로 등록되었습니다.");
+							infoText.setForeground(new Color(5,0,153));
+							btnGroup.revalidate();
+							btnGroup.repaint();	
+							
+							conn.commit();
+							conn.setAutoCommit(true); //transaction 종료
+						} catch (SQLException e2) {
+							// TODO Auto-generated catch block
+							infoText.setText("헬스장 등록/변경에 실패했습니다. 다시 시도해주세요.");
+							infoText.setForeground(new Color(153,0,5));
+							btnGroup.revalidate();
+							btnGroup.repaint();
+							e2.printStackTrace();
+						}
 						
-						//소속된 헬스장이 없으면 바로 등록
-						//헬스장 등록하기 : 회원 소속헬스장 update
-						str = "UPDATE DB2022_회원 SET 소속헬스장=? WHERE 회원번호=?";
-						pstmt = conn.prepareStatement(str);
-						pstmt.setString(1, GYMid);
-						pstmt.setString(2, ID);
-						pstmt.executeUpdate();
-						
-						//헬스장 등록하기 : 헬스장 전체 회원 수 +1
-						str = "UPDATE DB2022_헬스장 SET 전체회원수=? WHERE 헬스장번호=?";
-						pstmt = conn.prepareStatement(str);
-						pstmt.setInt(1, GYMnumM+1);
-						pstmt.setString(2, GYMid);
-						pstmt.executeUpdate();
-						
-						infoText.setText(GYMname+"에 회원으로 등록되었습니다.");
-						infoText.setForeground(new Color(5,0,153));
-						btnGroup.revalidate();
-						btnGroup.repaint();					
 					} else {
 						//textfield띄우기
 						infoText.setText("아직 수업횟수가 남아서 헬스장을 변경할 수 없습니다.");
