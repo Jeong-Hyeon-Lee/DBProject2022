@@ -429,7 +429,7 @@ public class JoinScreen extends JFrame {
 					if (!(0 < myAddress1.length() && myAddress1.length() <= 6)) {
 						checkCondition.setText("지역명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
 						JoinSuccess = false;
-					} else if (!(0 < myAddress2.length() && myAddress2.length() <= 6)) {
+					} else if (!(0 < myAddress2.length() && myAddress2.length() <= 20)) {
 						checkCondition.setText("도로명주소가 너무 짧거나 깁니다. (1자 이상 20자 이내)");
 						JoinSuccess = false;
 					}
