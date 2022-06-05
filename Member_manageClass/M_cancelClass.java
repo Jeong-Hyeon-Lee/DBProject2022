@@ -160,6 +160,10 @@ public class M_cancelClass extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				int row = table.getSelectedRow();  // selected column(class)
+				if(row==-1) {
+
+					return;
+				}
 				String dateTime = (String) table.getValueAt(row, 0);  // dateTime of the selected class
 				System.out.println(dateTime);
 								
