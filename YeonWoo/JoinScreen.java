@@ -353,7 +353,7 @@ public class JoinScreen extends JFrame {
 						pst.setString(1, myGym);
 						ResultSet rs = pst.executeQuery();
 						if(rs.next() == false){
-							JOptionPane.showMessageDialog(null, "입력하신 헬스장은 존재하지 않습니다. 다시 입력해 주세요");
+							checkCondition.setText("입력하신 헬스장은 존재하지 않습니다. 다시 입력해 주세요");
 							JoinSuccess = false;
 						}
 					}catch (SQLException ex){
