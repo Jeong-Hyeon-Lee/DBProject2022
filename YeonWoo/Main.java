@@ -2,7 +2,7 @@ package DB2022Team03.YeonWoo;
 import java.sql.*;
 import javax.swing.*;
 
-public class yw_Main extends JFrame{
+public class Main extends JFrame{
 
 	//JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
