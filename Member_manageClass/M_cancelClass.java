@@ -105,6 +105,7 @@ public class M_cancelClass extends JFrame {
 					//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
 				}
 				table.setModel(tModel);
+				table.setRowSelectionInterval(0,0); 
 			}
 		}catch(SQLException sqle1) {
 			System.out.println("SQLException_1: " + sqle1);
@@ -201,6 +202,7 @@ public class M_cancelClass extends JFrame {
 						tModel.addRow(column);  // Add the column into the table.	
 						//System.out.println("수업시간: " + classDatetime + " 수업진행현황: " + classState);
 						table.setModel(tModel);
+						table.setRowSelectionInterval(0,0); 
 					}
 										
 				} catch (SQLException sqle2) {

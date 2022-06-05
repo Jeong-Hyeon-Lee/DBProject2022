@@ -111,6 +111,7 @@ public class M_searchGYM extends JFrame {
 					tableModel.addRow(data);
 				}
 				jt = new JTable(tableModel);
+				jt.setRowSelectionInterval(0,0); 
 				
 				//스크롤&column명을 위해 JScrollPane 적용
 				JScrollPane scrollpane=new JScrollPane(jt);
@@ -197,7 +198,8 @@ public class M_searchGYM extends JFrame {
 							
 							tableModel.addRow(data);
 						}
-						jt.setModel(tableModel);					
+						jt.setModel(tableModel);
+						jt.setRowSelectionInterval(0,0); 
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -244,7 +246,8 @@ public class M_searchGYM extends JFrame {
 							
 							tableModel.addRow(data);
 						}
-						jt.setModel(tableModel);					
+						jt.setModel(tableModel);
+						jt.setRowSelectionInterval(0,0); 
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -302,6 +305,7 @@ public class M_searchGYM extends JFrame {
 							tableModel.addRow(data);
 						}
 							jt.setModel(tableModel);
+							jt.setRowSelectionInterval(0,0); 
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
