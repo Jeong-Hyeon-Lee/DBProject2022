@@ -27,7 +27,7 @@ public class JoinScreen extends JFrame {
 
 	public JoinScreen(Connection conn, String userType) {
 
-		setTitle("회원가입");
+		setTitle("헬스장 통합 관리 프로그램");
 
 		// 1. 컴포넌트들을 만들어 보자.
 		JLabel title = new JLabel(userType + " 회원가입", JLabel.CENTER);

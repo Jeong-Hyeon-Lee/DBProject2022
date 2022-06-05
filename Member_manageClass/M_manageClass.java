@@ -33,7 +33,7 @@ public class M_manageClass extends JFrame {
 	 * }
 	 */
 	public M_manageClass(Connection conn, String ID) {
-		setTitle("헬스장 PT 예약 시스템");
+		setTitle("헬스장 통합 관리 프로그램");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 프레임 윈도우를 닫으면 프로그램 종료
 
 		// Title

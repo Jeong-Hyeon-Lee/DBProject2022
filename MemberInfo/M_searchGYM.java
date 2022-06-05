@@ -34,7 +34,7 @@ public class M_searchGYM extends JFrame {
 	static Statement stmt; 
 	
 	public M_searchGYM(Connection conn, String ID) throws SQLException {
-		setTitle("헬스장 PT 예약 시스템");
+		setTitle("헬스장 통합 관리 프로그램");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
 		
 		//상단 - 회원 MENU

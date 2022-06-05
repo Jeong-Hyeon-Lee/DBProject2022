@@ -19,7 +19,8 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 	public TrainerJDialogGUI(TrainerMenuJTable tm, String index) {
 		
 		super(tm, "트레이너 메뉴");
-		
+		setTitle("헬스장 통합 관리 프로그램");
+
 		trainer_no = (String) tm.trainer_table.getValueAt(0,0); // trainer_table 객체에서 로그인한 트레이너의 트레이너 번호를 불러온다.
 		trainer_name = (String) tm.trainer_table.getValueAt(0, 1); // trainer_table 객체에서 로그인한 트레이너의 트레이너 이름을 불러온다.
 		trainer_gym = (String) tm.trainer_table.getValueAt(0, 2); // trainer_table 객체에서 로그인한 트레이너의 소속 헬스장 이름을 불러온다.

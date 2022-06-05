@@ -37,7 +37,7 @@ public class M_seeFutureClasses extends JFrame {
 	/* Constructor */
 	public M_seeFutureClasses(Connection conn, String ID) throws SQLException {
 		
-		setTitle("헬스장 PT 예약 시스템");
+		setTitle("헬스장 통합 관리 프로그램");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // End program if the window is closed.
 		
 		/* Main Panel */
