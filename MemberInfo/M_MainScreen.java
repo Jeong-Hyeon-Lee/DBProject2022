@@ -197,7 +197,7 @@ public class M_MainScreen extends JFrame {
 					
 					// Can manage classes only if the current member has a gym, a trainer, and membership.
 					if(rs_test.next()) {
-						if(rs_test.getString(1) != null && rs_test.getString(2) != null && rs_test.getString(3) != null) {
+						if(rs_test.getString(1) != null && rs_test.getString(2) != null && !rs_test.getString(3).equals("없음")) {
 							new M_manageClass(conn,ID);
 							dispose(); // 현재의 frame을 종료시키는 메서드.
 						}
