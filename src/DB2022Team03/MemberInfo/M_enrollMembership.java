@@ -32,27 +32,27 @@ public class M_enrollMembership extends JFrame {
 	static String str = null;
 	static JLabel infoText;
 	static JPanel btnGroup;
-	static String columnNames[]= {"ì´ë¦„","ì „ì²´ê²°ì œíšŒì°¨","ì™„ë£Œìˆ˜ì—…íšŒì°¨","ë‚¨ì€ìˆ˜ì—…íšŒì°¨","í˜„ì¬íšŒì›ê¶Œ"};
-	static String columnNames2[] ={"1íšŒê¶Œ","10íšŒê¶Œ","20íšŒê¶Œ","ê¸°íƒ€í”„ë¡œëª¨ì…˜"};
+	static String columnNames[]= {"ÀÌ¸§","ÀüÃ¼°áÁ¦È¸Â÷","¿Ï·á¼ö¾÷È¸Â÷","³²Àº¼ö¾÷È¸Â÷","ÇöÀçÈ¸¿ø±Ç"};
+	static String columnNames2[] ={"1È¸±Ç","10È¸±Ç","20È¸±Ç","±âÅ¸ÇÁ·Î¸ğ¼Ç"};
 	static Statement stmt; 
 	
 	public M_enrollMembership(Connection conn, String ID) throws SQLException {
-		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //í”„ë ˆì„ ìœˆë„ìš°ë¥¼ ë‹«ìœ¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
 		
-		//ìƒë‹¨ - íšŒì› MENU
+		//»ó´Ü - È¸¿ø MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("íšŒì›ê¶Œ ë“±ë¡ ë° ë³€ê²½");
+		JLabel subtitle = new JLabel("È¸¿ø±Ç µî·Ï ¹× º¯°æ");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
-		//search - í—¬ìŠ¤ì¥ ì§€ì—­ìœ¼ë¡œ ì°¾ê¸°
+		//search - Çï½ºÀå Áö¿ªÀ¸·Î Ã£±â
 		JPanel input = new JPanel();
 		input.setLayout(new FlowLayout());
 		
 		JPanel i1 = new JPanel();
-		JLabel inputDesc = new JLabel("ì›í•˜ëŠ” íšŒì›ê¶Œì„ ìˆ«ìë¡œ ì…ë ¥í•´ì£¼ì„¸ìš”.: ");
+		JLabel inputDesc = new JLabel("¿øÇÏ´Â È¸¿ø±ÇÀ» ¼ıÀÚ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.: ");
 		i1.add(inputDesc);
 		input.add(i1);
 		
@@ -62,7 +62,7 @@ public class M_enrollMembership extends JFrame {
 		input.add(i2);
 		
 		JPanel i3 = new JPanel();
-		JButton enrollBtn = new JButton("ë“±ë¡"); 
+		JButton enrollBtn = new JButton("µî·Ï"); 
 		i3.add(enrollBtn);
 		input.add(i3);
 
@@ -70,14 +70,14 @@ public class M_enrollMembership extends JFrame {
 		btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(3,1));
 		
-		//Table1 : ì „ì²´íšŸìˆ˜, ë‚¨ì€íšŸìˆ˜, í˜„ì¬íšŒì›ê¶Œ
+		//Table1 : ÀüÃ¼È½¼ö, ³²ÀºÈ½¼ö, ÇöÀçÈ¸¿ø±Ç
 		JPanel table1 = new JPanel();
 		table1.setLayout(new GridLayout(1,1));
 		tableModel = new DefaultTableModel(columnNames,0);
 		jt = new JTable(tableModel);
 		
 		//query for table
-		str = "select ì´ë¦„, ì „ì²´íšŸìˆ˜, ë‚¨ì€íšŸìˆ˜, í˜„ì¬íšŒì›ê¶Œ from db2022_íšŒì› use index (íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) where íšŒì›ë²ˆí˜¸ = ?";
+		str = "select ÀÌ¸§, ÀüÃ¼È½¼ö, ³²ÀºÈ½¼ö, ÇöÀçÈ¸¿ø±Ç from db2022_È¸¿ø use index (È¸¿ø¹øÈ£ÀÎµ¦½º) where È¸¿ø¹øÈ£ = ?";
 		pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		rset = pstmt.executeQuery();
@@ -97,14 +97,14 @@ public class M_enrollMembership extends JFrame {
 	
 		table1.add(scrollpane);
 			
-		//Table2 : í—¬ìŠ¤ì¥ ê°€ê²©í‘œ
+		//Table2 : Çï½ºÀå °¡°İÇ¥
 		JPanel table2 = new JPanel();
 		table2.setLayout(new GridLayout(1,1));
 		tableModel2 = new DefaultTableModel(columnNames2,0);
 		jt2 = new JTable(tableModel2);
 		
 		//query for table 
-		str = "select 1íšŒê°€ê²©, 10íšŒê°€ê²©, 20íšŒê°€ê²©, ê¸°íƒ€í”„ë¡œëª¨ì…˜ì„¤ëª… from db2022_ê°€ê²© where í—¬ìŠ¤ì¥ë²ˆí˜¸ in (select ì†Œì†í—¬ìŠ¤ì¥ from db2022_íšŒì› use index (íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) where íšŒì›ë²ˆí˜¸=?) ";
+		str = "select 1È¸°¡°İ, 10È¸°¡°İ, 20È¸°¡°İ, ±âÅ¸ÇÁ·Î¸ğ¼Ç¼³¸í from db2022_°¡°İ where Çï½ºÀå¹øÈ£ in (select ¼Ò¼ÓÇï½ºÀå from db2022_È¸¿ø use index (È¸¿ø¹øÈ£ÀÎµ¦½º) where È¸¿ø¹øÈ£=?) ";
 		pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		rset = pstmt.executeQuery();
@@ -112,7 +112,7 @@ public class M_enrollMembership extends JFrame {
 		if(!rset.isBeforeFirst()) {
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			JLabel errText = new JLabel("í—¬ìŠ¤ì¥ ê°€ê²©ì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¬ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë¨¼ì € í—¬ìŠ¤ì¥ì„ ë“±ë¡í•´ì£¼ì„¸ìš”.");
+			JLabel errText = new JLabel("Çï½ºÀå °¡°İÁ¤º¸¸¦ ºÒ·¯¿Ã ¼ö ¾ø½À´Ï´Ù. ¸ÕÀú Çï½ºÀåÀ» µî·ÏÇØÁÖ¼¼¿ä.");
 			errText.setForeground(new Color(153,0,5));
 			jpErr.add(errText);
 			btnGroup.add(jpErr);
@@ -133,9 +133,9 @@ public class M_enrollMembership extends JFrame {
 			table2.add(scrollpane2);
 		}
 		
-		//ì•ˆë‚´ë¬¸êµ¬
+		//¾È³»¹®±¸
 		JPanel info = new JPanel();
-		infoText = new JLabel("íšŒì›ê¶Œ ë“±ë¡ ë° ë³€ê²½ì€ ë‚¨ì€ìˆ˜ì—…íšŒì°¨ê°€ 0ì¼ ë•Œë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+		infoText = new JLabel("È¸¿ø±Ç µî·Ï ¹× º¯°æÀº ³²Àº¼ö¾÷È¸Â÷°¡ 0ÀÏ ¶§¸¸ °¡´ÉÇÕ´Ï´Ù.");
 		info.add(infoText);
 		btnGroup.add(info);
 		
@@ -143,7 +143,7 @@ public class M_enrollMembership extends JFrame {
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("ë’¤ë¡œê°€ê¸°");
+		JButton undo = new JButton("µÚ·Î°¡±â");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		
@@ -151,7 +151,7 @@ public class M_enrollMembership extends JFrame {
 		
 		setLayout(new BorderLayout());
 		
-		//centerë¥¼ ê·¸ë¦¬ë“œë¡œ 3ê°œ
+		//center¸¦ ±×¸®µå·Î 3°³
 		JPanel center = new JPanel();
 		center.setLayout(new GridLayout(3,1));
 		center.add(input);
@@ -163,16 +163,16 @@ public class M_enrollMembership extends JFrame {
 		add(btnGroup,BorderLayout.SOUTH);
 		setBounds(200,200,800,400);
 		
-		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •í•˜ëŠ” ì‘ì—…
+		setResizable(false); // È­¸é Å©±â °íÁ¤ÇÏ´Â ÀÛ¾÷
 
 		setVisible(true);
 				
-		//Btn click ì´ë²¤íŠ¸
+		//Btn click ÀÌº¥Æ®
 		undo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new M_MainScreen(conn,ID);
-				dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
+				dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
 			}
 		});
 		
@@ -181,19 +181,19 @@ public class M_enrollMembership extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				int input = Integer.parseInt(inputText.getText());
 				
-				if(input!=1&&input!=10&&input!=20) { //ì…‹ ë‹¤ ì•„ë‹ ë•Œ.. 
-					infoText.setText("1íšŒê¶Œ, 10íšŒê¶Œ, 20íšŒê¶Œ ì¤‘ í•˜ë‚˜ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
+				if(input!=1&&input!=10&&input!=20) { //¼Â ´Ù ¾Æ´Ò ¶§.. 
+					infoText.setText("1È¸±Ç, 10È¸±Ç, 20È¸±Ç Áß ÇÏ³ª¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.");
 					infoText.setForeground(new Color(153,0,5));
 					btnGroup.revalidate();
 					btnGroup.repaint();
 					return;
 				}
 				
-				//ì†Œì†í—¬ìŠ¤ì¥, ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ ë²ˆí˜¸ì°¾ê¸° -> nullì´ë¼ë©´ ë“±ë¡Xë˜ë„ë¡ êµ¬í˜„
+				//¼Ò¼ÓÇï½ºÀå, ´ã´çÆ®·¹ÀÌ³Ê ¹øÈ£Ã£±â -> nullÀÌ¶ó¸é µî·ÏXµÇµµ·Ï ±¸Çö
 				String GYMid_M = null;
 				String Tid_M = null;
 				try {
-					str = "SELECT ì†Œì†í—¬ìŠ¤ì¥, ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ FROM db2022_íšŒì› USE INDEX (íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) WHERE íšŒì›ë²ˆí˜¸=?";
+					str = "SELECT ¼Ò¼ÓÇï½ºÀå, ´ã´çÆ®·¹ÀÌ³Ê FROM db2022_È¸¿ø USE INDEX (È¸¿ø¹øÈ£ÀÎµ¦½º) WHERE È¸¿ø¹øÈ£=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
@@ -208,22 +208,22 @@ public class M_enrollMembership extends JFrame {
 				}
 				
 				if(GYMid_M==null) {
-					infoText.setText("í—¬ìŠ¤ì¥ì„ ë¨¼ì € ë“±ë¡í•´ì£¼ì„¸ìš”.");
+					infoText.setText("Çï½ºÀåÀ» ¸ÕÀú µî·ÏÇØÁÖ¼¼¿ä.");
 					infoText.setForeground(new Color(153,0,5));
 					btnGroup.revalidate();
 					btnGroup.repaint();
 					return;
 				} else if (Tid_M==null) {
-					infoText.setText("íŠ¸ë ˆì´ë„ˆë¥¼ ë¨¼ì € ë“±ë¡í•´ì£¼ì„¸ìš”.");
+					infoText.setText("Æ®·¹ÀÌ³Ê¸¦ ¸ÕÀú µî·ÏÇØÁÖ¼¼¿ä.");
 					infoText.setForeground(new Color(153,0,5));
 					btnGroup.revalidate();
 					btnGroup.repaint();
 					return;					
 				}
 				
-				//íŠ¸ë ˆì´ë„ˆ í—¬ìŠ¤ì¥ì´ë‘ ì†Œì†í—¬ìŠ¤ì¥ì´ ë‹¤ë¥´ë©´ ëª» ë°”ê¿ˆ
+				//Æ®·¹ÀÌ³Ê Çï½ºÀåÀÌ¶û ¼Ò¼ÓÇï½ºÀåÀÌ ´Ù¸£¸é ¸ø ¹Ù²Ş
 				try{
-					str = "SELECT í—¬ìŠ¤ì¥ë²ˆí˜¸ FROM DB2022_íŠ¸ë ˆì´ë„ˆ WHERE ê°•ì‚¬ë²ˆí˜¸=?";
+					str = "SELECT Çï½ºÀå¹øÈ£ FROM DB2022_Æ®·¹ÀÌ³Ê WHERE °­»ç¹øÈ£=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, Tid_M);
 					rset = pstmt.executeQuery();
@@ -232,7 +232,7 @@ public class M_enrollMembership extends JFrame {
 					String Tgym = rset.getString(1);
 					
 					if(!Tgym.equals(GYMid_M)) {
-						infoText.setText("ì†Œì†í—¬ìŠ¤ì¥ê³¼ íŠ¸ë ˆì´ë„ˆì˜ í—¬ìŠ¤ì¥ì´ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. íŠ¸ë ˆì´ë„ˆë¥¼ ë‹¤ì‹œ ë“±ë¡í•´ì£¼ì„¸ìš”.");
+						infoText.setText("¼Ò¼ÓÇï½ºÀå°ú Æ®·¹ÀÌ³ÊÀÇ Çï½ºÀåÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù. Æ®·¹ÀÌ³Ê¸¦ ´Ù½Ã µî·ÏÇØÁÖ¼¼¿ä.");
 						infoText.setForeground(new Color(153,0,5));
 						btnGroup.revalidate();
 						btnGroup.repaint();
@@ -246,23 +246,23 @@ public class M_enrollMembership extends JFrame {
 				}	
 	
 				
-				try { //ë‚¨ì€ìˆ˜ì—…íšŸìˆ˜ê°€ 0ì¸ì§€ í™•ì¸
+				try { //³²Àº¼ö¾÷È½¼ö°¡ 0ÀÎÁö È®ÀÎ
 					int check[] = M_totalLeft.M_totalLeft(conn, ID);
-					if(check[1]==0) { //ë‚¨ì€ìˆ˜ì—…íšŸìˆ˜ == 0
+					if(check[1]==0) { //³²Àº¼ö¾÷È½¼ö == 0
 						
 						try{ //update
 						
-						conn.setAutoCommit(false); //transaction ì‹œì‘
+						conn.setAutoCommit(false); //transaction ½ÃÀÛ
 	
-						str = "UPDATE DB2022_íšŒì› SET í˜„ì¬íšŒì›ê¶Œ=?,ì „ì²´íšŸìˆ˜=?,ë‚¨ì€íšŸìˆ˜=? WHERE íšŒì›ë²ˆí˜¸=?";
+						str = "UPDATE DB2022_È¸¿ø SET ÇöÀçÈ¸¿ø±Ç=?,ÀüÃ¼È½¼ö=?,³²ÀºÈ½¼ö=? WHERE È¸¿ø¹øÈ£=?";
 						pstmt = conn.prepareStatement(str);
-						pstmt.setString(1, input+"íšŒê¶Œ");
+						pstmt.setString(1, input+"È¸±Ç");
 						pstmt.setInt(2, input+check[0]);
 						pstmt.setInt(3, input);
 						pstmt.setString(4, ID);
 						pstmt.executeUpdate();
 						
-						infoText.setText("íšŒì›ê¶Œì„ "+input+"íšŒê¶Œìœ¼ë¡œ ë³€ê²½í–ˆìŠµë‹ˆë‹¤.");
+						infoText.setText("È¸¿ø±ÇÀ» "+input+"È¸±ÇÀ¸·Î º¯°æÇß½À´Ï´Ù.");
 						infoText.setForeground(new Color(5,0,153));
 						btnGroup.revalidate();
 						btnGroup.repaint();
@@ -270,7 +270,7 @@ public class M_enrollMembership extends JFrame {
 						//table
 						tableModel.setNumRows(0);
 						//query for table
-						str = "select ì´ë¦„, ì „ì²´íšŸìˆ˜, ë‚¨ì€íšŸìˆ˜, í˜„ì¬íšŒì›ê¶Œ from db2022_íšŒì› use index(íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) where íšŒì›ë²ˆí˜¸ = ?";
+						str = "select ÀÌ¸§, ÀüÃ¼È½¼ö, ³²ÀºÈ½¼ö, ÇöÀçÈ¸¿ø±Ç from db2022_È¸¿ø use index(È¸¿ø¹øÈ£ÀÎµ¦½º) where È¸¿ø¹øÈ£ = ?";
 						pstmt = conn.prepareStatement(str);
 						pstmt.setString(1, ID);
 						rset = pstmt.executeQuery();
@@ -286,35 +286,35 @@ public class M_enrollMembership extends JFrame {
 						tableModel.addRow(data1);
 						jt.setModel(tableModel);
 						
-						infoText.setText("íšŒì›ê¶Œì„ ë“±ë¡í–ˆìŠµë‹ˆë‹¤.");
+						infoText.setText("È¸¿ø±ÇÀ» µî·ÏÇß½À´Ï´Ù.");
 						infoText.setForeground(new Color(5,0,153));
 						btnGroup.revalidate();
 						btnGroup.repaint();	
 						
 						conn.commit();
-						conn.setAutoCommit(true); //transaction ì¢…ë£Œ
+						conn.setAutoCommit(true); //transaction Á¾·á
 						
 						} catch (SQLException e2) {
 							// TODO Auto-generated catch block
-							infoText.setText("íšŒì›ê¶Œ ë“±ë¡/ë³€ê²½ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ì£¼ì„¸ìš”.");
+							infoText.setText("È¸¿ø±Ç µî·Ï/º¯°æ¿¡ ½ÇÆĞÇß½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.");
 							infoText.setForeground(new Color(153,0,5));
 							btnGroup.revalidate();
 							btnGroup.repaint();
 							e2.printStackTrace();
 							
-							System.out.println("Roll Back ì‹¤í–‰");
+							System.out.println("Roll Back ½ÇÇà");
 							
 							try {
 							
 								if (conn != null)
-								conn.rollback(); // ì •ìƒ ìˆ˜í–‰ë˜ì§€ ì•Šì•˜ì„ ì‹œ rollback();
+								conn.rollback(); // Á¤»ó ¼öÇàµÇÁö ¾Ê¾ÒÀ» ½Ã rollback();
 							} catch (SQLException se2) {
 								se2.printStackTrace();
 							}
 						}	
 					} else {
-						//ì•ˆë‚´ë¬¸êµ¬ ë¹¨ê°„ìƒ‰ìœ¼ë¡œ í‘œì‹œ
-						infoText.setText("íšŒì›ê¶Œ ë“±ë¡ ë° ë³€ê²½ì€ ë‚¨ì€ìˆ˜ì—…íšŒì°¨ê°€ 0ì¼ ë•Œë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+						//¾È³»¹®±¸ »¡°£»öÀ¸·Î Ç¥½Ã
+						infoText.setText("È¸¿ø±Ç µî·Ï ¹× º¯°æÀº ³²Àº¼ö¾÷È¸Â÷°¡ 0ÀÏ ¶§¸¸ °¡´ÉÇÕ´Ï´Ù.");
 						infoText.setForeground(new Color(153,0,5));
 						btnGroup.revalidate();
 						btnGroup.repaint();
@@ -326,6 +326,5 @@ public class M_enrollMembership extends JFrame {
 				}	
 			}
 		});
-	
-	}	
+	}
 }

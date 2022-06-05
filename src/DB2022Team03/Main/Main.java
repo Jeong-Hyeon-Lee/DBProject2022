@@ -1,8 +1,8 @@
-package DB2022Team03.YeonWoo;
+package DB2022Team03.Main;
 import java.sql.*;
 import javax.swing.*;
 
-public class yw_Main extends JFrame{
+public class Main extends JFrame{
 
 	//JDBC driver name and database URL
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -10,7 +10,7 @@ public class yw_Main extends JFrame{
 		
 	//Database user, password
 	static final String  USER = "DB2022Team03";
-	static final String PASSWORD="DB2022Team03";
+	static final String PASSWORD = "DB2022Team03";
 		
 	//Connection conn
 	public static Connection conn;

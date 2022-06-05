@@ -1,7 +1,7 @@
 /*
-* ìˆ˜ì •ì‚¬í•­ (EUNSOO)
-* 1) í—¬ìŠ¤ì¥, íŠ¸ë ˆì´ë„ˆ, íšŒì›ê¶Œì„ ë“±ë¡í•˜ì§€ ì•Šì€ íšŒì›ì€ 'ìˆ˜ì—… ê´€ë¦¬í•˜ê¸°' ë©”ë‰´ë¥¼ ì‚¬ìš©í•  ìˆ˜ ì—†ë‹¤.
-*  => í•´ë‹¹ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´ íšŒì›ê¶Œì„ ë“±ë¡í•˜ì§€ ì•Šì•˜ë‹¤ëŠ” ë©”ì„¸ì§€ì°½ì´ ëœ¬ë‹¤.
+* ¼öÁ¤»çÇ× (EUNSOO)
+* 1) Çï½ºÀå, Æ®·¹ÀÌ³Ê, È¸¿ø±ÇÀ» µî·ÏÇÏÁö ¾ÊÀº È¸¿øÀº '¼ö¾÷ °ü¸®ÇÏ±â' ¸Ş´º¸¦ »ç¿ëÇÒ ¼ö ¾ø´Ù.
+*  => ÇØ´ç ¹öÆ°À» ´©¸£¸é È¸¿ø±ÇÀ» µî·ÏÇÏÁö ¾Ê¾Ò´Ù´Â ¸Ş¼¼ÁöÃ¢ÀÌ ¶á´Ù.
 */
 
 package DB2022Team03.MemberInfo;
@@ -23,56 +23,56 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import DB2022Team03.YeonWoo.DeleteScreen;
-import DB2022Team03.YeonWoo.StartScreen;
+import DB2022Team03.Main.DeleteScreen;
+import DB2022Team03.Main.StartScreen;
 import DB2022Team03.Member_manageClass.M_manageClass;
 
 public class M_MainScreen extends JFrame {
 	public M_MainScreen(Connection conn,String ID) {
-		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //í”„ë ˆì„ ìœˆë„ìš°ë¥¼ ë‹«ìœ¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+		setTitle("È¸¿ø");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
 		
-		//ìƒë‹¨ - íšŒì› MENU
+		//»ó´Ü - È¸¿ø MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("íšŒì›MENU");
+		JLabel subtitle = new JLabel("È¸¿øMENU");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
-		//ë©”ë‰´íŒ
+		//¸Ş´ºÆÇ
 		JPanel btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(7,1));
 		
-		//ìƒì„¸ ë©”ë‰´
-		//íšŒì›ì •ë³´í™•ì¸í•˜ê¸° ë²„íŠ¼
+		//»ó¼¼ ¸Ş´º
+		//È¸¿øÁ¤º¸È®ÀÎÇÏ±â ¹öÆ°
 		JPanel jp4 = new JPanel();
 		jp4.setLayout(new FlowLayout());
 		JPanel Menu8 = new JPanel();
-		JButton myPageBtn = new JButton("íšŒì›ì •ë³´í™•ì¸í•˜ê¸°");
+		JButton myPageBtn = new JButton("È¸¿øÁ¤º¸È®ÀÎÇÏ±â");
 		Menu8.add(myPageBtn);
 		jp4.add(Menu8);
 		
-		//í—¬ìŠ¤ì¥ì°¾ê¸° ë²„íŠ¼
+		//Çï½ºÀåÃ£±â ¹öÆ°
 		JPanel jp1 = new JPanel();
 		jp1.setLayout(new FlowLayout());
 		JPanel Menu1 = new JPanel();
-		JButton M_GScreen = new JButton("í—¬ìŠ¤ì¥ ì°¾ê¸°");
+		JButton M_GScreen = new JButton("Çï½ºÀå Ã£±â");
 		Menu1.add(M_GScreen);
 		jp1.add(Menu1);
 		
-		//íŠ¸ë ˆì´ë„ˆ	ì°¾ê¸° ë²„íŠ¼
+		//Æ®·¹ÀÌ³Ê	Ã£±â ¹öÆ°
 		JPanel jp2 = new JPanel();
 		jp2.setLayout(new FlowLayout());
 		JPanel Menu2 = new JPanel();
-		JButton M_TScreen = new JButton("íŠ¸ë ˆì´ë„ˆ ì°¾ê¸°");
+		JButton M_TScreen = new JButton("Æ®·¹ÀÌ³Ê Ã£±â");
 		Menu2.add(M_TScreen);
 		jp2.add(Menu2);
 		
-		//íšŒì›ê¶Œë“±ë¡/ë³€ê²½ ë²„íŠ¼
+		//È¸¿ø±Çµî·Ï/º¯°æ ¹öÆ°
 		JPanel jp3 = new JPanel();
 		jp3.setLayout(new FlowLayout());
 		JPanel Menu3 = new JPanel();
-		JButton enrollMembership = new JButton("íšŒì›ê¶Œ ë“±ë¡/ë³€ê²½");
+		JButton enrollMembership = new JButton("È¸¿ø±Ç µî·Ï/º¯°æ");
 		Menu3.add(enrollMembership);
 		jp3.add(Menu3);
 		
@@ -83,28 +83,28 @@ public class M_MainScreen extends JFrame {
 		JPanel jp5 = new JPanel();
 		jp5.setLayout(new FlowLayout());
 		JPanel Menu5 = new JPanel();
-		JButton M_mangeClass = new JButton("ìˆ˜ì—… ê´€ë¦¬í•˜ê¸°");
+		JButton M_mangeClass = new JButton("¼ö¾÷ °ü¸®ÇÏ±â");
 		Menu5.add(M_mangeClass);
 		jp5.add(Menu5);
 		 /* *********************************************************************/
 		
-		//ë¡œê·¸ì•„ì›ƒ ë²„íŠ¼
+		//·Î±×¾Æ¿ô ¹öÆ°
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("ë¡œê·¸ì•„ì›ƒ");
+		JButton undo = new JButton("·Î±×¾Æ¿ô");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		
-		//íƒˆí‡´ë²„íŠ¼
+		//Å»Åğ¹öÆ°
 		JPanel jp6 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu6 = new JPanel();
-		JButton resign = new JButton("íƒˆí‡´í•˜ê¸°");
+		JButton resign = new JButton("Å»ÅğÇÏ±â");
 		Menu6.add(resign);
 		jp6.add(Menu6);
 
-		//ë©”ë‰´íŒì— ìƒì„¸ë©”ë‰´ë¶™ì´ê¸°
+		//¸Ş´ºÆÇ¿¡ »ó¼¼¸Ş´ººÙÀÌ±â
 		btnGroup.add(jp4);
 		btnGroup.add(jp1);
 		btnGroup.add(jp2);
@@ -120,7 +120,7 @@ public class M_MainScreen extends JFrame {
 		
 		setBounds(200,200,300,400);
 		
-		setResizable(false); //í™”ë©´í¬ê¸°ê³ ì •
+		setResizable(false); //È­¸éÅ©±â°íÁ¤
 
 		setVisible(true);
 	
@@ -133,7 +133,7 @@ public class M_MainScreen extends JFrame {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				dispose(); // í˜„ì¬ì˜ frame ì¢…ë£Œ
+				dispose(); // ÇöÀçÀÇ frame Á¾·á
 			}
 		});
 		M_GScreen.addActionListener(new ActionListener() {
@@ -161,7 +161,7 @@ public class M_MainScreen extends JFrame {
 		undo.addActionListener(new ActionListener() { 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//ë¡œê·¸ì•„ì›ƒ : ë§¨ ì²˜ìŒ ì‹œì‘ í™”ë©´ìœ¼ë¡œ ì´ë™
+				//·Î±×¾Æ¿ô : ¸Ç Ã³À½ ½ÃÀÛ È­¸éÀ¸·Î ÀÌµ¿
 				new StartScreen(conn);
 				dispose(); 
 			}
@@ -189,7 +189,7 @@ public class M_MainScreen extends JFrame {
 			ResultSet rs_test;
 			
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				query_test = "SELECT ì†Œì†í—¬ìŠ¤ì¥, ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ, í˜„ì¬íšŒì›ê¶Œ FROM db2022_íšŒì› USE INDEX (íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) WHERE íšŒì›ë²ˆí˜¸ = ?";				
+				query_test = "SELECT ¼Ò¼ÓÇï½ºÀå, ´ã´çÆ®·¹ÀÌ³Ê, ÇöÀçÈ¸¿ø±Ç FROM db2022_È¸¿ø USE INDEX (È¸¿ø¹øÈ£ÀÎµ¦½º) WHERE È¸¿ø¹øÈ£ = ?";				
 				try {
 					pstm_test = conn.prepareStatement(query_test);
 					pstm_test.setString(1, ID);
@@ -199,13 +199,13 @@ public class M_MainScreen extends JFrame {
 					if(rs_test.next()) {
 						if(rs_test.getString(1) != null && rs_test.getString(2) != null && rs_test.getString(3) != null) {
 							new M_manageClass(conn,ID);
-							dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
+							dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
 						}
 						else
-							JOptionPane.showMessageDialog(null, "ì•„ì§ íšŒì›ê¶Œì„ ë“±ë¡í•˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+							JOptionPane.showMessageDialog(null, "¾ÆÁ÷ È¸¿ø±ÇÀ» µî·ÏÇÏÁö ¾Ê¾Ò½À´Ï´Ù.");
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "ë“±ë¡ë˜ì§€ ì•Šì€ íšŒì›ì…ë‹ˆë‹¤.");
+						JOptionPane.showMessageDialog(null, "µî·ÏµÇÁö ¾ÊÀº È¸¿øÀÔ´Ï´Ù.");
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -216,7 +216,7 @@ public class M_MainScreen extends JFrame {
 		resign.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				new DeleteScreen(conn, "íšŒì›", ID);
+				new DeleteScreen(conn, "È¸¿ø", ID);
 				dispose(); 
 
 			}

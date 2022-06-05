@@ -1,4 +1,4 @@
-package DB2022Team03.YeonWoo;
+package DB2022Team03.Main;
 
 import javax.swing.*;
 
@@ -7,36 +7,36 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 /*
- * ì¶”ê°€ë¡œ êµ¬í˜„í•´ì•¼í•  ê²ƒë“¤ ì •ë¦¬
- * 1. [ì™„ë£Œ] ì…ë ¥ê°’ì´ í˜•ì‹ì— ë§ì§€ì•Šìœ¼ë©´ ê°€ì… ê±°ë¶€í•´ì•¼í•¨. 
- *    (ì „í™”ë²ˆí˜¸ì— 4ìë¦¬ ìˆ«ìë„£ì–´ì•¼í•˜ëŠ”ë° ë‹¤ë¥¸ ê°’ë„£ëŠ”ë‹¤ë˜ê°€ ë“±ë“±)
- *    (ì˜ëª»ëœ ì ‘ê·¼ì—ë„ error ëœ¨ê³  ëë‚˜ëŠ”ê²Œ ì•„ë‹ˆë¼, ê³„ì†í•´ì„œ ìˆ˜í–‰ë  ìˆ˜ ìˆë„ë¡ í•´ì¤˜ì•¼í•¨.)
+ * Ãß°¡·Î ±¸ÇöÇØ¾ßÇÒ °Íµé Á¤¸®
+ * 1. [¿Ï·á] ÀÔ·Â°ªÀÌ Çü½Ä¿¡ ¸ÂÁö¾ÊÀ¸¸é °¡ÀÔ °ÅºÎÇØ¾ßÇÔ. 
+ *    (ÀüÈ­¹øÈ£¿¡ 4ÀÚ¸® ¼ıÀÚ³Ö¾î¾ßÇÏ´Âµ¥ ´Ù¸¥ °ª³Ö´Â´Ù´ø°¡ µîµî)
+ *    (Àß¸øµÈ Á¢±Ù¿¡µµ error ¶ß°í ³¡³ª´Â°Ô ¾Æ´Ï¶ó, °è¼ÓÇØ¼­ ¼öÇàµÉ ¼ö ÀÖµµ·Ï ÇØÁà¾ßÇÔ.)
  * 
- * 2. [ì™„ë£Œ] IDë§ê³  ì „í™”ë²ˆí˜¸ ë’·ìë¦¬ ë„£ì–´ì„œ ì‹¤í–‰ë˜ì–´ì•¼í•¨
+ * 2. [¿Ï·á] ID¸»°í ÀüÈ­¹øÈ£ µŞÀÚ¸® ³Ö¾î¼­ ½ÇÇàµÇ¾î¾ßÇÔ
  * 
- * 3. [ì™„ë£Œ] connection connì¸ìë¡œ ë°›ë“ , í•˜ë‚˜ë¡œ í•©ì³ì„œ í•˜ë“ ì§€... 
+ * 3. [¿Ï·á] connection connÀÎÀÚ·Î ¹Şµç, ÇÏ³ª·Î ÇÕÃÄ¼­ ÇÏµçÁö... 
  * 
- * 4. [ì™„ë£Œ] create.sqlì— IDê°’ ì˜ëª»ëœ ê²ƒë“¤ ìˆìŒ. ê·¸ê±° ê³ ì³ì„œ commití•´ì•¼í•¨.
+ * 4. [¿Ï·á] create.sql¿¡ ID°ª Àß¸øµÈ °Íµé ÀÖÀ½. ±×°Å °íÃÄ¼­ commitÇØ¾ßÇÔ.
  * 
- * 5. [ì™„ë£Œ] íšŒì›ê°€ì… ì„±ê³µí•˜ë©´, ì„±ê³µí–ˆë‹¤ê³  í•˜ê³  ì•„ë‹ˆë©´ ì•„ë‹ˆë¼í•˜ê³ , ì„±ê³µí–ˆìœ¼ë©´ ë¡œê·¸ì¸í•˜ë¼ê³  ë¡œê·¸ì¸ ì°½ ë„ì›Œì¤˜ì•¼í•¨.
+ * 5. [¿Ï·á] È¸¿ø°¡ÀÔ ¼º°øÇÏ¸é, ¼º°øÇß´Ù°í ÇÏ°í ¾Æ´Ï¸é ¾Æ´Ï¶óÇÏ°í, ¼º°øÇßÀ¸¸é ·Î±×ÀÎÇÏ¶ó°í ·Î±×ÀÎ Ã¢ ¶ç¿öÁà¾ßÇÔ.
  * 
- * 6. [ì§„í–‰ ì¤‘] íƒˆí‡´. íšŒì›íƒˆí‡´ ì‹œ ì²˜ë¦¬í•´ì•¼í•  ì •ë³´ë“¤ ë‹¤ transactionìœ¼ë¡œ ë¬¶ì–´ì„œ íƒˆí‡´ì‹œí‚¤ê¸°. 
+ * 6. [ÁøÇà Áß] Å»Åğ. È¸¿øÅ»Åğ ½Ã Ã³¸®ÇØ¾ßÇÒ Á¤º¸µé ´Ù transactionÀ¸·Î ¹­¾î¼­ Å»Åğ½ÃÅ°±â. 
  */
 
 public class JoinScreen extends JFrame {
 
 	public JoinScreen(Connection conn, String userType) {
 
-		setTitle("íšŒì›ê°€ì…");
+		setTitle("È¸¿ø°¡ÀÔ");
 
-		// 1. ì»´í¬ë„ŒíŠ¸ë“¤ì„ ë§Œë“¤ì–´ ë³´ì.
-		JLabel title = new JLabel(userType + " íšŒì›ê°€ì…", JLabel.CENTER);
+		// 1. ÄÄÆ÷³ÍÆ®µéÀ» ¸¸µé¾î º¸ÀÚ.
+		JLabel title = new JLabel(userType + " È¸¿ø°¡ÀÔ", JLabel.CENTER);
 
 		title.setForeground(new Color(5, 0, 153));
-		title.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 20));
+		title.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 20));
 
-		JButton join = new JButton("íšŒì›ê°€ì…");
-		JButton cancel = new JButton("ì·¨ì†Œ");
+		JButton join = new JButton("È¸¿ø°¡ÀÔ");
+		JButton cancel = new JButton("Ãë¼Ò");
 
 		JTextField phone = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);
@@ -44,10 +44,10 @@ public class JoinScreen extends JFrame {
 		JTextField Tgym = new JTextField(10);
 
 	
-		JTextField address1 = new JTextField(10); // ì§€ì—­
-		address1.setText("ex) ì„œëŒ€ë¬¸êµ¬");
-		JTextField address2 = new JTextField(10); // ì£¼ì†Œ
-		address2.setText("ex) ì´í™”ì—¬ëŒ€ê¸¸ 52");
+		JTextField address1 = new JTextField(10); // Áö¿ª
+		address1.setText("ex) ¼­´ë¹®±¸");
+		JTextField address2 = new JTextField(10); // ÁÖ¼Ò
+		address2.setText("ex) ÀÌÈ­¿©´ë±æ 52");
 
 		JTextField price1 = new JTextField(10);
 		JTextField price10 = new JTextField(10);
@@ -55,107 +55,107 @@ public class JoinScreen extends JFrame {
 
 		// form panel
 		JPanel formPanel = new JPanel();
-		formPanel.setLayout(new GridLayout(10, 1)); // ê´€ì¥ì´ ìµœëŒ€ 10í–‰ ê°€ì ¸ì„œ 10,1ë¡œ ë‘ 
+		formPanel.setLayout(new GridLayout(10, 1)); // °üÀåÀÌ ÃÖ´ë 10Çà °¡Á®¼­ 10,1·Î µÒ
 
-		// ê³µí†µ1. ì•„ì´ë”” (ì „í™”ë²ˆí˜¸ë¥¼ ë°›ì•„ì„œ ì•Œì•„ì„œ ì•„ì´ë”” ìƒì„±í•´ì¤˜ì•¼í•¨)
+		// °øÅë1. ¾ÆÀÌµğ (ÀüÈ­¹øÈ£¸¦ ¹Ş¾Æ¼­ ¾Ë¾Æ¼­ ¾ÆÀÌµğ »ı¼ºÇØÁà¾ßÇÔ)
 		JPanel phonePanel = new JPanel();
 		phonePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		phonePanel.add(new JLabel("ì „í™”ë²ˆí˜¸ ë’·4ìë¦¬ : "));
+		phonePanel.add(new JLabel("ÀüÈ­¹øÈ£ µŞ4ÀÚ¸® : "));
 		phonePanel.add(phone);
 
 		formPanel.add(phonePanel);
 
-		// ê³µí†µ2. íŒ¨ìŠ¤ì›Œë“œ
+		// °øÅë2. ÆĞ½º¿öµå
 		JPanel pwdPanel = new JPanel();
 		pwdPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		pwdPanel.add(new JLabel("ë¹„ë°€ë²ˆí˜¸ : "));
+		pwdPanel.add(new JLabel("ºñ¹Ğ¹øÈ£ : "));
 		pwdPanel.add(pwd);
 
 		formPanel.add(pwdPanel);
 
-		// íšŒì›ì´ë©´, ì´ë¦„ , ì§€ì—­ ì¶”ê°€
-		if (userType.equals("íšŒì›")) {
-			// ì´ë¦„
+		// È¸¿øÀÌ¸é, ÀÌ¸§ , Áö¿ª Ãß°¡
+		if (userType.equals("È¸¿ø")) {
+			// ÀÌ¸§
 			JPanel namePanel = new JPanel();
 			namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			namePanel.add(new JLabel("ì´    ë¦„ : "));
+			namePanel.add(new JLabel("ÀÌ    ¸§ : "));
 			namePanel.add(name);
 
 			formPanel.add(namePanel);
 
-			// ì§€ì—­
+			// Áö¿ª
 			JPanel address1Panel = new JPanel();
 			address1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address1Panel.add(new JLabel("ì§€    ì—­ : "));
+			address1Panel.add(new JLabel("Áö    ¿ª : "));
 			address1Panel.add(address1);
 
 			formPanel.add(address1Panel);
 		}
 
-		// íŠ¸ë ˆì´ë„ˆë©´, ì´ë¦„ê³¼ ì†Œì† í—¬ìŠ¤ì¥ ì¶”ê°€
-		if (userType.equals("íŠ¸ë ˆì´ë„ˆ")) {
-			// ì´ë¦„
+		// Æ®·¹ÀÌ³Ê¸é, ÀÌ¸§°ú ¼Ò¼Ó Çï½ºÀå Ãß°¡
+		if (userType.equals("Æ®·¹ÀÌ³Ê")) {
+			// ÀÌ¸§
 			JPanel namePanel = new JPanel();
 			namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			namePanel.add(new JLabel("ì´    ë¦„ : "));
+			namePanel.add(new JLabel("ÀÌ    ¸§ : "));
 			namePanel.add(name);
 
 			formPanel.add(namePanel);
 
-			// ì†Œì† í—¬ìŠ¤ì¥
+			// ¼Ò¼Ó Çï½ºÀå
 			JPanel gymPanel = new JPanel();
 			gymPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			gymPanel.add(new JLabel("ì†Œì† í—¬ìŠ¤ì¥ :  "));
+			gymPanel.add(new JLabel("¼Ò¼Ó Çï½ºÀå :  "));
 			gymPanel.add(Tgym);
 			
 			formPanel.add(gymPanel);
 		}
 
-		// ê´€ì¥ì´ë©´, í—¬ìŠ¤ì¥ì´ë¦„, ë„ì‹œ, ì§€ì—­, ë„ë¡œëª…ì£¼ì†Œ, 1íšŒê°€ê²©, 10íšŒê°€ê²©, 20íšŒ ê°€ê²© ì¶”ê°€.
-		if (userType.equals("ê´€ì¥")) {
-			// í—¬ìŠ¤ì¥ì´ë¦„
+		// °üÀåÀÌ¸é, Çï½ºÀåÀÌ¸§, µµ½Ã, Áö¿ª, µµ·Î¸íÁÖ¼Ò, 1È¸°¡°İ, 10È¸°¡°İ, 20È¸ °¡°İ Ãß°¡.
+		if (userType.equals("°üÀå")) {
+			// Çï½ºÀåÀÌ¸§
 			JPanel namePanel = new JPanel();
 			namePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			namePanel.add(new JLabel("í—¬ìŠ¤ì¥ ì´ë¦„ : "));
+			namePanel.add(new JLabel("Çï½ºÀå ÀÌ¸§ : "));
 			namePanel.add(name);
 
 			formPanel.add(namePanel);
 
-			// ë„ì‹œ, ì§€ì—­, ë„ë¡œëª… ì£¼ì†Œ
+			// µµ½Ã, Áö¿ª, µµ·Î¸í ÁÖ¼Ò
 
 
 			JPanel address1Panel = new JPanel();
 			address1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address1Panel.add(new JLabel("ì§€    ì—­ : "));
+			address1Panel.add(new JLabel("Áö    ¿ª : "));
 			address1Panel.add(address1);
 			formPanel.add(address1Panel);
 
 			JPanel address2Panel = new JPanel();
 			address2Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address2Panel.add(new JLabel("ë„ë¡œëª… ì£¼ì†Œ : "));
+			address2Panel.add(new JLabel("µµ·Î¸í ÁÖ¼Ò : "));
 			address2Panel.add(address2);
 			formPanel.add(address2Panel);
 
 			JPanel price1Panel = new JPanel();
 			price1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			price1Panel.add(new JLabel("PT 1íšŒ ê°€ê²© : "));
+			price1Panel.add(new JLabel("PT 1È¸ °¡°İ : "));
 			price1Panel.add(price1);
 			formPanel.add(price1Panel);
 
 			JPanel price10Panel = new JPanel();
 			price10Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			price10Panel.add(new JLabel("PT 10íšŒ ê°€ê²© : "));
+			price10Panel.add(new JLabel("PT 10È¸ °¡°İ : "));
 			price10Panel.add(price10);
 			formPanel.add(price10Panel);
 
 			JPanel price20Panel = new JPanel();
 			price20Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			price20Panel.add(new JLabel("PT 20íšŒ ê°€ê²© : "));
+			price20Panel.add(new JLabel("PT 20È¸ °¡°İ : "));
 			price20Panel.add(price20);
 			formPanel.add(price20Panel);
 		}
 
-		// ì…ë ¥í˜•ì‹ ì²˜ë¦¬í•´ì¤„ í…ìŠ¤íŠ¸ í•„ë“œ
+		// ÀÔ·ÂÇü½Ä Ã³¸®ÇØÁÙ ÅØ½ºÆ® ÇÊµå
 		JLabel checkCondition = new JLabel("");
 		formPanel.add(checkCondition);
 
@@ -176,7 +176,7 @@ public class JoinScreen extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
-		// íšŒì›ê°€ì… ë²„íŠ¼ ëˆŒë €ì„ ë•Œ ì´ë²¤íŠ¸ì²˜ë¦¬
+		// È¸¿ø°¡ÀÔ ¹öÆ° ´­·¶À» ¶§ ÀÌº¥Æ®Ã³¸®
 		join.addActionListener(new ActionListener() {
 
 			@Override
@@ -187,17 +187,17 @@ public class JoinScreen extends JFrame {
 				String myPhoneNum = phone.getText();
 				String myPwd = new String(pwd.getPassword());
 				String myName = name.getText();
-				String myAddress1 = address1.getText(); //ì§€ì—­
-				String myAddress2 = address2.getText(); //ë„ë¡œëª…ì£¼ì†Œ
+				String myAddress1 = address1.getText(); //Áö¿ª
+				String myAddress2 = address2.getText(); //µµ·Î¸íÁÖ¼Ò
 				String myPrice1 = price1.getText();
 				String myPrice10 = price10.getText();
 				String myPrice20 = price20.getText();
 
-				// 0. ì…ë ¥í•œ ê°’ë“¤ í˜•ì‹ì— ë§ê²Œ ì˜ˆì™¸ ì²˜ë¦¬.
-				boolean JoinSuccess = true; // ì „ì²´ ë¡œê·¸ì¸ ì„±ê³µ ì—¬ë¶€.
+				// 0. ÀÔ·ÂÇÑ °ªµé Çü½Ä¿¡ ¸Â°Ô ¿¹¿Ü Ã³¸®.
+				boolean JoinSuccess = true; // ÀüÃ¼ ·Î±×ÀÎ ¼º°ø ¿©ºÎ.
 				boolean correctPhoneNum = true;
 
-				// ì…ë ¥í•œ ì „í™”ë²ˆí˜¸ ë¬¸ìì—´ì´ ìˆ«ìë¡œë§Œ êµ¬ì„±ëëŠ”ì§€ í™•ì¸.
+				// ÀÔ·ÂÇÑ ÀüÈ­¹øÈ£ ¹®ÀÚ¿­ÀÌ ¼ıÀÚ·Î¸¸ ±¸¼ºµÆ´ÂÁö È®ÀÎ.
 				for (int i = 0; i < myPhoneNum.length(); i++) {
 					char temp = myPhoneNum.charAt(i);
 					if (!Character.isDigit(temp)) {
@@ -206,69 +206,69 @@ public class JoinScreen extends JFrame {
 					}
 				}
 
-				// [ì•„ì´ë””]
+				// [¾ÆÀÌµğ]
 				if (myPhoneNum.length() != 4) {
-					checkCondition.setText("ì „í™”ë²ˆí˜¸ ë’·4ìë¦¬ì— 4ìë¦¬ ìˆ«ìë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+					checkCondition.setText("ÀüÈ­¹øÈ£ µŞ4ÀÚ¸®¿¡ 4ÀÚ¸® ¼ıÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 					JoinSuccess = false;
 				} else if (!correctPhoneNum) {
-					checkCondition.setText("ì „í™”ë²ˆí˜¸ ë’·4ìë¦¬ì—ëŠ” ìˆ«ìë§Œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+					checkCondition.setText("ÀüÈ­¹øÈ£ µŞ4ÀÚ¸®¿¡´Â ¼ıÀÚ¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 					JoinSuccess = false;
 				}
-				// [ë¹„ë²ˆ]
+				// [ºñ¹ø]
 				else if (myPwd.length() > 10) {
-					checkCondition.setText("ë¹„ë°€ë²ˆí˜¸ê°€ ë„ˆë¬´ ê¹ë‹ˆë‹¤. (10ì ì´ë‚´)");
+					checkCondition.setText("ºñ¹Ğ¹øÈ£°¡ ³Ê¹« ±é´Ï´Ù. (10ÀÚ ÀÌ³»)");
 					JoinSuccess = false;
 				}
-				// [ì´ë¦„]
-				else if (userType.equals("ê´€ì¥") && !(0 < myName.length() && myName.length() <= 25)) {
-					checkCondition.setText("í—¬ìŠ¤ì¥ ì´ë¦„ì´ ë„ˆë¬´ ì§§ê±°ë‚˜ ë„ˆë¬´ ê¹ë‹ˆë‹¤. (1ì ì´ìƒ 25ì ì´ë‚´)");
+				// [ÀÌ¸§]
+				else if (userType.equals("°üÀå") && !(0 < myName.length() && myName.length() <= 25)) {
+					checkCondition.setText("Çï½ºÀå ÀÌ¸§ÀÌ ³Ê¹« Âª°Å³ª ³Ê¹« ±é´Ï´Ù. (1ÀÚ ÀÌ»ó 25ÀÚ ÀÌ³»)");
 					JoinSuccess = false;
-				} else if ((userType.equals("íšŒì›") || userType.equals("íŠ¸ë ˆì´ë„ˆ"))
+				} else if ((userType.equals("È¸¿ø") || userType.equals("Æ®·¹ÀÌ³Ê"))
 						&& !(0 < myName.length() && myName.length() <= 10)) {
-					checkCondition.setText("ì´ë¦„ì´ ë„ˆë¬´ ì§§ê±°ë‚˜ ë„ˆë¬´ ê¹ë‹ˆë‹¤. (1ì ì´ìƒ 10ì ì´ë‚´)");
+					checkCondition.setText("ÀÌ¸§ÀÌ ³Ê¹« Âª°Å³ª ³Ê¹« ±é´Ï´Ù. (1ÀÚ ÀÌ»ó 10ÀÚ ÀÌ³»)");
 					JoinSuccess = false;
 				}
 
 				// =================================================
-				// ===================== íšŒì› =======================
-				if (userType.equals("íšŒì›")) {
-					// 0. ì…ë ¥í•œ ê°’ë“¤ í˜•ì‹ì— ë§ê²Œ ì˜ˆì™¸ ì²˜ë¦¬.
+				// ===================== È¸¿ø =======================
+				if (userType.equals("È¸¿ø")) {
+					// 0. ÀÔ·ÂÇÑ °ªµé Çü½Ä¿¡ ¸Â°Ô ¿¹¿Ü Ã³¸®.
 					if (!(myAddress1.length()>0 && myAddress1.length() <= 6)) {
-						checkCondition.setText("ì§€ì—­ëª…ì´ ë„ˆë¬´ ì§§ê±°ë‚˜ ê¹ë‹ˆë‹¤. (1ì ì´ìƒ 6ì ì´ë‚´)");
+						checkCondition.setText("Áö¿ª¸íÀÌ ³Ê¹« Âª°Å³ª ±é´Ï´Ù. (1ÀÚ ÀÌ»ó 6ÀÚ ÀÌ³»)");
 						JoinSuccess = false;
 					}
 
-					// 1. [ì „í™”ë²ˆí˜¸ë¡œ ì•„ì´ë”” ìƒì„±í•˜ëŠ” ë¶€ë¶„] START
+					// 1. [ÀüÈ­¹øÈ£·Î ¾ÆÀÌµğ »ı¼ºÇÏ´Â ºÎºĞ] START
 					/*
-					 * [êµ¬í˜„ë°©ë²•]
-					 * ì´ë¯¸ ë§Œë“¤ì–´ì§„ ì•„ì´ë”” vs ì…ë ¥ë°›ì€ê±¸ë¡œ í›„ë³´ë§Œë“¤ì–´ì„œ (x)
-					 * ì´ë¯¸ ë§Œë“¤ì–´ì§„ ì•„ì´ë””ë¥¼ ì˜ë¼ì„œ ì „í™”ë²ˆí˜¸ë§Œ ì¶”ì¶œ vs ì…ë ¥ë°›ì€ ì „í™”ë²ˆí˜¸ (o)
+					 * [±¸Çö¹æ¹ı]
+					 * ÀÌ¹Ì ¸¸µé¾îÁø ¾ÆÀÌµğ vs ÀÔ·Â¹ŞÀº°É·Î ÈÄº¸¸¸µé¾î¼­ (x)
+					 * ÀÌ¹Ì ¸¸µé¾îÁø ¾ÆÀÌµğ¸¦ Àß¶ó¼­ ÀüÈ­¹øÈ£¸¸ ÃßÃâ vs ÀÔ·Â¹ŞÀº ÀüÈ­¹øÈ£ (o)
 					 * 
-					 * [ì„¤ëª…]
-					 * 2345ë¼ëŠ” ì „í™”ë²ˆí˜¸ ì…ë ¥ì‹œ, 2345 ë²ˆí˜¸ê°€ì§„ ì‚¬ëŒ ìˆ˜ ì„¸ê¸°. 23450, 23451 ì´ ì¡´ì¬í•œë‹¤ë©´ countëŠ” 2. ë”°ë¼ì„œ IDëŠ”
+					 * [¼³¸í]
+					 * 2345¶ó´Â ÀüÈ­¹øÈ£ ÀÔ·Â½Ã, 2345 ¹øÈ£°¡Áø »ç¶÷ ¼ö ¼¼±â. 23450, 23451 ÀÌ Á¸ÀçÇÑ´Ù¸é count´Â 2. µû¶ó¼­ ID´Â
 					 * 23452.
 					 */
 					String joinQuery = "WITH phonenum as"
-							+ "( SELECT SUBSTRING(íšŒì›ë²ˆí˜¸, 2, 4) as substring"
-							+ " FROM DB2022_íšŒì›)"
+							+ "( SELECT SUBSTRING(È¸¿ø¹øÈ£, 2, 4) as substring"
+							+ " FROM DB2022_È¸¿ø)"
 							+ " SELECT count(*)"
 							+ " FROM phonenum"
 							+ " WHERE substring LIKE ?;";
 
 					try {
-						// ì¿¼ë¦¬ ì‹¤í–‰
+						// Äõ¸® ½ÇÇà
 						PreparedStatement pst = conn.prepareStatement(joinQuery);
 						pst.setString(1, myPhoneNum);
 						ResultSet rs = pst.executeQuery();
 
-						// ì•„ì´ë”” ë§Œë“¤ê¸°
-						// ë§¨ì²˜ìŒ ë“¤ì–´ì˜¤ëŠ” ì „í™”ë²ˆí˜¸ì— ëŒ€í•´ numì€ 0ë¶€í„° ì‹œì‘ë  ê²ƒì„.
+						// ¾ÆÀÌµğ ¸¸µé±â
+						// ¸ÇÃ³À½ µé¾î¿À´Â ÀüÈ­¹øÈ£¿¡ ´ëÇØ numÀº 0ºÎÅÍ ½ÃÀÛµÉ °ÍÀÓ.
 						while (rs.next()) {
 							int num = rs.getInt(1);
 							if (!(0 <= num && num <= 9)) {
 								JOptionPane.showMessageDialog(null,
-										"ì£„ì†¡í•©ë‹ˆë‹¤. ì…ë ¥í•˜ì‹  í•¸ë“œí°ë²ˆí˜¸ ë’·ìë¦¬ëŠ” ì´ë¯¸ ë„ˆë¬´ ë§ì€ íšŒì›ì´ ì‚¬ìš© ì¤‘ì…ë‹ˆë‹¤." + "\n"
-												+ "ë‹¤ë¥¸ ì„ì˜ì˜ 4ìë¦¬ ìˆ˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+										"ÁË¼ÛÇÕ´Ï´Ù. ÀÔ·ÂÇÏ½Å ÇÚµåÆù¹øÈ£ µŞÀÚ¸®´Â ÀÌ¹Ì ³Ê¹« ¸¹Àº È¸¿øÀÌ »ç¿ë ÁßÀÔ´Ï´Ù." + "\n"
+												+ "´Ù¸¥ ÀÓÀÇÀÇ 4ÀÚ¸® ¼ö¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 								JoinSuccess = false;
 							} else {
 								myId = "M" + myPhoneNum + Integer.toString(num);
@@ -277,21 +277,21 @@ public class JoinScreen extends JFrame {
 					} catch (SQLException sqle) {
 						sqle.printStackTrace();
 					}
-					// 1. [ì „í™”ë²ˆí˜¸ë¡œ ì•„ì´ë”” ìƒì„±í•˜ëŠ” ë¶€ë¶„] END
+					// 1. [ÀüÈ­¹øÈ£·Î ¾ÆÀÌµğ »ı¼ºÇÏ´Â ºÎºĞ] END
 
 					if (JoinSuccess == true) {
-						// 2. ë§Œë“¤ì–´ì§„ ì•„ì´ë”” í™•ì¸ì‹œì¼œì£¼ëŠ” ë¶€ë¶„.
+						// 2. ¸¸µé¾îÁø ¾ÆÀÌµğ È®ÀÎ½ÃÄÑÁÖ´Â ºÎºĞ.
 						JOptionPane.showMessageDialog(null,
-								"ì•„ì´ë”” : " + myId + ", ë¹„ë°€ë²ˆí˜¸ : " + myPwd + ", ì´ ë¦„ : " + myName + ", ì§€ ì—­ : " + myAddress1
+								"¾ÆÀÌµğ : " + myId + ", ºñ¹Ğ¹øÈ£ : " + myPwd + ", ÀÌ ¸§ : " + myName + ", Áö ¿ª : " + myAddress1
 										+ "\n"
-										+ "ë¡œê·¸ì¸ ì‹œ ì•„ì´ë””ê°€ í•„ìš”í•˜ë‹ˆ ì•„ì´ë””ë¥¼ ê¼­ ê¸°ì–µí•´ì£¼ì„¸ìš”.\n"
-										+ "ì•„ì´ë””ëŠ” (Memberì˜ M) + (í•¸ë“œí° ë²ˆí˜¸ ë’·ìë¦¬) + (ìˆ«ì í•˜ë‚˜)ë¡œ êµ¬ì„±ë˜ì–´ìˆìŠµë‹ˆë‹¤.");
+										+ "·Î±×ÀÎ ½Ã ¾ÆÀÌµğ°¡ ÇÊ¿äÇÏ´Ï ¾ÆÀÌµğ¸¦ ²À ±â¾ïÇØÁÖ¼¼¿ä.\n"
+										+ "¾ÆÀÌµğ´Â (MemberÀÇ M) + (ÇÚµåÆù ¹øÈ£ µŞÀÚ¸®) + (¼ıÀÚ ÇÏ³ª)·Î ±¸¼ºµÇ¾îÀÖ½À´Ï´Ù.");
 
-						// 3. DBì— ì‚½ì…
+						// 3. DB¿¡ »ğÀÔ
 						try {
-							// insert into DB2022_íšŒì› values(í—¬ìŠ¤ì¥ë²ˆí˜¸, íšŒì›ë²ˆí˜¸, ì´ë¦„, ì§€ì—­, ì „ì²´íšŸìˆ˜, ë‚¨ì€íšŸìˆ˜, ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ, í˜„ì¬íšŒì›ê¶Œ,
-							// ë¹„ë°€ë²ˆí˜¸);
-							String JoinQuery = "insert into DB2022_íšŒì› values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+							// insert into DB2022_È¸¿ø values(Çï½ºÀå¹øÈ£, È¸¿ø¹øÈ£, ÀÌ¸§, Áö¿ª, ÀüÃ¼È½¼ö, ³²ÀºÈ½¼ö, ´ã´çÆ®·¹ÀÌ³Ê, ÇöÀçÈ¸¿ø±Ç,
+							// ºñ¹Ğ¹øÈ£);
+							String JoinQuery = "insert into DB2022_È¸¿ø values(?, ?, ?, ?, ?, ?, ?, ?, ?);";
 							PreparedStatement pst = conn.prepareStatement(JoinQuery);
 							pst.setString(1, null);
 							pst.setString(2, myId);
@@ -300,7 +300,7 @@ public class JoinScreen extends JFrame {
 							pst.setInt(5, 0);
 							pst.setInt(6, 0);
 							pst.setString(7, null);
-							pst.setString(8, "ì—†ìŒ");
+							pst.setString(8, "¾øÀ½");
 							pst.setString(9, myPwd);
 							pst.executeUpdate();
 						} catch (SQLException sqle) {
@@ -310,29 +310,29 @@ public class JoinScreen extends JFrame {
 				}
 
 				// =================================================
-				// ===================== íŠ¸ë ˆì´ë„ˆ =======================
-				else if (userType.equals("íŠ¸ë ˆì´ë„ˆ")) {
-					// 1. ì „í™”ë²ˆí˜¸ë¡œ ì•„ì´ë”” ë§Œë“¤ê¸° START
+				// ===================== Æ®·¹ÀÌ³Ê =======================
+				else if (userType.equals("Æ®·¹ÀÌ³Ê")) {
+					// 1. ÀüÈ­¹øÈ£·Î ¾ÆÀÌµğ ¸¸µé±â START
 					String joinQuery = "WITH phonenum as"
-							+ "( SELECT SUBSTRING(ê°•ì‚¬ë²ˆí˜¸, 2, 4) as substring"
-							+ " FROM DB2022_íŠ¸ë ˆì´ë„ˆ)"
+							+ "( SELECT SUBSTRING(°­»ç¹øÈ£, 2, 4) as substring"
+							+ " FROM DB2022_Æ®·¹ÀÌ³Ê)"
 							+ " SELECT count(*)"
 							+ " FROM phonenum"
 							+ " WHERE substring LIKE ?;";
 
 					try {
-						// ì¿¼ë¦¬ ì‹¤í–‰
+						// Äõ¸® ½ÇÇà
 						PreparedStatement pst = conn.prepareStatement(joinQuery);
 						pst.setString(1, myPhoneNum);
 						ResultSet rs = pst.executeQuery();
 
-						// ì•„ì´ë”” ë§Œë“¤ê¸°
+						// ¾ÆÀÌµğ ¸¸µé±â
 						while (rs.next()) {
 							int num = rs.getInt(1);
 							if (!(0 <= num && num <= 9)) {
 								JOptionPane.showMessageDialog(null,
-										"ì£„ì†¡í•©ë‹ˆë‹¤. ì…ë ¥í•˜ì‹  í•¸ë“œí°ë²ˆí˜¸ ë’·ìë¦¬ëŠ” ì´ë¯¸ ë„ˆë¬´ ë§ì€ íšŒì›ì´ ì‚¬ìš© ì¤‘ì…ë‹ˆë‹¤." + "\n"
-												+ "ë‹¤ë¥¸ ì„ì˜ì˜ 4ìë¦¬ ìˆ˜ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+										"ÁË¼ÛÇÕ´Ï´Ù. ÀÔ·ÂÇÏ½Å ÇÚµåÆù¹øÈ£ µŞÀÚ¸®´Â ÀÌ¹Ì ³Ê¹« ¸¹Àº È¸¿øÀÌ »ç¿ë ÁßÀÔ´Ï´Ù." + "\n"
+												+ "´Ù¸¥ ÀÓÀÇÀÇ 4ÀÚ¸® ¼ö¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 								JoinSuccess = false;
 							} else {
 								myId = "T" + myPhoneNum + Integer.toString(num);
@@ -341,29 +341,29 @@ public class JoinScreen extends JFrame {
 					} catch (SQLException sqle) {
 						sqle.printStackTrace();
 					}
-					// ì „í™”ë²ˆí˜¸ë¡œ ì•„ì´ë”” ë§Œë“¤ê¸° END
+					// ÀüÈ­¹øÈ£·Î ¾ÆÀÌµğ ¸¸µé±â END
 					try{
-						PreparedStatement pst = conn.prepareStatement("SELECT * FROM DB2022_í—¬ìŠ¤ì¥ WHERE(í—¬ìŠ¤ì¥ë²ˆí˜¸=?)");
+						PreparedStatement pst = conn.prepareStatement("SELECT * FROM DB2022_Çï½ºÀå WHERE(Çï½ºÀå¹øÈ£=?)");
 						pst.setString(1, myGym);
 						ResultSet rs = pst.executeQuery();
 						if(rs.next() == false){
-							checkCondition.setText("ì…ë ¥í•˜ì‹  í—¬ìŠ¤ì¥ì€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ ì£¼ì„¸ìš”");
+							checkCondition.setText("ÀÔ·ÂÇÏ½Å Çï½ºÀåÀº Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØ ÁÖ¼¼¿ä");
 							JoinSuccess = false;
 						}
 					}catch (SQLException ex){
 						ex.printStackTrace();
 					}
 					if (JoinSuccess == true) {
-						// 2. ì…ë ¥í•œ ì •ë³´ í™•ì¸
+						// 2. ÀÔ·ÂÇÑ Á¤º¸ È®ÀÎ
 						JOptionPane.showMessageDialog(null,
-								"ì•„ì´ë”” : " + myId + ", ë¹„ë°€ë²ˆí˜¸ : " + myPwd + ", ì´ ë¦„ : " + myName +  "ì†Œì† í—¬ìŠ¤ì¥ : " + myGym + "\n"
-										+ "ë¡œê·¸ì¸ ì‹œ ì•„ì´ë””ê°€ í•„ìš”í•˜ë‹ˆ ì•„ì´ë””ë¥¼ ê¼­ ê¸°ì–µí•´ì£¼ì„¸ìš”.\n"
-										+ "ì•„ì´ë””ëŠ” (Trainerì˜ T) + (í•¸ë“œí° ë²ˆí˜¸ ë’·ìë¦¬) + (ìˆ«ì í•˜ë‚˜)ë¡œ êµ¬ì„±ë˜ì–´ìˆìŠµë‹ˆë‹¤.");
+								"¾ÆÀÌµğ : " + myId + ", ºñ¹Ğ¹øÈ£ : " + myPwd + ", ÀÌ ¸§ : " + myName +  "¼Ò¼Ó Çï½ºÀå : " + myGym + "\n"
+										+ "·Î±×ÀÎ ½Ã ¾ÆÀÌµğ°¡ ÇÊ¿äÇÏ´Ï ¾ÆÀÌµğ¸¦ ²À ±â¾ïÇØÁÖ¼¼¿ä.\n"
+										+ "¾ÆÀÌµğ´Â (TrainerÀÇ T) + (ÇÚµåÆù ¹øÈ£ µŞÀÚ¸®) + (¼ıÀÚ ÇÏ³ª)·Î ±¸¼ºµÇ¾îÀÖ½À´Ï´Ù.");
 
-						// 3. DBì— ì‚½ì…
+						// 3. DB¿¡ »ğÀÔ
 						try {
-							// insert into DB2022_íŠ¸ë ˆì´ë„ˆ values (í—¬ìŠ¤ì¥ë²ˆí˜¸, ê°•ì‚¬ë²ˆí˜¸, ì´ë¦„, ë‹´ë‹¹íšŒì›ìˆ˜, ì´ê·¼ë¬´ì‹œê°„, ë¹„ë°€ë²ˆí˜¸);
-							String JoinQuery = "insert into DB2022_íŠ¸ë ˆì´ë„ˆ values (?, ?, ?, ?, ?, ?);";
+							// insert into DB2022_Æ®·¹ÀÌ³Ê values (Çï½ºÀå¹øÈ£, °­»ç¹øÈ£, ÀÌ¸§, ´ã´çÈ¸¿ø¼ö, ÃÑ±Ù¹«½Ã°£, ºñ¹Ğ¹øÈ£);
+							String JoinQuery = "insert into DB2022_Æ®·¹ÀÌ³Ê values (?, ?, ?, ?, ?, ?);";
 							PreparedStatement pst = conn.prepareStatement(JoinQuery);
 							pst.setString(1, myGym);
 							pst.setString(2, myId);
@@ -379,19 +379,19 @@ public class JoinScreen extends JFrame {
 				}
 
 				// =================================================
-				// ===================== ê´€ì¥ =======================
-				else if (userType.equals("ê´€ì¥")) {
-					// 0. ì…ë ¥í•œ ê°’ë“¤ í˜•ì‹ì— ë§ê²Œ ì˜ˆì™¸ ì²˜ë¦¬.
+				// ===================== °üÀå =======================
+				else if (userType.equals("°üÀå")) {
+					// 0. ÀÔ·ÂÇÑ °ªµé Çü½Ä¿¡ ¸Â°Ô ¿¹¿Ü Ã³¸®.
 					boolean isInt = true;
 					boolean isNotNull = true;
 
 					if (myPrice1.length() == 0 || myPrice10.length() == 0 || myPrice20.length() == 0) {
-						checkCondition.setText("ê°€ê²©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”");
+						checkCondition.setText("°¡°İÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä");
 						JoinSuccess = false;
 						isNotNull = false;
 					}
 
-					// ì…ë ¥í•œ ê°€ê²© ë¬¸ìì—´ì´ ìˆ«ìë¡œë§Œ êµ¬ì„±ëëŠ”ì§€ í™•ì¸.
+					// ÀÔ·ÂÇÑ °¡°İ ¹®ÀÚ¿­ÀÌ ¼ıÀÚ·Î¸¸ ±¸¼ºµÆ´ÂÁö È®ÀÎ.
 					for (int i = 0; i < myPrice1.length(); i++) {
 						char temp = myPrice1.charAt(i);
 						if (!Character.isDigit(temp)) {
@@ -427,39 +427,39 @@ public class JoinScreen extends JFrame {
 						myPrice20Int = Integer.parseInt(myPrice20);
 					}
 
-					// [ì£¼ì†Œ]
+					// [ÁÖ¼Ò]
 					if (!(0 < myAddress1.length() && myAddress1.length() <= 6)) {
-						checkCondition.setText("wldurëª…ì´ ë„ˆë¬´ ì§§ê±°ë‚˜ ê¹ë‹ˆë‹¤. (1ì ì´ìƒ 6ì ì´ë‚´)");
+						checkCondition.setText("wldur¸íÀÌ ³Ê¹« Âª°Å³ª ±é´Ï´Ù. (1ÀÚ ÀÌ»ó 6ÀÚ ÀÌ³»)");
 						JoinSuccess = false;
 					} else if (!(0 < myAddress2.length() && myAddress2.length() <= 6)) {
-						checkCondition.setText("ë„ë¡œëª…ì£¼ì†Œê°€ ë„ˆë¬´ ì§§ê±°ë‚˜ ê¹ë‹ˆë‹¤. (1ì ì´ìƒ 20ì ì´ë‚´)");
+						checkCondition.setText("µµ·Î¸íÁÖ¼Ò°¡ ³Ê¹« Âª°Å³ª ±é´Ï´Ù. (1ÀÚ ÀÌ»ó 20ÀÚ ÀÌ³»)");
 						JoinSuccess = false;
 					} 
-					// [ê°€ê²©]
+					// [°¡°İ]
 					else if (!isInt) {
-						checkCondition.setText("ê°€ê²©ì •ë³´ì—ëŠ” ìˆ«ìë§Œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+						checkCondition.setText("°¡°İÁ¤º¸¿¡´Â ¼ıÀÚ¸¸ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
 						JoinSuccess = false;
 					} else if (!(0 < myPrice1Int && myPrice1Int <= 300) || !(0 < myPrice10Int && myPrice10Int <= 300)
 							|| !(0 < myPrice20Int && myPrice20Int <= 300)) {
-						checkCondition.setText("ê°€ê²©ì€ 1ë§Œì› ì´ìƒ 300ë§Œì›ì´í•˜ë¡œ ì‘ì„±í•´ì£¼ì„¸ìš”.");
+						checkCondition.setText("°¡°İÀº 1¸¸¿ø ÀÌ»ó 300¸¸¿øÀÌÇÏ·Î ÀÛ¼ºÇØÁÖ¼¼¿ä.");
 						JoinSuccess = false;
 					}
 
-					// 1. ì „í™”ë²ˆí˜¸ë¡œ ì•„ì´ë”” ë§Œë“¤ê¸° START
+					// 1. ÀüÈ­¹øÈ£·Î ¾ÆÀÌµğ ¸¸µé±â START
 					String joinQuery = "WITH phonenum as"
-							+ "( SELECT SUBSTRING(í—¬ìŠ¤ì¥ë²ˆí˜¸, 2, 4) as substring"
-							+ " FROM DB2022_í—¬ìŠ¤ì¥)"
+							+ "( SELECT SUBSTRING(Çï½ºÀå¹øÈ£, 2, 4) as substring"
+							+ " FROM DB2022_Çï½ºÀå)"
 							+ " SELECT count(*)"
 							+ " FROM phonenum"
 							+ " WHERE substring LIKE ?;";
 
 					try {
-						// ì¿¼ë¦¬ ì‹¤í–‰
+						// Äõ¸® ½ÇÇà
 						PreparedStatement pst = conn.prepareStatement(joinQuery);
 						pst.setString(1, myPhoneNum);
 						ResultSet rs = pst.executeQuery();
 
-						// ì•„ì´ë”” ë§Œë“¤ê¸°
+						// ¾ÆÀÌµğ ¸¸µé±â
 						while (rs.next()) {
 							int num = rs.getInt(1);
 							myId = "G" + myPhoneNum + Integer.toString(num);
@@ -467,21 +467,21 @@ public class JoinScreen extends JFrame {
 					} catch (SQLException sqle) {
 						sqle.printStackTrace();
 					}
-					// ì „í™”ë²ˆí˜¸ë¡œ ì•„ì´ë”” ë§Œë“¤ê¸° END
+					// ÀüÈ­¹øÈ£·Î ¾ÆÀÌµğ ¸¸µé±â END
 
 					if (JoinSuccess == true) {
-						// 2. ì…ë ¥í•œ ì •ë³´ í™•ì¸
+						// 2. ÀÔ·ÂÇÑ Á¤º¸ È®ÀÎ
 						JOptionPane.showMessageDialog(null,
-								"ì•„ì´ë”” : " + myId + ", ë¹„ë°€ë²ˆí˜¸ : " + myPwd + ", í—¬ìŠ¤ì¥ ì´ë¦„ : " + myName
-										+ "\nì£¼ì†Œ : " + myAddress1 + " " + myAddress2 + " " + "\n"
-										+ "ë¡œê·¸ì¸ ì‹œ ì•„ì´ë””ê°€ í•„ìš”í•˜ë‹ˆ ì•„ì´ë””ë¥¼ ê¼­ ê¸°ì–µí•´ì£¼ì„¸ìš”.\n"
-										+ "ì•„ì´ë””ëŠ” (Gymì˜ G) + (í•¸ë“œí° ë²ˆí˜¸ ë’·ìë¦¬) + (ìˆ«ì í•˜ë‚˜)ë¡œ êµ¬ì„±ë˜ì–´ìˆìŠµë‹ˆë‹¤.");
+								"¾ÆÀÌµğ : " + myId + ", ºñ¹Ğ¹øÈ£ : " + myPwd + ", Çï½ºÀå ÀÌ¸§ : " + myName
+										+ "\nÁÖ¼Ò : " + myAddress1 + " " + myAddress2 + " " + "\n"
+										+ "·Î±×ÀÎ ½Ã ¾ÆÀÌµğ°¡ ÇÊ¿äÇÏ´Ï ¾ÆÀÌµğ¸¦ ²À ±â¾ïÇØÁÖ¼¼¿ä.\n"
+										+ "¾ÆÀÌµğ´Â (GymÀÇ G) + (ÇÚµåÆù ¹øÈ£ µŞÀÚ¸®) + (¼ıÀÚ ÇÏ³ª)·Î ±¸¼ºµÇ¾îÀÖ½À´Ï´Ù.");
 
-						// 3. DBì— ì‚½ì…
+						// 3. DB¿¡ »ğÀÔ
 						try {
-							// insert into DB2022_í—¬ìŠ¤ì¥ values (í—¬ìŠ¤ì¥ë²ˆí˜¸, ì´ë¦„, ì§€ì—­, ë„ë¡œëª…ì£¼ì†Œ, ì „ì²´íšŒì›ìˆ˜, ì „ì²´íŠ¸ë ˆì´ë„ˆìˆ˜,
-							// ë¹„ë°€ë²ˆí˜¸);
-							String JoinQuery = "insert into DB2022_í—¬ìŠ¤ì¥ values (?, ?, ?, ?, ?, ?, ?);";
+							// insert into DB2022_Çï½ºÀå values (Çï½ºÀå¹øÈ£, ÀÌ¸§, Áö¿ª, µµ·Î¸íÁÖ¼Ò, ÀüÃ¼È¸¿ø¼ö, ÀüÃ¼Æ®·¹ÀÌ³Ê¼ö,
+							// ºñ¹Ğ¹øÈ£);
+							String JoinQuery = "insert into DB2022_Çï½ºÀå values (?, ?, ?, ?, ?, ?, ?);";
 							PreparedStatement pst = conn.prepareStatement(JoinQuery);
 							pst.setString(1, myId);
 							pst.setString(2, myName);
@@ -492,8 +492,8 @@ public class JoinScreen extends JFrame {
 							pst.setString(8, myPwd);
 							pst.executeUpdate();
 
-							// insert into DB2022_ê°€ê²© values (í—¬ìŠ¤ì¥ë²ˆí˜¸, 1íšŒê°€ê²©, 10íšŒê°€ê²©, 20íšŒê°€ê²©, ê¸°íƒ€í”„ë¡œëª¨ì…˜ì„¤ëª…);
-							String JoinQuery2 = "insert into DB2022_ê°€ê²© values (?, ?, ?, ?, ?);";
+							// insert into DB2022_°¡°İ values (Çï½ºÀå¹øÈ£, 1È¸°¡°İ, 10È¸°¡°İ, 20È¸°¡°İ, ±âÅ¸ÇÁ·Î¸ğ¼Ç¼³¸í);
+							String JoinQuery2 = "insert into DB2022_°¡°İ values (?, ?, ?, ?, ?);";
 							PreparedStatement pst2 = conn.prepareStatement(JoinQuery2);
 							pst2.setString(1, myId);
 							pst2.setInt(2, myPrice1Int);
@@ -509,15 +509,15 @@ public class JoinScreen extends JFrame {
 				}
 
 				if (JoinSuccess == true) {
-					// íšŒì›ê°€ì… ì„±ê³µì‹œ ë‹¤ì‹œ ë¡œê·¸ì¸ í™”ë©´ìœ¼ë¡œ.
-					JOptionPane.showMessageDialog(null, "íšŒì›ê°€ì… ì„±ê³µ! ë¡œê·¸ì¸ í•´ì£¼ì„¸ìš”.");
+					// È¸¿ø°¡ÀÔ ¼º°ø½Ã ´Ù½Ã ·Î±×ÀÎ È­¸éÀ¸·Î.
+					JOptionPane.showMessageDialog(null, "È¸¿ø°¡ÀÔ ¼º°ø! ·Î±×ÀÎ ÇØÁÖ¼¼¿ä.");
 					new LoginScreen(conn, userType);
-					dispose(); // í˜„ì¬ì˜ frameì„ ì¢…ë£Œì‹œí‚¤ëŠ” ë©”ì„œë“œ.
+					dispose(); // ÇöÀçÀÇ frameÀ» Á¾·á½ÃÅ°´Â ¸Ş¼­µå.
 				}
 			}
 		});
 
-		// ì·¨ì†Œ ë²„íŠ¼ì„ í´ë¦­í–ˆì„ ë•Œ ì´ë²¤íŠ¸ ì²˜ë¦¬
+		// Ãë¼Ò ¹öÆ°À» Å¬¸¯ÇßÀ» ¶§ ÀÌº¥Æ® Ã³¸®
 		cancel.addActionListener(new ActionListener() {
 
 			@Override

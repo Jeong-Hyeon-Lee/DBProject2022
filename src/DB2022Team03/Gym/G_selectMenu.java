@@ -16,10 +16,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DB2022Team03.YeonWoo.DeleteScreen;
-import DB2022Team03.YeonWoo.StartScreen;
+import DB2022Team03.Main.DeleteScreen;
+import DB2022Team03.Main.StartScreen;
 
-//ê´€ì¥ìœ¼ë¡œ ë¡œê·¸ì¸í–ˆì„ ë•Œ ë³´ì´ëŠ” ë©”ë‰´ í™”ë©´
+//°üÀåÀ¸·Î ·Î±×ÀÎÇßÀ» ¶§ º¸ÀÌ´Â ¸Ş´º È­¸é
 public class G_selectMenu extends JFrame {
 	
 	// JDBC driver name and database URL
@@ -34,25 +34,25 @@ public class G_selectMenu extends JFrame {
 	
 	public G_selectMenu(String gymID, String gymName) throws SQLException{
 		// TODO Auto-generated constructor stub
-		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); //ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì†
+		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); //µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó
 		
-		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ - " + gymName);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //í”„ë ˆì„ ìœˆë„ìš°ë¥¼ ë‹«ìœ¼ë©´ í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ - " + gymName);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //ÇÁ·¹ÀÓ À©µµ¿ì¸¦ ´İÀ¸¸é ÇÁ·Î±×·¥ Á¾·á
 		
-		//í™”ë©´ ìƒë‹¨
+		//È­¸é »ó´Ü
 		JPanel top = new JPanel();
 		
-		//"MENU" ê¸€ì”¨ ë„ìš°ê¸°
+		//"MENU" ±Û¾¾ ¶ç¿ì±â
 		JLabel selectMenu = new JLabel("MENU");
 		selectMenu.setForeground(new Color(5, 0, 153));
-		selectMenu.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		selectMenu.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
 		top.add(selectMenu);
 		
-		//ë¡œê·¸ì•„ì›ƒ, íƒˆí‡´ ë²„íŠ¼
+		//·Î±×¾Æ¿ô, Å»Åğ ¹öÆ°
 		JPanel menu0 = new JPanel();
-		JButton logout = new JButton("ë¡œê·¸ì•„ì›ƒ");
+		JButton logout = new JButton("·Î±×¾Æ¿ô");
 		menu0.add(logout);
-		JButton deleteAccount = new JButton("íƒˆí‡´í•˜ê¸°");
+		JButton deleteAccount = new JButton("Å»ÅğÇÏ±â");
 		menu0.add(deleteAccount);
 		menu0.setLayout(new GridLayout(2, 1));
 		top.add(menu0);
@@ -61,11 +61,11 @@ public class G_selectMenu extends JFrame {
 		JPanel btnpanel = new JPanel();
 		btnpanel.setLayout(new GridLayout(4, 1));
 		
-		//ë©”ë‰´ ë²„íŠ¼
-		JButton menu1 = new JButton("ê°€ê²© ì •ë³´ ìˆ˜ì •í•˜ê¸°");
-		JButton menu2 = new JButton("í”„ë¡œëª¨ì…˜ ì •ë³´ ìˆ˜ì •í•˜ê¸°");
-		JButton menu3 = new JButton("íŠ¸ë ˆì´ë„ˆ ì •ë³´ ë³´ê¸°");
-		JButton menu4 = new JButton("íšŒì› ìˆ˜ ë³´ê¸°");
+		//¸Ş´º ¹öÆ°
+		JButton menu1 = new JButton("°¡°İ Á¤º¸ ¼öÁ¤ÇÏ±â");
+		JButton menu2 = new JButton("ÇÁ·Î¸ğ¼Ç Á¤º¸ ¼öÁ¤ÇÏ±â");
+		JButton menu3 = new JButton("Æ®·¹ÀÌ³Ê Á¤º¸ º¸±â");
+		JButton menu4 = new JButton("È¸¿ø ¼ö º¸±â");
 
 		btnpanel.add(menu1);
 		btnpanel.add(menu2);
@@ -77,12 +77,12 @@ public class G_selectMenu extends JFrame {
 
 		setBounds(200, 200, 400, 250);
 
-		setResizable(false); // í™”ë©´ í¬ê¸° ê³ ì •
+		setResizable(false); // È­¸é Å©±â °íÁ¤
 
 		setVisible(true);
 
-		// ì´ë²¤íŠ¸ ì²˜ë¦¬
-				menu1.addActionListener(new ActionListener() { //ê°€ê²© ì •ë³´ ìˆ˜ì •í•˜ê¸° ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ
+		// ÀÌº¥Æ® Ã³¸®
+				menu1.addActionListener(new ActionListener() { //°¡°İ Á¤º¸ ¼öÁ¤ÇÏ±â ¹öÆ° ´©¸¦ ½Ã
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						try {
@@ -94,7 +94,7 @@ public class G_selectMenu extends JFrame {
 					}
 				});
 
-				menu2.addActionListener(new ActionListener() { //í”„ë¡œëª¨ì…˜ ì •ë³´ ìˆ˜ì •í•˜ê¸° ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ
+				menu2.addActionListener(new ActionListener() { //ÇÁ·Î¸ğ¼Ç Á¤º¸ ¼öÁ¤ÇÏ±â ¹öÆ° ´©¸¦ ½Ã
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -107,7 +107,7 @@ public class G_selectMenu extends JFrame {
 					}
 				});
 
-				menu3.addActionListener(new ActionListener() { //íŠ¸ë ˆì´ë„ˆ ì •ë³´ ë³´ê¸° ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ
+				menu3.addActionListener(new ActionListener() { //Æ®·¹ÀÌ³Ê Á¤º¸ º¸±â ¹öÆ° ´©¸¦ ½Ã
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -121,7 +121,7 @@ public class G_selectMenu extends JFrame {
 					}
 				});
 				
-				menu4.addActionListener(new ActionListener() { //íšŒì› ìˆ˜ ë³´ê¸° ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ
+				menu4.addActionListener(new ActionListener() { //È¸¿ø ¼ö º¸±â ¹öÆ° ´©¸¦ ½Ã
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -134,21 +134,21 @@ public class G_selectMenu extends JFrame {
 					}
 				});
 
-				logout.addActionListener(new ActionListener() { //ë¡œê·¸ì•„ì›ƒ ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ
+				logout.addActionListener(new ActionListener() { //·Î±×¾Æ¿ô ¹öÆ° ´©¸¦ ½Ã
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						new StartScreen(conn);
-						dispose(); //í˜„ì¬ ì°½ ë‹«ê¸°
+						dispose(); //ÇöÀç Ã¢ ´İ±â
 					}
 				});
 				
-				deleteAccount.addActionListener(new ActionListener() { //íƒˆí‡´í•˜ê¸° ë²„íŠ¼ ëˆ„ë¥¼ ì‹œ
+				deleteAccount.addActionListener(new ActionListener() { //Å»ÅğÇÏ±â ¹öÆ° ´©¸¦ ½Ã
 
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
-						new DeleteScreen(conn, "ê´€ì¥", gymID);
-						dispose(); //í˜„ì¬ ì°½ ë‹«ê¸°
+						new DeleteScreen(conn, "°üÀå", gymID);
+						dispose(); //ÇöÀç Ã¢ ´İ±â
 					}
 				});
 			}

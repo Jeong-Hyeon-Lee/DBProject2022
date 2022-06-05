@@ -22,23 +22,23 @@ import javax.swing.table.DefaultTableModel;
 
 public class M_myPage extends JFrame {
 	public M_myPage(Connection conn, String ID) throws SQLException {
-		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
+		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		
 		//North-title
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("íšŒì›ì •ë³´í™•ì¸");
+		JLabel subtitle = new JLabel("È¸¿øÁ¤º¸È®ÀÎ");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
 		//Table
-		String columnNames[] = {"ì´ë¦„","í—¬ìŠ¤ì¥","ì§€ì—­","ì „ì²´ê²°ì œíšŒì°¨","ë‚¨ì€ìˆ˜ì—…íšŒì°¨","íŠ¸ë ˆì´ë„ˆ","í˜„ì¬íšŒì›ê¶Œ"}; //headers
+		String columnNames[] = {"ÀÌ¸§","Çï½ºÀå","Áö¿ª","ÀüÃ¼°áÁ¦È¸Â÷","³²Àº¼ö¾÷È¸Â÷","Æ®·¹ÀÌ³Ê","ÇöÀçÈ¸¿ø±Ç"}; //headers
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames,0);
 		JTable jt = new JTable(tableModel);
 		
 		//query for table
-		String str = "SELECT M.ì´ë¦„,G.ì´ë¦„ as í—¬ìŠ¤ì¥, M.ì§€ì—­, M.ì „ì²´íšŸìˆ˜, M.ë‚¨ì€íšŸìˆ˜,T.ì´ë¦„ as íŠ¸ë ˆì´ë„ˆ, M.í˜„ì¬íšŒì›ê¶Œ FROM db2022_íšŒì› as M, db2022_íŠ¸ë ˆì´ë„ˆ as T, db2022_í—¬ìŠ¤ì¥ as G WHERE M.ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ=T.ê°•ì‚¬ë²ˆí˜¸ and M.ì†Œì†í—¬ìŠ¤ì¥=G.í—¬ìŠ¤ì¥ë²ˆí˜¸ and M.íšŒì›ë²ˆí˜¸ = ?";
+		String str = "SELECT M.ÀÌ¸§,G.ÀÌ¸§ as Çï½ºÀå, M.Áö¿ª, M.ÀüÃ¼È½¼ö, M.³²ÀºÈ½¼ö,T.ÀÌ¸§ as Æ®·¹ÀÌ³Ê, M.ÇöÀçÈ¸¿ø±Ç FROM db2022_È¸¿ø as M, db2022_Æ®·¹ÀÌ³Ê as T, db2022_Çï½ºÀå as G WHERE M.´ã´çÆ®·¹ÀÌ³Ê=T.°­»ç¹øÈ£ and M.¼Ò¼ÓÇï½ºÀå=G.Çï½ºÀå¹øÈ£ and M.È¸¿ø¹øÈ£ = ?";
 		PreparedStatement pstmt = conn.prepareStatement(str);
 		pstmt.setString(1, ID);
 		ResultSet rset = pstmt.executeQuery();
@@ -51,7 +51,7 @@ public class M_myPage extends JFrame {
 		if(!rset.isBeforeFirst()) { 
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("í—¬ìŠ¤ì¥ê³¼ íŠ¸ë ˆì´ë„ˆ ë“±ë¡ í›„ ì‚¬ìš©ê°€ëŠ¥í•œ ë©”ë‰´ì…ë‹ˆë‹¤."));
+			jpErr.add(new JLabel("Çï½ºÀå°ú Æ®·¹ÀÌ³Ê µî·Ï ÈÄ »ç¿ë°¡´ÉÇÑ ¸Ş´ºÀÔ´Ï´Ù."));
 			btnGroup.add(jpErr);
 		}
 		else {
@@ -59,12 +59,12 @@ public class M_myPage extends JFrame {
 			
 			String name = rset.getString(1);
 			String gym = rset.getString(2);
-			if(rset.wasNull()) gym="ë¯¸ë“±ë¡";
+			if(rset.wasNull()) gym="¹Ìµî·Ï";
 			String location = rset.getString(3);
 			String total = rset.getString(4);
 			String left = rset.getString(5);
 			String trainer = rset.getString(6);
-			if(rset.wasNull()) trainer="ë¯¸ë“±ë¡";
+			if(rset.wasNull()) trainer="¹Ìµî·Ï";
 			String membership = rset.getString(7);
 			
 			String[] data = {name,gym,location,total,left,trainer,membership};
@@ -83,7 +83,7 @@ public class M_myPage extends JFrame {
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("ë’¤ë¡œê°€ê¸°");
+		JButton undo = new JButton("µÚ·Î°¡±â");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		

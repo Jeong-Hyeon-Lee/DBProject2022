@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class M_totalLeft{
 	public static int[] M_totalLeft(Connection conn, String ID) throws SQLException {
 		int total, left;
-		String str = "SELECT ì „ì²´íšŸìˆ˜,ë‚¨ì€íšŸìˆ˜ FROM db2022_íšŒì› USE INDEX (íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) WHERE íšŒì›ë²ˆí˜¸=?";
+		String str = "SELECT ÀüÃ¼È½¼ö,³²ÀºÈ½¼ö FROM db2022_È¸¿ø USE INDEX (È¸¿ø¹øÈ£ÀÎµ¦½º) WHERE È¸¿ø¹øÈ£=?";
 		PreparedStatement pstmt = conn.prepareStatement(str);
 		pstmt.setString(1,ID);
 		ResultSet rset = pstmt.executeQuery();

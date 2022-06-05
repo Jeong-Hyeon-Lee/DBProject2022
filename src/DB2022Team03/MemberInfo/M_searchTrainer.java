@@ -30,18 +30,18 @@ public class M_searchTrainer extends JFrame {
 	static String str = null;
 	static JLabel infoText;
 	static JPanel btnGroup;
-	static String columnNames[]= {"í—¬ìŠ¤ì¥","íŠ¸ë ˆì´ë„ˆ","ì§€ì—­","ë‹´ë‹¹íšŒì›ìˆ˜"}; //columnName
+	static String columnNames[]= {"Çï½ºÀå","Æ®·¹ÀÌ³Ê","Áö¿ª","´ã´çÈ¸¿ø¼ö"}; //columnName
 	static Statement stmt; 
 	
 	public M_searchTrainer(Connection conn, String ID) throws SQLException {
-		setTitle("í—¬ìŠ¤ì¥ PT ì˜ˆì•½ ì‹œìŠ¤í…œ");
+		setTitle("Çï½ºÀå PT ¿¹¾à ½Ã½ºÅÛ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		
-		//ìƒë‹¨ - íšŒì› MENU
+		//»ó´Ü - È¸¿ø MENU
 		JPanel M_main = new JPanel();
-		JLabel subtitle = new JLabel("íŠ¸ë ˆì´ë„ˆ ì°¾ê¸°");
+		JLabel subtitle = new JLabel("Æ®·¹ÀÌ³Ê Ã£±â");
 		subtitle.setForeground(new Color(5,0,153));
-		subtitle.setFont(new Font("ë§‘ì€ ê³ ë”•", Font.BOLD, 25));
+		subtitle.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 25));
 		M_main.add(subtitle);
 		
 		//search
@@ -49,7 +49,7 @@ public class M_searchTrainer extends JFrame {
 		input.setLayout(new FlowLayout());
 		
 		JPanel i1 = new JPanel();
-		JLabel inputDesc = new JLabel("ê²€ìƒ‰ì–´ : ");
+		JLabel inputDesc = new JLabel("°Ë»ö¾î : ");
 		i1.add(inputDesc);
 		input.add(i1);
 		
@@ -59,12 +59,12 @@ public class M_searchTrainer extends JFrame {
 		input.add(i2);
 		
 		JPanel i3 = new JPanel();
-		JButton searchTBtn = new JButton("í—¬ìŠ¤ì¥ ì´ë¦„ìœ¼ë¡œ ê²€ìƒ‰");
+		JButton searchTBtn = new JButton("Çï½ºÀå ÀÌ¸§À¸·Î °Ë»ö");
 		i3.add(searchTBtn);
 		input.add(i3);
 		
 		JPanel i4 = new JPanel();
-		JButton searchTBtn2 = new JButton("íŠ¸ë ˆì´ë„ˆ ì´ë¦„ìœ¼ë¡œ ê²€ìƒ‰"); 
+		JButton searchTBtn2 = new JButton("Æ®·¹ÀÌ³Ê ÀÌ¸§À¸·Î °Ë»ö"); 
 		i4.add(searchTBtn2);
 		input.add(i4);
 
@@ -87,7 +87,7 @@ public class M_searchTrainer extends JFrame {
 		if(!rset.isBeforeFirst()) {
 			JPanel jpErr = new JPanel();
 			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("íŠ¸ë ˆì´ë„ˆì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤."));
+			jpErr.add(new JLabel("Æ®·¹ÀÌ³ÊÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù."));
 			btnGroup.add(jpErr);
 		}
 		else {
@@ -97,23 +97,23 @@ public class M_searchTrainer extends JFrame {
 				String location = rset.getString(3);
 				String member = rset.getString(4);
 				
-				if(!Tname.equals("íƒˆí‡´")) {
+				if(!Tname.equals("Å»Åğ")) {
 					String[] data = {Gname,Tname,location,member};
 					tableModel.addRow(data);
 				} 	
 			}
 			jt = new JTable(tableModel);
 			
-			//ìŠ¤í¬ë¡¤&columnëª…ì„ ìœ„í•´ JScrollPane ì ìš©
+			//½ºÅ©·Ñ&column¸íÀ» À§ÇØ JScrollPane Àû¿ë
 			JScrollPane scrollpane=new JScrollPane(jt);
 			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
 		
 			table.add(scrollpane);
 		}
 		
-		//ì•ˆë‚´ë¬¸êµ¬
+		//¾È³»¹®±¸
 		JPanel info = new JPanel();
-		infoText = new JLabel("íŠ¸ë ˆì´ë„ˆ ë“±ë¡ì„ ì›í•˜ì‹œë©´ ì›í•˜ëŠ” íŠ¸ë ˆì´ë„ˆë¥¼ í´ë¦­í•œ ë’¤, í‹ë¡í•˜ê¸° ë²„íŠ¼ì„ ëˆŒëŸ¬ì£¼ì„¸ìš”. \n(ì†Œì†í—¬ìŠ¤ì¥ì˜ íŠ¸ë ˆì´ë„ˆë§Œ ë“±ë¡ ê°€ëŠ¥í•©ë‹ˆë‹¤.)");
+		infoText = new JLabel("Æ®·¹ÀÌ³Ê µî·ÏÀ» ¿øÇÏ½Ã¸é ¿øÇÏ´Â Æ®·¹ÀÌ³Ê¸¦ Å¬¸¯ÇÑ µÚ, ºv·ÏÇÏ±â ¹öÆ°À» ´­·¯ÁÖ¼¼¿ä. \n(¼Ò¼ÓÇï½ºÀåÀÇ Æ®·¹ÀÌ³Ê¸¸ µî·Ï °¡´ÉÇÕ´Ï´Ù.)");
 		info.add(infoText);
 		btnGroup.add(info);
 		
@@ -121,19 +121,19 @@ public class M_searchTrainer extends JFrame {
 		JPanel jp0 = new JPanel();
 		jp0.setLayout(new FlowLayout());
 		JPanel Menu9 = new JPanel();
-		JButton undo = new JButton("ë’¤ë¡œê°€ê¸°");
+		JButton undo = new JButton("µÚ·Î°¡±â");
 		Menu9.add(undo);
 		jp0.add(Menu9);
 		
 		//show
 		JPanel showT = new JPanel();
-		JButton showTBtn = new JButton("ì†Œì†í—¬ìŠ¤ì¥ íŠ¸ë ˆì´ë„ˆ í™•ì¸");
+		JButton showTBtn = new JButton("¼Ò¼ÓÇï½ºÀå Æ®·¹ÀÌ³Ê È®ÀÎ");
 		showT.add(showTBtn);
 		jp0.add(showT);
 		
 		//enroll
 		JPanel enroll = new JPanel();
-		JButton enrollBtn = new JButton("ë“±ë¡í•˜ê¸°");
+		JButton enrollBtn = new JButton("µî·ÏÇÏ±â");
 		enroll.add(enrollBtn);
 		jp0.add(enroll);
 		
@@ -155,7 +155,7 @@ public class M_searchTrainer extends JFrame {
 		setVisible(true);
 		
 		//Btn event
-		searchTBtn.addActionListener(new ActionListener() { //í—¬ìŠ¤ì¥ ì´ë¦„ìœ¼ë¡œ ê²€ìƒ‰
+		searchTBtn.addActionListener(new ActionListener() { //Çï½ºÀå ÀÌ¸§À¸·Î °Ë»ö
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				String searchText = inputText.getText();
@@ -164,7 +164,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from DB2022_searchTrainer where í—¬ìŠ¤ì¥ì´ë¦„ like ?"; 
+				str = "select * from DB2022_searchTrainer where Çï½ºÀåÀÌ¸§ like ?"; 
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -174,7 +174,7 @@ public class M_searchTrainer extends JFrame {
 					if(!rset.isBeforeFirst()) {
 						JPanel jpErr = new JPanel();
 						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("íŠ¸ë ˆì´ë„ˆì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤."));
+						jpErr.add(new JLabel("Æ®·¹ÀÌ³ÊÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù."));
 						btnGroup.add(jpErr);
 					}
 					else {
@@ -184,7 +184,7 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							if(!Tname.equals("íƒˆí‡´")) {
+							if(!Tname.equals("Å»Åğ")) {
 								String[] data = {Gname,Tname,location,member};
 								tableModel.addRow(data);
 							}
@@ -198,7 +198,7 @@ public class M_searchTrainer extends JFrame {
 			}
 		});
 
-		searchTBtn2.addActionListener(new ActionListener() { //íŠ¸ë ˆì´ë„ˆ ì´ë¦„ìœ¼ë¡œ ê²€ìƒ‰
+		searchTBtn2.addActionListener(new ActionListener() { //Æ®·¹ÀÌ³Ê ÀÌ¸§À¸·Î °Ë»ö
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				String searchText = inputText.getText();
@@ -207,7 +207,7 @@ public class M_searchTrainer extends JFrame {
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from DB2022_searchTrainer where íŠ¸ë ˆì´ë„ˆì´ë¦„ like ?"; 
+				str = "select * from DB2022_searchTrainer where Æ®·¹ÀÌ³ÊÀÌ¸§ like ?"; 
 				try {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, "%"+searchText+"%");
@@ -217,7 +217,7 @@ public class M_searchTrainer extends JFrame {
 					if(!rset.isBeforeFirst()) {
 						JPanel jpErr = new JPanel();
 						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("íŠ¸ë ˆì´ë„ˆì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤."));
+						jpErr.add(new JLabel("Æ®·¹ÀÌ³ÊÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù."));
 						btnGroup.add(jpErr);
 					}
 					else {
@@ -227,7 +227,7 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							if(!Tname.equals("íƒˆí‡´")) {
+							if(!Tname.equals("Å»Åğ")) {
 								String[] data = {Gname,Tname,location,member};
 								tableModel.addRow(data);
 							}
@@ -250,16 +250,16 @@ public class M_searchTrainer extends JFrame {
 			}
 		});
 		
-		showTBtn.addActionListener(new ActionListener() { //ì†Œì†í—¬ìŠ¤ì¥ íŠ¸ë ˆì´ë„ˆ í™•ì¸
+		showTBtn.addActionListener(new ActionListener() { //¼Ò¼ÓÇï½ºÀå Æ®·¹ÀÌ³Ê È®ÀÎ
 			@Override 
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				//Table 
 				tableModel.setNumRows(0);
 				
 				//query for table
-				str = "select * from DB2022_searchTrainer where í—¬ìŠ¤ì¥ë²ˆí˜¸ IN (SELECT ì†Œì†í—¬ìŠ¤ì¥ FROM db2022_íšŒì› USE INDEX (íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) WHERE íšŒì›ë²ˆí˜¸=?)";
+				str = "select * from DB2022_searchTrainer where Çï½ºÀå¹øÈ£ IN (SELECT ¼Ò¼ÓÇï½ºÀå FROM db2022_È¸¿ø USE INDEX (È¸¿ø¹øÈ£ÀÎµ¦½º) WHERE È¸¿ø¹øÈ£=?)";
 				try {
-					//ì†Œì†í—¬ìŠ¤ì¥ íŠ¸ë ˆì´ë„ˆ ë³´ì—¬ì£¼ê¸°
+					//¼Ò¼ÓÇï½ºÀå Æ®·¹ÀÌ³Ê º¸¿©ÁÖ±â
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
@@ -268,7 +268,7 @@ public class M_searchTrainer extends JFrame {
 					if(!rset.isBeforeFirst()) {
 						JPanel jpErr = new JPanel();
 						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("íŠ¸ë ˆì´ë„ˆì •ë³´ë¥¼ ë¶ˆëŸ¬ì˜¤ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤."));
+						jpErr.add(new JLabel("Æ®·¹ÀÌ³ÊÁ¤º¸¸¦ ºÒ·¯¿À´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù."));
 						btnGroup.add(jpErr);
 					}
 					else {
@@ -278,7 +278,7 @@ public class M_searchTrainer extends JFrame {
 							String location = rset.getString(3);
 							String member = rset.getString(4);
 							
-							if(!Tname.equals("íƒˆí‡´")) {
+							if(!Tname.equals("Å»Åğ")) {
 								String[] data = {Gname,Tname,location,member};
 								tableModel.addRow(data);
 							}
@@ -297,34 +297,34 @@ public class M_searchTrainer extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) { 
 				int row = jt.getSelectedRow();
 				
-				String Tname = (String) jt.getValueAt(row, 1); //ì„ íƒí•œ íŠ¸ë ˆì´ë„ˆ ì´ë¦„
+				String Tname = (String) jt.getValueAt(row, 1); //¼±ÅÃÇÑ Æ®·¹ÀÌ³Ê ÀÌ¸§
 				
-				String Gname = (String) jt.getValueAt(row, 0); //ì„ íƒí•œ íŠ¸ë ˆì´ë„ˆì˜ í—¬ìŠ¤ì¥ ì´ë¦„
+				String Gname = (String) jt.getValueAt(row, 0); //¼±ÅÃÇÑ Æ®·¹ÀÌ³ÊÀÇ Çï½ºÀå ÀÌ¸§
 				
 				try {
-					//í˜„ì¬ ì†Œì†í—¬ìŠ¤ì¥ì´ ìˆëŠ”ì§€ í™•ì¸
-					str = "select G.ì´ë¦„ from db2022_íšŒì› as M, db2022_í—¬ìŠ¤ì¥ as G where M.ì†Œì†í—¬ìŠ¤ì¥=G.í—¬ìŠ¤ì¥ë²ˆí˜¸ and M.íšŒì›ë²ˆí˜¸=?";
+					//ÇöÀç ¼Ò¼ÓÇï½ºÀåÀÌ ÀÖ´ÂÁö È®ÀÎ
+					str = "select G.ÀÌ¸§ from db2022_È¸¿ø as M, db2022_Çï½ºÀå as G where M.¼Ò¼ÓÇï½ºÀå=G.Çï½ºÀå¹øÈ£ and M.È¸¿ø¹øÈ£=?";
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1,ID);
 					rset=pstmt.executeQuery();	
 					
-					if(!rset.isBeforeFirst()) { //í—¬ìŠ¤ì¥ì´ ì—†ë‹¤ë©´ 
-						infoText.setText("ìš°ì„  í—¬ìŠ¤ì¥ì„ ë“±ë¡í•´ì£¼ì„¸ìš”.");
+					if(!rset.isBeforeFirst()) { //Çï½ºÀåÀÌ ¾ø´Ù¸é 
+						infoText.setText("¿ì¼± Çï½ºÀåÀ» µî·ÏÇØÁÖ¼¼¿ä.");
 						infoText.setForeground(new Color(153,0,5));
 						btnGroup.revalidate();
 						btnGroup.repaint();
 						return;
-					} else { //í—¬ìŠ¤ì¥ì´ ìˆë‹¤ë©´
+					} else { //Çï½ºÀåÀÌ ÀÖ´Ù¸é
 						rset.next();
-						String nowGymName = rset.getString(1); //ì†Œì†ëœ í—¬ìŠ¤ì¥ ì´ë¦„
+						String nowGymName = rset.getString(1); //¼Ò¼ÓµÈ Çï½ºÀå ÀÌ¸§
 												
-						//ë‚¨ì€ íšŸìˆ˜ê°€ 0ì¸ì§€ í™•ì¸
+						//³²Àº È½¼ö°¡ 0ÀÎÁö È®ÀÎ
 						int check[] = M_totalLeft.M_totalLeft(conn, ID);
 						
-						if(check[1]==0) { //ë‚¨ì€ íšŸìˆ˜ê°€ 0ì´ë¼ë©´
-							//ì†Œì†í—¬ìŠ¤ì¥ê³¼ ì„ íƒí•œ íŠ¸ë ˆì´ë„ˆ ì†Œì† í—¬ìŠ¤ì¥ì´ ê°™ì€ì§€ í™•ì¸ (ì´ë¦„ìœ¼ë¡œ í™•ì¸)
-							if(nowGymName.equals(Gname)) { //ë‘˜ì´ ê°™ë‹¤ë©´ ë“±ë¡ ê°€ëŠ¥!
-								str = "select ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ from db2022_íšŒì› use index(íšŒì›ë²ˆí˜¸ì¸ë±ìŠ¤) where íšŒì›ë²ˆí˜¸=?";
+						if(check[1]==0) { //³²Àº È½¼ö°¡ 0ÀÌ¶ó¸é
+							//¼Ò¼ÓÇï½ºÀå°ú ¼±ÅÃÇÑ Æ®·¹ÀÌ³Ê ¼Ò¼Ó Çï½ºÀåÀÌ °°ÀºÁö È®ÀÎ (ÀÌ¸§À¸·Î È®ÀÎ)
+							if(nowGymName.equals(Gname)) { //µÑÀÌ °°´Ù¸é µî·Ï °¡´É!
+								str = "select ´ã´çÆ®·¹ÀÌ³Ê from db2022_È¸¿ø use index(È¸¿ø¹øÈ£ÀÎµ¦½º) where È¸¿ø¹øÈ£=?";
 								pstmt = conn.prepareStatement(str);
 								pstmt.setString(1, ID);
 								rset = pstmt.executeQuery();	
@@ -335,83 +335,83 @@ public class M_searchTrainer extends JFrame {
 								
 								try {
 									//update
-									conn.setAutoCommit(false); //transaction ì‹œì‘
+									conn.setAutoCommit(false); //transaction ½ÃÀÛ
 
-									if(nowT!=null) { //í˜„ì¬ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆê°€ ìˆë‹¤ë©´ ê¸°ì¡´ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ ë‹´ë‹¹íšŒì›ìˆ˜ -1									
-										//í˜„ì¬ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ ë²ˆí˜¸ë¡œ ë‹´ë‹¹íšŒì›ìˆ˜ì°¾ê¸°
-										str = "SELECT ë‹´ë‹¹íšŒì›ìˆ˜ FROM DB2022_íŠ¸ë ˆì´ë„ˆ use index(ê°•ì‚¬ë²ˆí˜¸) WHERE ê°•ì‚¬ë²ˆí˜¸=?";
+									if(nowT!=null) { //ÇöÀç ´ã´çÆ®·¹ÀÌ³Ê°¡ ÀÖ´Ù¸é ±âÁ¸ ´ã´çÆ®·¹ÀÌ³Ê ´ã´çÈ¸¿ø¼ö -1									
+										//ÇöÀç ´ã´çÆ®·¹ÀÌ³Ê ¹øÈ£·Î ´ã´çÈ¸¿ø¼öÃ£±â
+										str = "SELECT ´ã´çÈ¸¿ø¼ö FROM DB2022_Æ®·¹ÀÌ³Ê use index(°­»ç¹øÈ£) WHERE °­»ç¹øÈ£=?";
 										pstmt = conn.prepareStatement(str);
 										pstmt.setString(1, nowT);
 										rset = pstmt.executeQuery();
-										int nowTnum = 0; //ê¸°ì¡´ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ ë‹´ë‹¹íšŒì›ìˆ˜
+										int nowTnum = 0; //±âÁ¸ ´ã´çÆ®·¹ÀÌ³Ê ´ã´çÈ¸¿ø¼ö
 										rset.next();
 										nowTnum = rset.getInt(1);
 										
-										//ë“±ë¡í•´ì œ : ê¸°ì¡´ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ ë‹´ë‹¹íšŒì›ìˆ˜ -1
-										str = "UPDATE DB2022_íŠ¸ë ˆì´ë„ˆ SET ë‹´ë‹¹íšŒì›ìˆ˜=? WHERE ê°•ì‚¬ë²ˆí˜¸=?";
+										//µî·ÏÇØÁ¦ : ±âÁ¸ ´ã´çÆ®·¹ÀÌ³Ê ´ã´çÈ¸¿ø¼ö -1
+										str = "UPDATE DB2022_Æ®·¹ÀÌ³Ê SET ´ã´çÈ¸¿ø¼ö=? WHERE °­»ç¹øÈ£=?";
 										pstmt = conn.prepareStatement(str);
 										pstmt.setInt(1, nowTnum-1);
 										pstmt.setString(2, nowT);
 										pstmt.executeUpdate();								
 									} 
-									//í˜„ì¬ ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆê°€ ì—†ë‹¤ë©´ ë°”ë¡œ enroll								
-									//ì„ íƒí•œ íŠ¸ë ˆì´ë„ˆ ì´ë¦„(Tname) ìœ¼ë¡œ íŠ¸ë ˆì´ë„ˆ ë²ˆí˜¸ ì°¾ê¸°
-									str = "SELECT ê°•ì‚¬ë²ˆí˜¸, ë‹´ë‹¹íšŒì›ìˆ˜ FROM DB2022_íŠ¸ë ˆì´ë„ˆ WHERE ì´ë¦„=?";
+									//ÇöÀç ´ã´çÆ®·¹ÀÌ³Ê°¡ ¾ø´Ù¸é ¹Ù·Î enroll								
+									//¼±ÅÃÇÑ Æ®·¹ÀÌ³Ê ÀÌ¸§(Tname) À¸·Î Æ®·¹ÀÌ³Ê ¹øÈ£ Ã£±â
+									str = "SELECT °­»ç¹øÈ£, ´ã´çÈ¸¿ø¼ö FROM DB2022_Æ®·¹ÀÌ³Ê WHERE ÀÌ¸§=?";
 									pstmt = conn.prepareStatement(str);
 					                pstmt.setString(1, Tname);
 					                rset = pstmt.executeQuery();
 					                rset.next();
-					                String selectT = rset.getString(1); //ì„ íƒí•œ íŠ¸ë ˆì´ë„ˆ ë²ˆí˜¸
-					                int selectTnum = rset.getInt(2); //ì„ íƒí•œ íŠ¸ë ˆì´ë„ˆì˜ ë‹´ë‹¹íšŒì› ìˆ˜ 
+					                String selectT = rset.getString(1); //¼±ÅÃÇÑ Æ®·¹ÀÌ³Ê ¹øÈ£
+					                int selectTnum = rset.getInt(2); //¼±ÅÃÇÑ Æ®·¹ÀÌ³ÊÀÇ ´ã´çÈ¸¿ø ¼ö 
 									
-									//ë“±ë¡ : íšŒì› ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ ë“±ë¡
-									str = "UPDATE DB2022_íšŒì› SET ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ=? WHERE íšŒì›ë²ˆí˜¸=?";
+									//µî·Ï : È¸¿ø ´ã´çÆ®·¹ÀÌ³Ê µî·Ï
+									str = "UPDATE DB2022_È¸¿ø SET ´ã´çÆ®·¹ÀÌ³Ê=? WHERE È¸¿ø¹øÈ£=?";
 									pstmt = conn.prepareStatement(str);
 									pstmt.setString(1, selectT);
 									pstmt.setString(2, ID);
 									pstmt.executeUpdate();
 									
-									//ë“±ë¡ : íŠ¸ë ˆì´ë„ˆ ë‹´ë‹¹íšŒì›ìˆ˜ +1
-									str = "UPDATE DB2022_íŠ¸ë ˆì´ë„ˆ SET ë‹´ë‹¹íšŒì›ìˆ˜=? WHERE ê°•ì‚¬ë²ˆí˜¸=?";
+									//µî·Ï : Æ®·¹ÀÌ³Ê ´ã´çÈ¸¿ø¼ö +1
+									str = "UPDATE DB2022_Æ®·¹ÀÌ³Ê SET ´ã´çÈ¸¿ø¼ö=? WHERE °­»ç¹øÈ£=?";
 									pstmt = conn.prepareStatement(str);
 									pstmt.setInt(1, selectTnum+1);
 									pstmt.setString(2, selectT);
 									pstmt.executeUpdate();
 									
-									infoText.setText("ë‹´ë‹¹íŠ¸ë ˆì´ë„ˆ("+Tname+")ê°€ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+									infoText.setText("´ã´çÆ®·¹ÀÌ³Ê("+Tname+")°¡ µî·ÏµÇ¾ú½À´Ï´Ù.");
 									infoText.setForeground(new Color(5,0,135));
 									btnGroup.revalidate();
 									btnGroup.repaint();
 									
 									conn.commit();
-									conn.setAutoCommit(true); //transaction ì¢…ë£Œ
+									conn.setAutoCommit(true); //transaction Á¾·á
 								} catch (SQLException e2) {
 									// TODO Auto-generated catch block
-									infoText.setText("íŠ¸ë ˆì´ë„ˆ ë“±ë¡/ë³€ê²½ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ì£¼ì„¸ìš”.");
+									infoText.setText("Æ®·¹ÀÌ³Ê µî·Ï/º¯°æ¿¡ ½ÇÆĞÇß½À´Ï´Ù. ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.");
 									infoText.setForeground(new Color(153,0,5));
 									btnGroup.revalidate();
 									btnGroup.repaint();
 									e2.printStackTrace();
 
-									System.out.println("Roll Back ì‹¤í–‰");
+									System.out.println("Roll Back ½ÇÇà");
 							
 									try {
 									
 										if (conn != null)
-										conn.rollback(); // ì •ìƒ ìˆ˜í–‰ë˜ì§€ ì•Šì•˜ì„ ì‹œ rollback();
+										conn.rollback(); // Á¤»ó ¼öÇàµÇÁö ¾Ê¾ÒÀ» ½Ã rollback();
 									} catch (SQLException se2) {
 										se2.printStackTrace();
 									}
 								}
-							} else { //ë‹¤ë¥´ë‹¤ë©´
-								infoText.setText("ì†Œì†í—¬ìŠ¤ì¥ì˜ íŠ¸ë ˆì´ë„ˆë§Œ ë“±ë¡ê°€ëŠ¥í•©ë‹ˆë‹¤.(ì†Œì†í—¬ìŠ¤ì¥:"+nowGymName+")");
+							} else { //´Ù¸£´Ù¸é
+								infoText.setText("¼Ò¼ÓÇï½ºÀåÀÇ Æ®·¹ÀÌ³Ê¸¸ µî·Ï°¡´ÉÇÕ´Ï´Ù.(¼Ò¼ÓÇï½ºÀå:"+nowGymName+")");
 								infoText.setForeground(new Color(153,0,5));
 								btnGroup.revalidate();
 								btnGroup.repaint();
 							}
-						} else { //ë‚¨ì€ íšŸìˆ˜ê°€ 0ì´ ì•„ë‹ˆë¼ë©´ 
-							//textfieldë„ìš°ê¸°
-							infoText.setText("ì•„ì§ ìˆ˜ì—…íšŸìˆ˜ê°€ ë‚¨ì•„ì„œ íŠ¸ë ˆì´ë„ˆë¥¼ ë³€ê²½í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+						} else { //³²Àº È½¼ö°¡ 0ÀÌ ¾Æ´Ï¶ó¸é 
+							//textfield¶ç¿ì±â
+							infoText.setText("¾ÆÁ÷ ¼ö¾÷È½¼ö°¡ ³²¾Æ¼­ Æ®·¹ÀÌ³Ê¸¦ º¯°æÇÒ ¼ö ¾ø½À´Ï´Ù.");
 							infoText.setForeground(new Color(153,0,5));
 							btnGroup.revalidate();
 							btnGroup.repaint();
