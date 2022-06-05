@@ -22,7 +22,7 @@ import javax.swing.ScrollPaneConstants;
 public class G_changePromotionInformation extends JFrame {
 	public G_changePromotionInformation(Connection conn, String gymID) throws SQLException {
 		// TODO Auto-generated constructor stub
-		setTitle("프로모션 정보 수정하기");
+		setTitle("헬스장 통합 관리 프로그램");
 		
 		//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같은 tuple의 헬스장 번호를 rs에 저장
 		//헬스장 번호가 DB2022_가격 테이블의 primary key 이므로 rs에 저장되는 tuple은 1개

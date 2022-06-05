@@ -12,8 +12,7 @@ import javax.swing.JTable;
 //헬스장 트레이너 정보 보기
 public class G_showTrainers extends JFrame{
 	public G_showTrainers(Connection conn, String gymID) throws SQLException{
-		// TODO Auto-generated constructor stub
-		
+
 		//DB2022_트레이너 테이블에서 헬스장번호가 'gymID'와 같은 행 개수(=해당 헬스장의 트레이너 인원 수) 구하기
 		PreparedStatement pStmt = conn.prepareStatement("SELECT count(*) FROM DB2022_트레이너 WHERE 헬스장번호 = ?");
 		pStmt.setString(1, gymID);
@@ -22,7 +21,7 @@ public class G_showTrainers extends JFrame{
 		if (rs.next()) //값이 존재한다면
 			trainerNum = rs.getInt(1); //첫번째 column 값(count(*)) 정수로 반환
 		
-		setTitle("트레이너 정보");
+		setTitle("헬스장 통합 관리 프로그램");
 		
 		//JTable을 만들기 위해 (표 형식으로 보여주기)
 		String [] title = {"트레이너 이름", "총 근무시간"};

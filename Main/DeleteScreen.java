@@ -16,7 +16,8 @@ public class DeleteScreen extends JFrame {
 	String owner_name = null;
 
 	public DeleteScreen(Connection conn, String userType, String ID) {
-		setTitle("탈퇴");
+		
+		setTitle("헬스장 통합 관리 프로그램");
 
 		// title
 		JPanel titlePanel = new JPanel();

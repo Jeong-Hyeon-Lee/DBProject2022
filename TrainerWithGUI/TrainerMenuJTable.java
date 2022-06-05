@@ -57,6 +57,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener {
 
 	public TrainerMenuJTable(String trainer_id) {
 		super("트레이너 메뉴");
+		setTitle("헬스장 통합 관리 프로그램");
 
 		trainer_pk = trainer_id;
 

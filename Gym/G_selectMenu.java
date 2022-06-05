@@ -36,7 +36,7 @@ public class G_selectMenu extends JFrame {
 		// TODO Auto-generated constructor stub
 		conn = DriverManager.getConnection(DB_URL, USER, PASSWORD); //데이터베이스 접속
 		
-		setTitle("헬스장 PT 예약 시스템 - " + gymName);
+		setTitle("헬스장 통합 관리 프로그램");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //프레임 윈도우를 닫으면 프로그램 종료
 		
 		//화면 상단

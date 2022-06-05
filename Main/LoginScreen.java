@@ -15,7 +15,7 @@ public class LoginScreen extends JFrame {
 
 	public LoginScreen(Connection conn, String userType) {
 
-		setTitle("로그인");
+		setTitle("헬스장 통합 관리 프로그램");
 
 		JPanel title = new JPanel();
 
