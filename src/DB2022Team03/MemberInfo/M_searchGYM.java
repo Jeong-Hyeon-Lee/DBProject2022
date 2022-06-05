@@ -79,44 +79,52 @@ public class M_searchGYM extends JFrame {
 		str = "select * from DB2022_searchGYM";
 		rset = stmt.executeQuery(str);
 		
-		//for err & undo 
+		//for info & undo btn 
 		btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
-		
-		//table data
-		if(!rset.isBeforeFirst()) {
-			JPanel jpErr = new JPanel();
-			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("헬스장정보를 불러오는데 실패했습니다."));
-			btnGroup.add(jpErr);
-		}
-		else {
-			while(rset.next()) {
-				String gym = rset.getString(1);
-				String location = rset.getString(2);
-				int price1 = rset.getInt(3);
-				int price10 = rset.getInt(4);
-				int price20 = rset.getInt(5);
-				String promotion = rset.getString(6);
-				
-				String[] data = {gym,location,String.valueOf(price1),String.valueOf(price10),String.valueOf(price20),promotion};
-				
-				tableModel.addRow(data);
-			}
-			jt = new JTable(tableModel);
-			
-			//스크롤&column명을 위해 JScrollPane 적용
-			JScrollPane scrollpane=new JScrollPane(jt);
-			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
-		
-			table.add(scrollpane);
-		}
 		
 		//안내문구
 		JPanel info = new JPanel();
 		infoText = new JLabel("헬스장 등록을 원하시면 원하는 헬스장을 클릭한 뒤, 틍록하기 버튼을 눌러주세요.");
 		info.add(infoText);
 		btnGroup.add(info);
+		
+		//table data
+		try {
+			if(!rset.isBeforeFirst()) {
+				infoText.setText("등록된 헬스장 정보가 없습니다.");
+				infoText.setForeground(new Color(153,0,5));
+				btnGroup.revalidate();
+				btnGroup.repaint();
+			}
+			else {
+				while(rset.next()) {
+					String gym = rset.getString(1);
+					String location = rset.getString(2);
+					int price1 = rset.getInt(3);
+					int price10 = rset.getInt(4);
+					int price20 = rset.getInt(5);
+					String promotion = rset.getString(6);
+					
+					String[] data = {gym,location,String.valueOf(price1),String.valueOf(price10),String.valueOf(price20),promotion};
+					
+					tableModel.addRow(data);
+				}
+				jt = new JTable(tableModel);
+				
+				//스크롤&column명을 위해 JScrollPane 적용
+				JScrollPane scrollpane=new JScrollPane(jt);
+				scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
+			
+				table.add(scrollpane);
+			}
+		} catch (SQLException e) {
+			infoText.setText("헬스장 정보를 불러오는데 실패했습니다.");
+			infoText.setForeground(new Color(153,0,5));
+			btnGroup.revalidate();
+			btnGroup.repaint();
+		}
+		
 		
 		//undo
 		JPanel jp0 = new JPanel();
@@ -171,10 +179,10 @@ public class M_searchGYM extends JFrame {
 					rset = pstmt.executeQuery();
 					//table data
 					if(!rset.isBeforeFirst()) {
-						JPanel jpErr = new JPanel();
-						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("헬스장정보를 불러오는데 실패했습니다.")); //입력한 지역에서 헬스장을 찾지 못했습니다.
-						btnGroup.add(jpErr);
+						infoText.setText("해당 지역에 등록된 헬스장이 없습니다.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
 					}
 					else {
 						while(rset.next()) {
@@ -193,6 +201,10 @@ public class M_searchGYM extends JFrame {
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					infoText.setText("헬스장 정보를 불러오는데 실패했습니다.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
 					e1.printStackTrace();
 				}
 			}
@@ -214,10 +226,10 @@ public class M_searchGYM extends JFrame {
 					rset = pstmt.executeQuery();
 					//table data
 					if(!rset.isBeforeFirst()) {
-						JPanel jpErr = new JPanel();
-						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("헬스장정보를 불러오는데 실패했습니다."));
-						btnGroup.add(jpErr);
+						infoText.setText("등록된 헬스장 중 해당 이름을 가진 헬스장이 없습니다.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
 					}
 					else {
 						while(rset.next()) {
@@ -236,6 +248,10 @@ public class M_searchGYM extends JFrame {
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					infoText.setText("헬스장 정보를 불러오는데 실패했습니다.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
 					e1.printStackTrace();
 				}
 			}
@@ -260,17 +276,17 @@ public class M_searchGYM extends JFrame {
 				//query for table
 				str = "select * from DB2022_searchGYM WHERE 지역 IN (SELECT 지역 FROM db2022_회원 USE INDEX (회원번호인덱스) WHERE 회원번호=?)";
 				try {
-					//소속헬스장 트레이너 보여주기
+					//등록된 회원 지역과 같은 지역에 있는 헬스장 추천
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
 					
 					//table data
 					if(!rset.isBeforeFirst()) {
-						JPanel jpErr = new JPanel();
-						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("추천 헬스장을 찾지 못했습니다."));
-						btnGroup.add(jpErr);
+						infoText.setText("추천 헬스장을 찾지 못했습니다. 회원 지역 근처에 등록된 헬스장이 없습니다.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
 					}
 					else {
 						while(rset.next()) {
@@ -289,6 +305,10 @@ public class M_searchGYM extends JFrame {
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					infoText.setText("헬스장 정보를 불러오는데 실패했습니다.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
 					e1.printStackTrace();
 				}
 			}

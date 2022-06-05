@@ -34,7 +34,7 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 	DefaultTableModel salary_table = new DefaultTableModel(salary_info, 0);
 	JTable salary_jt = new JTable(salary_table);
 	JPanel p = new JPanel();
-	String[] comboName = {"예약완료", "취소", "불참", "완료", "거절"}; // 거절을 선택하면 데이터베이스에서 지워짐
+	String[] comboName = {"예약완료",  "불참", "완료", "거절"}; // 거절을 선택하면 데이터베이스에서 지워짐
 	
 	JComboBox combo = new JComboBox(comboName);
 	
@@ -130,7 +130,6 @@ public class TrainerMenuJTable extends JFrame implements ActionListener{
 			switch(fieldName) {
 			case "거절" : tmdb.rejectClass(student_no, class_t, status, trainer_pk);break;
 			case "예약완료" : tmdb.acceptClass(student_name, student_no,class_t , status, trainer_pk);break;
-			case "취소" : tmdb.cancelClass(student_no, class_t, status, trainer_pk);break;
 			case "불참" : tmdb.noshowClass(student_no, class_t, status, trainer_pk);break;
 			case "완료" : tmdb.endClass(student_no, class_t, status, trainer_pk);break;
 			}
