@@ -392,6 +392,16 @@ public class M_searchTrainer extends JFrame {
 									btnGroup.revalidate();
 									btnGroup.repaint();
 									e2.printStackTrace();
+
+									System.out.println("Roll Back 실행");
+							
+									try {
+									
+										if (conn != null)
+										conn.rollback(); // 정상 수행되지 않았을 시 rollback();
+									} catch (SQLException se2) {
+										se2.printStackTrace();
+									}
 								}
 							} else { //다르다면
 								infoText.setText("소속헬스장의 트레이너만 등록가능합니다.(소속헬스장:"+nowGymName+")");
