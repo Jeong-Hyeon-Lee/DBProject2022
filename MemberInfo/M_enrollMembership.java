@@ -173,7 +173,6 @@ public class M_enrollMembership extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				new M_MainScreen(conn,ID);
 				dispose(); // 현재의 frame을 종료시키는 메서드.
-
 			}
 		});
 		

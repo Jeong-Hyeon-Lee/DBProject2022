@@ -23,7 +23,7 @@ public class yw_Main extends JFrame{
 			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
 			
 			
-			System.out.println("Login succeds");
+			System.out.println("Login succeeds");
 		}
 		catch(SQLException sqle) { 
 			System.out.println("Error: " + sqle);

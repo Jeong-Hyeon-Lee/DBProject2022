@@ -388,7 +388,7 @@ public class M_searchTrainer extends JFrame {
 							}
 						} else { //남은 횟수가 0이 아니라면 
 							//textfield띄우기
-							infoText.setText("아직 수업횟수가 남아서 헬스장을 등록할 수 없습니다.");
+							infoText.setText("아직 수업횟수가 남아서 트레이너를 변경할 수 없습니다.");
 							infoText.setForeground(new Color(153,0,5));
 							btnGroup.revalidate();
 							btnGroup.repaint();
