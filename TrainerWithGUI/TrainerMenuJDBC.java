@@ -259,14 +259,17 @@ public class TrainerMenuJDBC {
 			return;
 		}
 		try {
-			PreparedStatement hdiff = con.prepareStatement("SELECT TIMESTAMPDIFF(HOUR, ?, now())"); // now() - 수업 시간
+			PreparedStatement hdiff = con.prepareStatement("SELECT TIMESTAMPDIFF(HOUR, (SELECT 수업시간 FROM DB2022_수업 WHERE(수업시간=? AND 강사번호=?)), now())"); // now() - 수업 시간
 			hdiff.setString(1, class_t);
+			hdiff.setString(2, trainer_pk);
 			ResultSet trs = hdiff.executeQuery();
-			if (trs.getInt(1) <= 1) { // 수업 시작 시간 + 수업 진행 시간 만큼이 지나지 않은 경우
-				noshow_valid = false;
-				JOptionPane.showMessageDialog(null, "수업 시간이 끝나지 않았기 때문에 <불참>으로 변경할 수 없습니다.");
-				return;
-			}
+			if (trs.next()) {
+				System.out.println(trs.getInt(1));
+				if (trs.getInt(1) <= 1) { // 수업 시작 시간 + 수업 진행 시간 만큼이 지나지 않은 경우
+					noshow_valid = false;
+					JOptionPane.showMessageDialog(null, "수업 시간이 끝나지 않았기 때문에 <불참>으로 변경할 수 없습니다.");
+					return;
+			}}
 		}catch(SQLException e) {
 			e.getStackTrace();
 		}
