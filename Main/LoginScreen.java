@@ -103,7 +103,7 @@ public class LoginScreen extends JFrame {
 				String myPwd = new String(jtf2.getPassword());
 
 				// 팝업 창 띄워 확인 시켜주기
-				JOptionPane.showMessageDialog(null, "아이디 : " + myId + ", 비밀번호 : " + myPwd);
+				JOptionPane.showMessageDialog(jp1, "아이디 : " + myId + ", 비밀번호 : " + myPwd);
 
 				// DB연결
 				// ================ 회원 로그인 ===============
@@ -123,12 +123,12 @@ public class LoginScreen extends JFrame {
 						// ResultSet이 비어있는 것은 if(!rs.next())으로 확인
 						// ResultSet.getString();이 null인 것은 rs.null()로 확인
 						if (!rs.next()) {
-							JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
+							JOptionPane.showMessageDialog(jp1, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
 						} else if (myId.equals("000000")) { // "000000"으로는 로그인 못하게 막기 (탈퇴한 회원을 표시하기위한 유령 tuple이지 진짜 회원이
 															// 아님)
-							JOptionPane.showMessageDialog(null, "이 아이디는 로그인할 수 없는 아이디입니다.");
+							JOptionPane.showMessageDialog(jp1, "이 아이디는 로그인할 수 없는 아이디입니다.");
 						} else if (rs.getString("비밀번호").equals(myPwd)) {
-							JOptionPane.showMessageDialog(null, "로그인 성공");
+							JOptionPane.showMessageDialog(jp1, "로그인 성공");
 							member_id = rs.getString("회원번호");
 							member_name = rs.getString("이름");
 							member_gym = rs.getString("소속헬스장");
@@ -137,7 +137,7 @@ public class LoginScreen extends JFrame {
 							new M_MainScreen(conn, member_id);
 							dispose();
 						} else {
-							JOptionPane.showMessageDialog(null, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
+							JOptionPane.showMessageDialog(jp1, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
 						}
 
 					} catch (SQLException sqle) {
@@ -162,12 +162,12 @@ public class LoginScreen extends JFrame {
 						// ResultSet이 비어있는 것은 if(!rs.next())으로 확인
 						// ResultSet.getString();이 null인 것은 rs.null()로 확인
 						if (!rs.next()) {
-							JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
+							JOptionPane.showMessageDialog(jp1, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
 						} else if (myId.equals("000000")) { // "000000"으로는 로그인 못하게 막기 (탈퇴한 회원을 표시하기위한 유령 tuple이지 진짜 회원이
 															// 아님)
-							JOptionPane.showMessageDialog(null, "이 아이디는 로그인할 수 없는 아이디입니다.");
+							JOptionPane.showMessageDialog(jp1, "이 아이디는 로그인할 수 없는 아이디입니다.");
 						} else if (rs.getString("비밀번호").equals(myPwd)) {
-							JOptionPane.showMessageDialog(null, "로그인 성공");
+							JOptionPane.showMessageDialog(jp1, "로그인 성공");
 
 							trainer_id = rs.getString("강사번호");
 							trainer_name = rs.getString("이름");
@@ -177,7 +177,7 @@ public class LoginScreen extends JFrame {
 							new TrainerMenuJTable(trainer_id);
 							dispose();
 						} else {
-							JOptionPane.showMessageDialog(null, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
+							JOptionPane.showMessageDialog(jp1, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
 						}
 					} catch (SQLException sqle) {
 						sqle.printStackTrace();
@@ -201,12 +201,12 @@ public class LoginScreen extends JFrame {
 						// ResultSet이 비어있는 것은 if(!rs.next())으로 확인
 						// ResultSet.getString();이 null인 것은 rs.null()로 확인
 						if (!rs.next()) {
-							JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
+							JOptionPane.showMessageDialog(jp1, "존재하지 않는 아이디입니다. 다시 로그인해주세요.");
 						} else if (myId.equals("000000")) { // "000000"으로는 로그인 못하게 막기 (탈퇴한 회원을 표시하기위한 유령 tuple이지 진짜 회원이
 															// 아님)
-							JOptionPane.showMessageDialog(null, "이 아이디는 로그인할 수 없는 아이디입니다.");
+							JOptionPane.showMessageDialog(jp1, "이 아이디는 로그인할 수 없는 아이디입니다.");
 						} else if (rs.getString("비밀번호").equals(myPwd)) {
-							JOptionPane.showMessageDialog(null, "로그인 성공");
+							JOptionPane.showMessageDialog(jp1, "로그인 성공");
 							owner_gym = rs.getString("헬스장번호");
 							owner_name = rs.getString("이름");
 
@@ -214,7 +214,7 @@ public class LoginScreen extends JFrame {
 							new G_selectMenu(owner_gym, owner_name);
 							dispose();
 						} else {
-							JOptionPane.showMessageDialog(null, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
+							JOptionPane.showMessageDialog(jp1, "올바르지 않은 비밀번호입니다. 다시 로그인해주세요.");
 						}
 					} catch (SQLException sqle) {
 						sqle.printStackTrace();

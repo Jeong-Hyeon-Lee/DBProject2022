@@ -20,14 +20,14 @@ import java.sql.*;
  * 
  * 5. [완료] 회원가입 성공하면, 성공했다고 하고 아니면 아니라하고, 성공했으면 로그인하라고 로그인 창 띄워줘야함.
  * 
- * 6. [진행 중] 탈퇴. 회원탈퇴 시 처리해야할 정보들 다 transaction으로 묶어서 탈퇴시키기. 
+ * 6. [완료] 탈퇴. 회원탈퇴 시 처리해야할 정보들 다 transaction으로 묶어서 탈퇴시키기. 
  */
 
 public class JoinScreen extends JFrame {
 
 	public JoinScreen(Connection conn, String userType) {
 
-		setTitle("헬스장 통합 관리 프로그램");
+		setTitle("회원가입");
 
 		// 1. 컴포넌트들을 만들어 보자.
 		JLabel title = new JLabel(userType + " 회원가입", JLabel.CENTER);
@@ -264,7 +264,7 @@ public class JoinScreen extends JFrame {
 						while (rs.next()) {
 							int num = rs.getInt(1);
 							if (!(0 <= num && num <= 9)) {
-								JOptionPane.showMessageDialog(null,
+								JOptionPane.showMessageDialog(formPanel,
 										"죄송합니다. 입력하신 핸드폰번호 뒷자리는 이미 너무 많은 회원이 사용 중입니다." + "\n"
 												+ "다른 임의의 4자리 수를 입력해주세요.");
 								JoinSuccess = false;
@@ -279,7 +279,7 @@ public class JoinScreen extends JFrame {
 
 					if (JoinSuccess == true) {
 						// 2. 만들어진 아이디 확인시켜주는 부분.
-						JOptionPane.showMessageDialog(null,
+						JOptionPane.showMessageDialog(formPanel,
 								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName + ", 지 역 : " + myAddress1
 										+ "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
@@ -328,7 +328,7 @@ public class JoinScreen extends JFrame {
 						while (rs.next()) {
 							int num = rs.getInt(1);
 							if (!(0 <= num && num <= 9)) {
-								JOptionPane.showMessageDialog(null,
+								JOptionPane.showMessageDialog(formPanel,
 										"죄송합니다. 입력하신 핸드폰번호 뒷자리는 이미 너무 많은 회원이 사용 중입니다." + "\n"
 												+ "다른 임의의 4자리 수를 입력해주세요.");
 								JoinSuccess = false;
@@ -353,7 +353,7 @@ public class JoinScreen extends JFrame {
 					}
 					if (JoinSuccess == true) {
 						// 2. 입력한 정보 확인
-						JOptionPane.showMessageDialog(null,
+						JOptionPane.showMessageDialog(formPanel,
 								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName + "소속 헬스장 : " + myGym + "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
 										+ "아이디는 (Trainer의 T) + (핸드폰 번호 뒷자리) + (숫자 하나)로 구성되어있습니다.");
@@ -427,7 +427,7 @@ public class JoinScreen extends JFrame {
 
 					// [주소]
 					if (!(0 < myAddress1.length() && myAddress1.length() <= 6)) {
-						checkCondition.setText("wldur명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
+						checkCondition.setText("지역명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
 						JoinSuccess = false;
 					} else if (!(0 < myAddress2.length() && myAddress2.length() <= 6)) {
 						checkCondition.setText("도로명주소가 너무 짧거나 깁니다. (1자 이상 20자 이내)");
@@ -469,7 +469,7 @@ public class JoinScreen extends JFrame {
 
 					if (JoinSuccess == true) {
 						// 2. 입력한 정보 확인
-						JOptionPane.showMessageDialog(null,
+						JOptionPane.showMessageDialog(formPanel,
 								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 헬스장 이름 : " + myName
 										+ "\n주소 : " + myAddress1 + " " + myAddress2 + " " + "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
@@ -508,7 +508,7 @@ public class JoinScreen extends JFrame {
 
 				if (JoinSuccess == true) {
 					// 회원가입 성공시 다시 로그인 화면으로.
-					JOptionPane.showMessageDialog(null, "회원가입 성공! 로그인 해주세요.");
+					JOptionPane.showMessageDialog(formPanel, "회원가입 성공! 로그인 해주세요.");
 					new LoginScreen(conn, userType);
 					dispose(); // 현재의 frame을 종료시키는 메서드.
 				}

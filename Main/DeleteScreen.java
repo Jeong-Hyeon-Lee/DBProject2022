@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 
-import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
-import DB2022Team03.Gym.G_selectMenu;
-import DB2022Team03.MemberInfo.M_MainScreen;
+//import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
+//import DB2022Team03.Gym.G_selectMenu;
+//import DB2022Team03.MemberInfo.M_MainScreen;
 
 public class DeleteScreen extends JFrame {
 
@@ -298,7 +298,7 @@ public class DeleteScreen extends JFrame {
 							conn.setAutoCommit(true);
 						} else {
 							deleteSuccess = false;
-							JOptionPane.showMessageDialog(null, "해당 헬스장에 속한 트레이너와 회원이 모두 탈퇴했을 때만 탈퇴가능합니다."
+							JOptionPane.showMessageDialog(checkPanel, "해당 헬스장에 속한 트레이너와 회원이 모두 탈퇴했을 때만 탈퇴가능합니다."
 									+ "\n"
 									+ "현재 전체 트레이너 수: " + trainerNum + "\n"
 									+ "현재 전체 회원 수: " + memberNum + "\n"
@@ -322,7 +322,7 @@ public class DeleteScreen extends JFrame {
 
 				if (deleteSuccess == true) {
 					// 탈퇴성공시 다시 start화면으로
-					JOptionPane.showMessageDialog(null, "탈퇴처리 되었습니다.");
+					JOptionPane.showMessageDialog(checkPanel, "탈퇴처리 되었습니다.");
 					new StartScreen(conn);
 					dispose(); // 현재의 frame을 종료시키는 메서드.
 				}
@@ -337,16 +337,11 @@ public class DeleteScreen extends JFrame {
 
 				// 다시 각자 메뉴 페이지로 돌아가기
 				if (userType.equals("회원")) {
-					new M_MainScreen(conn, ID);
+					// new M_MainScreen(conn, ID);
 				} else if (userType.equals("트레이너")) {
-					new TrainerMenuJTable(ID);
+					// new TrainerMenuJTable(ID);
 				} else if (userType.equals("관장")) {
-					try {
-						new G_selectMenu(ID, owner_name);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+
 				}
 				dispose();
 
