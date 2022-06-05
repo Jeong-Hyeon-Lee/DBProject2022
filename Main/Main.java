@@ -1,4 +1,4 @@
-package DB2022Team03.YeonWoo;
+package DB2022Team03.Main;
 
 import java.sql.*;
 import javax.swing.*;

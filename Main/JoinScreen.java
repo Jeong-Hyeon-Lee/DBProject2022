@@ -1,4 +1,4 @@
-package DB2022Team03.YeonWoo;
+package DB2022Team03.Main;
 
 import javax.swing.*;
 
@@ -43,7 +43,6 @@ public class JoinScreen extends JFrame {
 		JTextField name = new JTextField(10);
 		JTextField Tgym = new JTextField(10);
 
-	
 		JTextField address1 = new JTextField(10); // 지역
 		address1.setText("ex) 서대문구");
 		JTextField address2 = new JTextField(10); // 주소
@@ -107,7 +106,7 @@ public class JoinScreen extends JFrame {
 			gymPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			gymPanel.add(new JLabel("소속 헬스장 :  "));
 			gymPanel.add(Tgym);
-			
+
 			formPanel.add(gymPanel);
 		}
 
@@ -122,7 +121,6 @@ public class JoinScreen extends JFrame {
 			formPanel.add(namePanel);
 
 			// 도시, 지역, 도로명 주소
-
 
 			JPanel address1Panel = new JPanel();
 			address1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -187,8 +185,8 @@ public class JoinScreen extends JFrame {
 				String myPhoneNum = phone.getText();
 				String myPwd = new String(pwd.getPassword());
 				String myName = name.getText();
-				String myAddress1 = address1.getText(); //지역
-				String myAddress2 = address2.getText(); //도로명주소
+				String myAddress1 = address1.getText(); // 지역
+				String myAddress2 = address2.getText(); // 도로명주소
 				String myPrice1 = price1.getText();
 				String myPrice10 = price10.getText();
 				String myPrice20 = price20.getText();
@@ -233,7 +231,7 @@ public class JoinScreen extends JFrame {
 				// ===================== 회원 =======================
 				if (userType.equals("회원")) {
 					// 0. 입력한 값들 형식에 맞게 예외 처리.
-					if (!(myAddress1.length()>0 && myAddress1.length() <= 6)) {
+					if (!(myAddress1.length() > 0 && myAddress1.length() <= 6)) {
 						checkCondition.setText("지역명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
 						JoinSuccess = false;
 					}
@@ -342,21 +340,21 @@ public class JoinScreen extends JFrame {
 						sqle.printStackTrace();
 					}
 					// 전화번호로 아이디 만들기 END
-					try{
+					try {
 						PreparedStatement pst = conn.prepareStatement("SELECT * FROM DB2022_헬스장 WHERE(헬스장번호=?)");
 						pst.setString(1, myGym);
 						ResultSet rs = pst.executeQuery();
-						if(rs.next() == false){
+						if (rs.next() == false) {
 							checkCondition.setText("입력하신 헬스장은 존재하지 않습니다. 다시 입력해 주세요");
 							JoinSuccess = false;
 						}
-					}catch (SQLException ex){
+					} catch (SQLException ex) {
 						ex.printStackTrace();
 					}
 					if (JoinSuccess == true) {
 						// 2. 입력한 정보 확인
 						JOptionPane.showMessageDialog(null,
-								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName +  "소속 헬스장 : " + myGym + "\n"
+								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName + "소속 헬스장 : " + myGym + "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
 										+ "아이디는 (Trainer의 T) + (핸드폰 번호 뒷자리) + (숫자 하나)로 구성되어있습니다.");
 
@@ -434,7 +432,7 @@ public class JoinScreen extends JFrame {
 					} else if (!(0 < myAddress2.length() && myAddress2.length() <= 6)) {
 						checkCondition.setText("도로명주소가 너무 짧거나 깁니다. (1자 이상 20자 이내)");
 						JoinSuccess = false;
-					} 
+					}
 					// [가격]
 					else if (!isInt) {
 						checkCondition.setText("가격정보에는 숫자만 입력해주세요.");
