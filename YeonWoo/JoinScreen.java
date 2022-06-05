@@ -41,14 +41,13 @@ public class JoinScreen extends JFrame {
 		JTextField phone = new JTextField(10);
 		JPasswordField pwd = new JPasswordField(10);
 		JTextField name = new JTextField(10);
-		JTextField Tgym = new JTextField(columns:10);
+		JTextField Tgym = new JTextField(10);
 
-		JTextField address1 = new JTextField(10);
-		address1.setText("ex) 서울");
-		JTextField address2 = new JTextField(10);
-		address2.setText("ex) 서대문구");
-		JTextField address3 = new JTextField(10);
-		address3.setText("ex) 이화여대길 52");
+	
+		JTextField address1 = new JTextField(10); // 지역
+		address1.setText("ex) 서대문구");
+		JTextField address2 = new JTextField(10); // 주소
+		address2.setText("ex) 이화여대길 52");
 
 		JTextField price1 = new JTextField(10);
 		JTextField price10 = new JTextField(10);
@@ -85,12 +84,12 @@ public class JoinScreen extends JFrame {
 			formPanel.add(namePanel);
 
 			// 지역
-			JPanel address2Panel = new JPanel();
-			address2Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address2Panel.add(new JLabel("지    역 : "));
-			address2Panel.add(address2);
+			JPanel address1Panel = new JPanel();
+			address1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			address1Panel.add(new JLabel("지    역 : "));
+			address1Panel.add(address1);
 
-			formPanel.add(address2Panel);
+			formPanel.add(address1Panel);
 		}
 
 		// 트레이너면, 이름과 소속 헬스장 추가
@@ -106,7 +105,7 @@ public class JoinScreen extends JFrame {
 			// 소속 헬스장
 			JPanel gymPanel = new JPanel();
 			gymPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			gymPanel.add(new JLabel(text : "소속 헬스장 :  "));
+			gymPanel.add(new JLabel("소속 헬스장 :  "));
 			gymPanel.add(TGym);
 			
 			formPanel.add(gymPanel);
@@ -123,23 +122,19 @@ public class JoinScreen extends JFrame {
 			formPanel.add(namePanel);
 
 			// 도시, 지역, 도로명 주소
+
+
 			JPanel address1Panel = new JPanel();
 			address1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address1Panel.add(new JLabel("도    시 : "));
+			address1Panel.add(new JLabel("지    역 : "));
 			address1Panel.add(address1);
 			formPanel.add(address1Panel);
 
 			JPanel address2Panel = new JPanel();
 			address2Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address2Panel.add(new JLabel("지    역 : "));
+			address2Panel.add(new JLabel("도로명 주소 : "));
 			address2Panel.add(address2);
 			formPanel.add(address2Panel);
-
-			JPanel address3Panel = new JPanel();
-			address3Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			address3Panel.add(new JLabel("도로명 주소 : "));
-			address3Panel.add(address3);
-			formPanel.add(address3Panel);
 
 			JPanel price1Panel = new JPanel();
 			price1Panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -188,13 +183,12 @@ public class JoinScreen extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 
 				String myId = "";
-				String myGym = TGym.getText();
+				String myGym = Tgym.getText();
 				String myPhoneNum = phone.getText();
 				String myPwd = new String(pwd.getPassword());
 				String myName = name.getText();
 				String myAddress1 = address1.getText();
 				String myAddress2 = address2.getText();
-				String myAddress3 = address3.getText();
 				String myPrice1 = price1.getText();
 				String myPrice10 = price10.getText();
 				String myPrice20 = price20.getText();
@@ -288,7 +282,7 @@ public class JoinScreen extends JFrame {
 					if (JoinSuccess == true) {
 						// 2. 만들어진 아이디 확인시켜주는 부분.
 						JOptionPane.showMessageDialog(null,
-								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName + ", 지 역 : " + myAddress2
+								"아이디 : " + myId + ", 비밀번호 : " + myPwd + ", 이 름 : " + myName + ", 지 역 : " + myAddress1
 										+ "\n"
 										+ "로그인 시 아이디가 필요하니 아이디를 꼭 기억해주세요.\n"
 										+ "아이디는 (Member의 M) + (핸드폰 번호 뒷자리) + (숫자 하나)로 구성되어있습니다.");
@@ -302,7 +296,7 @@ public class JoinScreen extends JFrame {
 							pst.setString(1, null);
 							pst.setString(2, myId);
 							pst.setString(3, myName);
-							pst.setString(4, myAddress2);
+							pst.setString(4, myAddress1);
 							pst.setInt(5, 0);
 							pst.setInt(6, 0);
 							pst.setString(7, null);
@@ -371,7 +365,7 @@ public class JoinScreen extends JFrame {
 							// insert into DB2022_트레이너 values (헬스장번호, 강사번호, 이름, 담당회원수, 총근무시간, 비밀번호);
 							String JoinQuery = "insert into DB2022_트레이너 values (?, ?, ?, ?, ?, ?);";
 							PreparedStatement pst = conn.prepareStatement(JoinQuery);
-							pst.setString(1, MyGym);
+							pst.setString(1, myGym);
 							pst.setString(2, myId);
 							pst.setString(3, myName);
 							pst.setInt(4, 0);
@@ -435,15 +429,12 @@ public class JoinScreen extends JFrame {
 
 					// [주소]
 					if (!(0 < myAddress1.length() && myAddress1.length() <= 6)) {
-						checkCondition.setText("도시명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
+						checkCondition.setText("wldur명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
 						JoinSuccess = false;
 					} else if (!(0 < myAddress2.length() && myAddress2.length() <= 6)) {
-						checkCondition.setText("지역명이 너무 짧거나 깁니다. (1자 이상 6자 이내)");
-						JoinSuccess = false;
-					} else if (!(0 < myAddress3.length() && myAddress3.length() <= 20)) {
 						checkCondition.setText("도로명주소가 너무 짧거나 깁니다. (1자 이상 20자 이내)");
 						JoinSuccess = false;
-					}
+					} 
 					// [가격]
 					else if (!isInt) {
 						checkCondition.setText("가격정보에는 숫자만 입력해주세요.");
@@ -488,15 +479,14 @@ public class JoinScreen extends JFrame {
 
 						// 3. DB에 삽입
 						try {
-							// insert into DB2022_헬스장 values (헬스장번호, 이름, 도시, 지역, 도로명주소, 전체회원수, 전체트레이너수,
+							// insert into DB2022_헬스장 values (헬스장번호, 이름, 지역, 도로명주소, 전체회원수, 전체트레이너수,
 							// 비밀번호);
-							String JoinQuery = "insert into DB2022_헬스장 values (?, ?, ?, ?, ?, ?, ?, ?);";
+							String JoinQuery = "insert into DB2022_헬스장 values (?, ?, ?, ?, ?, ?, ?);";
 							PreparedStatement pst = conn.prepareStatement(JoinQuery);
 							pst.setString(1, myId);
 							pst.setString(2, myName);
 							pst.setString(3, myAddress1);
 							pst.setString(4, myAddress2);
-							pst.setString(5, myAddress3);
 							pst.setInt(6, 0);
 							pst.setInt(7, 0);
 							pst.setString(8, myPwd);
