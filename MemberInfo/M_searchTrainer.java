@@ -79,43 +79,51 @@ public class M_searchTrainer extends JFrame {
 		str = "select * from DB2022_searchTrainer";
 		rset = stmt.executeQuery(str);
 		
-		//for err & undo btn
+		//for info & btn
 		btnGroup = new JPanel();
 		btnGroup.setLayout(new GridLayout(2,1));
 		
-		//table data
-		if(!rset.isBeforeFirst()) {
-			JPanel jpErr = new JPanel();
-			jpErr.setLayout(new FlowLayout());
-			jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
-			btnGroup.add(jpErr);
-		}
-		else {
-			while(rset.next()) {
-				String Gname = rset.getString(1);
-				String Tname = rset.getString(2);
-				String location = rset.getString(3);
-				String member = rset.getString(4);
-				
-				if(!Tname.equals("탈퇴")) {
-					String[] data = {Gname,Tname,location,member};
-					tableModel.addRow(data);
-				} 	
-			}
-			jt = new JTable(tableModel);
-			
-			//스크롤&column명을 위해 JScrollPane 적용
-			JScrollPane scrollpane=new JScrollPane(jt);
-			scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
-		
-			table.add(scrollpane);
-		}
-		
 		//안내문구
 		JPanel info = new JPanel();
-		infoText = new JLabel("트레이너 등록을 원하시면 원하는 트레이너를 클릭한 뒤, 틍록하기 버튼을 눌러주세요. \n(소속헬스장의 트레이너만 등록 가능합니다.)");
+		infoText = new JLabel("트레이너 등록을 원하시면 원하는 트레이너를 클릭한 뒤, 틍록하기 버튼을 눌러주세요. (소속헬스장의 트레이너만 등록 가능)");
 		info.add(infoText);
 		btnGroup.add(info);
+		
+		//table data
+		try {
+			if(!rset.isBeforeFirst()) {
+				infoText.setText("등록된 트레이너 정보가 없습니다.");
+				infoText.setForeground(new Color(153,0,5));
+				btnGroup.revalidate();
+				btnGroup.repaint();
+			}
+			else {
+				while(rset.next()) {
+					String Gname = rset.getString(1);
+					String Tname = rset.getString(2);
+					String location = rset.getString(3);
+					String member = rset.getString(4);
+					
+					if(!Tname.equals("탈퇴")) {
+						String[] data = {Gname,Tname,location,member};
+						tableModel.addRow(data);
+					} 	
+				}
+				jt = new JTable(tableModel);
+				
+				//스크롤&column명을 위해 JScrollPane 적용
+				JScrollPane scrollpane=new JScrollPane(jt);
+				scrollpane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));	//padding
+			
+				table.add(scrollpane);
+			}
+		} catch (SQLException e) {
+			infoText.setText("트레이너 정보를 불러오는데 실패했습니다.");
+			infoText.setForeground(new Color(153,0,5));
+			btnGroup.revalidate();
+			btnGroup.repaint();
+		}
+		
 		
 		//undo
 		JPanel jp0 = new JPanel();
@@ -172,10 +180,10 @@ public class M_searchTrainer extends JFrame {
 					
 					//table data
 					if(!rset.isBeforeFirst()) {
-						JPanel jpErr = new JPanel();
-						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
-						btnGroup.add(jpErr);
+						infoText.setText("등록된 헬스장 중 해당 이름을 가진 헬스장이 없습니다.");
+						infoText.setForeground(new Color(135,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
 					}
 					else {
 						while(rset.next()) {
@@ -193,6 +201,10 @@ public class M_searchTrainer extends JFrame {
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					infoText.setText("트레이너를 불러오는데 실패했습니다.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
 					e1.printStackTrace();
 				}
 			}
@@ -215,10 +227,10 @@ public class M_searchTrainer extends JFrame {
 					
 					//table data
 					if(!rset.isBeforeFirst()) {
-						JPanel jpErr = new JPanel();
-						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
-						btnGroup.add(jpErr);
+						infoText.setText("등록된 트레이너 중 해당 이름을 가진 트레이너가 없습니다.");
+						infoText.setForeground(new Color(135,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
 					}
 					else {
 						while(rset.next()) {
@@ -236,6 +248,10 @@ public class M_searchTrainer extends JFrame {
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					infoText.setText("트레이너를 불러오는데 실패했습니다.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
 					e1.printStackTrace();
 				}
 			}
@@ -263,13 +279,13 @@ public class M_searchTrainer extends JFrame {
 					pstmt = conn.prepareStatement(str);
 					pstmt.setString(1, ID);
 					rset = pstmt.executeQuery();
-					
+
 					//table data
 					if(!rset.isBeforeFirst()) {
-						JPanel jpErr = new JPanel();
-						jpErr.setLayout(new FlowLayout());
-						jpErr.add(new JLabel("트레이너정보를 불러오는데 실패했습니다."));
-						btnGroup.add(jpErr);
+						infoText.setText("헬스장에 소속된 트레이너가 없습니다.");
+						infoText.setForeground(new Color(135,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
 					}
 					else {
 						while(rset.next()) {
@@ -287,6 +303,10 @@ public class M_searchTrainer extends JFrame {
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
+					infoText.setText("트레이너를 불러오는데 실패했습니다.");
+					infoText.setForeground(new Color(153,0,5));
+					btnGroup.revalidate();
+					btnGroup.repaint();
 					e1.printStackTrace();
 				}
 			}
@@ -396,7 +416,6 @@ public class M_searchTrainer extends JFrame {
 									System.out.println("Roll Back 실행");
 							
 									try {
-									
 										if (conn != null)
 										conn.rollback(); // 정상 수행되지 않았을 시 rollback();
 									} catch (SQLException se2) {

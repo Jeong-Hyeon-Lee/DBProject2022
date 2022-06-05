@@ -179,6 +179,10 @@ public class M_enrollMembership extends JFrame {
 		 enrollBtn.addActionListener(new ActionListener() { 
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//문자열일 때 걸러야 함
+				//String ifString = inputText.getText();
+				//if(ifString)
+				
 				int input = Integer.parseInt(inputText.getText());
 				
 				if(input!=1&&input!=10&&input!=20) { //셋 다 아닐 때.. 
