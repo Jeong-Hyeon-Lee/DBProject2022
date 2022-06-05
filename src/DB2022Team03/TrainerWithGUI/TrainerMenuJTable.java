@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 
-import DB2022Team03.Main.DeleteScreen;
-import DB2022Team03.Main.StartScreen;
+import DB2022Team03.YeonWoo.DeleteScreen;
+import DB2022Team03.YeonWoo.StartScreen;
 
 public class TrainerMenuJTable extends JFrame implements ActionListener{
 	JMenu m = new JMenu("트레이너 메뉴");
