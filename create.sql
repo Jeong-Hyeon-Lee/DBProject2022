@@ -1,13 +1,12 @@
 CREATE DATABASE DB2022Team03;
 
-/* create user and give grant */
 use mysql;
 #select user, host from user;
 #drop user 'DB2022Team03'@localhost;
 create user 'DB2022Team03'@localhost identified by 'DB2022Team03';
 grant all privileges on *.* to 'DB2022Team03'@localhost;
 use DB2022Team03;
-
+/*헬스장 정보를 저장하는 CREATE TABLE*/
 create table DB2022_헬스장(
     	헬스장번호 char(6),
     	이름 varchar(25) not null,
@@ -18,7 +17,7 @@ create table DB2022_헬스장(
     	비밀번호 varchar(20) not null,
     	primary key(헬스장번호)
 );
-
+/*트레이너 정보를 저장하는 CREATE TABLE*/
 create table DB2022_트레이너(
     	헬스장번호 char(6) not null,
     	강사번호 char(6),
@@ -29,9 +28,9 @@ create table DB2022_트레이너(
     	primary key(강사번호),
     	foreign key(헬스장번호) references DB2022_헬스장(헬스장번호)
 );
-
+/*강사번호로 트레이너 검색 시에 SELECT 문에서 사용할 INDEX 생성*/
 CREATE INDEX 강사번호인덱스 ON DB2022_트레이너(강사번호);
-
+/*회원 정보를 저장하는 CREATE TABLE*/
 CREATE TABLE DB2022_회원(
 	소속헬스장 char(6),
 	회원번호 char(6) NOT NULL,
@@ -48,7 +47,7 @@ CREATE TABLE DB2022_회원(
 );
 
 CREATE INDEX 회원번호인덱스 ON DB2022_회원(회원번호);
-
+/*헬스장 정보를 저장하는 CREATE TABLE*/
 CREATE TABLE DB2022_수업(
 	회원번호 char(6) NOT NULL,
     강사번호 char(6),
@@ -58,9 +57,9 @@ CREATE TABLE DB2022_수업(
 	FOREIGN KEY (회원번호) REFERENCES DB2022_회원(회원번호),
 	FOREIGN KEY (강사번호) REFERENCES DB2022_트레이너(강사번호)
 );
-
+/*회원번호로 회원 검색 시에 SELECT 문에 사용하는 INDEX CREATE*/
 CREATE INDEX 회원번호인덱스 ON DB2022_수업(회원번호);
-
+/*헬스장별 가격 정보를 저장하는 CREATE TABLE*/
 CREATE TABLE DB2022_가격(
 	헬스장번호 char(6),
 	1회가격 int NOT NULL,
@@ -70,7 +69,7 @@ CREATE TABLE DB2022_가격(
 	PRIMARY KEY(헬스장번호),
 	FOREIGN KEY (헬스장번호) REFERENCES DB2022_헬스장(헬스장번호) ON DELETE CASCADE
 );
-
+/*헬스장 번호로 헬스장 검색 시에 SELECT 문에 사용하는 INDEX CREATE*/
 CREATE INDEX 헬스장번호인덱스 ON DB2022_가격(헬스장번호);
 
 /*DB2022_헬스장 insert*/
@@ -124,7 +123,7 @@ select * from DB2022_트레이너;
 /*DB2022_회원 insert*/
 INSERT INTO DB2022_회원(소속헬스장, 회원번호, 이름, 지역, 전체횟수, 남은횟수, 담당트레이너, 현재회원권, 비밀번호) VALUES 
 	('000000', '000000', '탈퇴', '000', 0,0,'000000','없음', 'none'),
-	('G10230', 'M82510', '김다혜', '서대문구', 1, 1, 'T35220', '1회권', 'dh8251'),
+	('G10230', 'M82510', '김다혜', '서대문구', 3, 3, 'T35220', '1회권', 'dh8251'),
 	('G05910', 'M22380', '최혜인', '은평구', 20, 19,   'T16210',	'20회권', 'hye2238'),
 	('G05910', 'M22381', '최혜림', '은평구', 10, 9,   'T16210',	'10회권','choiS2'),
 	('G10340', 'M84020', '이수현','서초구',	10, 9,	  'T20330',	'10회권','lsh8402'),
@@ -133,12 +132,12 @@ INSERT INTO DB2022_회원(소속헬스장, 회원번호, 이름, 지역, 전체�
 	('G43240', 'M47170', '조용찬','서초구',	10, 7,	  'T12340',	'10회권','jyc0321'),
 	('G43240', 'M42460', '백제우','서초구',	10, 9,	  'T12340',	'10회권','jaewoo'),
 	('G43240', 'M92880', '박채린','서초구',	20, 20,	  'T12340',	'20회권','ch93'),
-	('G18340', 'M87830', '김솔희','양천구',10, 9,   'T45770',	'10회권','solhee00'),
+	('G18340', 'M87830', '김솔희','양천구',30, 29,   'T45770',	'10회권','solhee00'),
 	('G18340', 'M82511', '정민정','양천구',20,18,	  'T45770',	'20회권','2JMJ2'),
 	('G18340', 'M72920', '박제찬','양천구',	1,1,	  'T05100',	'1회권','qlalf11'),
 	('G18860', 'M09560', '정은상','서대문구',20,18,'T02140',	'20회권','eunsang98'),
 	('G18860', 'M95610', '김지연','서대문구',10,9, 'T02140',	'10회권','jykim29'),
-	('G95610', 'M61590', '유다원','관악구',1, 0,	  'T31570',	'1회권','allone6');
+	('G95610', 'M61590', '유다원','관악구',5, 4,	  'T31570',	'1회권','allone6');
 
 select * from DB2022_회원;
 
@@ -186,12 +185,12 @@ INSERT INTO DB2022_가격 VALUES
 ('G54360', 50000, 460000, 1000000, '없음');
 
 select * from DB2022_가격;
-
+/*M_searchTrainer.java에서 사용하기 위한 view create*/
 create view DB2022_searchTrainer as
 	( select G.이름 as 헬스장이름 ,T.이름 as 트레이너이름 ,G.지역, T.담당회원수, G.헬스장번호 
 	from db2022_트레이너 as T,db2022_헬스장 as G 
 	where T.헬스장번호 = G.헬스장번호) ;
-
+/*M_searchGym.java에서 사용하기 위한 view create*/
 create view DB2022_searchGYM as 
 	( select 이름,지역,1회가격,10회가격,20회가격,기타프로모션설명 
 	from db2022_헬스장 natural join db2022_가격 );
