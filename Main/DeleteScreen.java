@@ -342,7 +342,7 @@ public class DeleteScreen extends JFrame {
 					new TrainerMenuJTable(ID);
 				} else if (userType.equals("관장")) {
 					try {
-						new G_selectMenu(ID, owner_name);
+						new G_selectMenu(ID);
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
