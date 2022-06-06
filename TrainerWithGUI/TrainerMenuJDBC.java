@@ -185,8 +185,16 @@ public class TrainerMenuJDBC {
 		}
 	}
 	public void acceptClass(JTable class_jt, String student_name, String student_no, String class_t, String status, String trainer_pk) {
-		// 예약 수락 (회원 남은 수업 횟수 -1 : 예약 수락되는 시점에 무조건 회원 남은 횟수는 차감)
+		// 예약 수락 (회원 남은 수업 횟수 -1 : 예약 수락되는 시점에 무조건 회원 남은 횟수는 차감) 예약 확인중인 수업만 변경 가능
 		PreparedStatement pstDetail = null;
+		if (status.equals("예약완료")){
+			JOptionPane.showMessageDialog(class_jt, "이미 예약 완료 된 수업입니다. 다른 메뉴를 선택해 주세요");
+			return;
+		}
+		if (status.equals("예약확인중") == false){
+			JOptionPane.showMessageDialog(class_jt, "예약 확인 중인 수업만 예약 완료 할 수 있습니다.");
+			return;
+		}
 		try {
 			con.setAutoCommit(false); // transaction 시작
 			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='예약완료' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
@@ -219,6 +227,10 @@ public class TrainerMenuJDBC {
 	public void endClass(JTable class_jt, String student_no, String class_t, String status, String trainer_pk) {
 		// 수업 완료 (강사 근무시간 +1)
 		PreparedStatement pstDetail = null;
+		if (status.equals("예약완료") == false){
+			JOptionPane.showMessageDialog(class_jt, "예약 완료된 수업만 <완료>로 변경 가능합니다.");
+			return;
+		}
 		try {
 			con.setAutoCommit(false); // transaction 시작
 			pst = con.prepareStatement("UPDATE DB2022_수업 SET 수업진행현황='완료' WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
