@@ -1,4 +1,4 @@
-# DBProject2022 ( PT Reservation System )
+# DBProject2022 ( FITNESS CENTER TOTAL MANAGEMENT )
 
 ### `Gym`
 |__ `G_selectMenu.java`   :  Menu page for gym owner  
