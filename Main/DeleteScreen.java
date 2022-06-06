@@ -176,7 +176,7 @@ public class DeleteScreen extends JFrame {
 						PreparesStatemtnt st = conn.prepareStatement(leftclass);
 						st.setString(1, ID);
 						ResultSet rsc = st.executeQuery();
-						if (rsc.getRowCount() == -1){
+						if (rsc.isBeforeFirst()){
 							JOptionPane.showMessageDialog(checkPanel, "예약확인중이거나 예약 완료인 수업이 있으면 트레이너는 탈퇴가 불가합니다.");
 							return;
 						}
