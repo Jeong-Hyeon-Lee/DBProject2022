@@ -350,6 +350,7 @@ public class M_searchGYM extends JFrame {
 		            pstmt = conn.prepareStatement(str);
 		            pstmt.setString(1, ID);
 		            rset = pstmt.executeQuery();
+		            rset.next();
 		            int reservedClass = rset.getInt(1);
 					
 		            if(reservedClass==0) { //예약된 수업 개수==0
