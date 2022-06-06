@@ -289,7 +289,7 @@ public class M_reserveClass extends JFrame {
 					
 					try {			
 						query2 = "SELECT NOW()";
-						query3 = "SELECT 담당트레이너 FROM DB2022_회원 WHERE 회원번호 = ?";
+						query3 = "SELECT 담당트레이너 FROM DB2022_회원 USE INDEX(회원번호인덱스) WHERE 회원번호 = ?";
 						query4 = "INSERT IGNORE INTO DB2022_수업 " + "VALUES(?, ?, ?, ?)";  // Ignore insertion if duplicated.
 						query5 = "UPDATE DB2022_수업 " + "SET 수업진행현황 = '예약확인중' " + "WHERE 회원번호 = ? AND 수업시간 = ? AND 수업진행현황 = '취소'";  // Reserve a cancelled class again.
 	
