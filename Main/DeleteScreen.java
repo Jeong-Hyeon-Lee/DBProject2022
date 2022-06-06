@@ -173,7 +173,7 @@ public class DeleteScreen extends JFrame {
 						conn.setAutoCommit(false);
 
 						String leftclass = "SELECT * FROM DB2022_수업 WHERE(강사번호=? AND 수업진행현황 IN ('예약확인중', '예약완료')) ";
-						PreparesStatemtnt st = conn.prepareStatement(leftclass);
+						PreparedStatement st = conn.prepareStatement(leftclass);
 						st.setString(1, ID);
 						ResultSet rsc = st.executeQuery();
 						if (rsc.isBeforeFirst()){
