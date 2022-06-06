@@ -84,6 +84,15 @@ public class DeleteScreen extends JFrame {
 						// transaction 시작
 						conn.setAutoCommit(false);
 
+						String leftclass = "SELECT * FROM DB2022_수업 WHERE(회원번호=? AND 수업진행현황 IN ('예약확인중', '예약완료')) ";
+						PreparedStatement st = conn.prepareStatement(leftclass);
+						st.setString(1, ID);
+						ResultSet rsc = st.executeQuery();
+						if (rsc.isBeforeFirst()){
+							JOptionPane.showMessageDialog(checkPanel, "예약확인중이거나 예약 완료인 수업이 있으면 회원은 탈퇴가 불가합니다.");
+							return;
+						}		
+					
 						// STEP0. 필요한 값들 찾아서 저장해두기
 						String member_gym = null; // 로그인한 회원의 소속 헬스장번호
 						String member_trainer = null; // 로그인한 회원의 담당 트레이너번호
