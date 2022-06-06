@@ -42,14 +42,15 @@ public class M_reserveClass extends JFrame {
 	public static PreparedStatement pStmt1 = null;
 	public static PreparedStatement pStmt2 = null;
 	public static PreparedStatement pStmt3 = null;
-	public static PreparedStatement pStmt4 = null;
+	public static PreparedStatement pStmt4 = null,  pStmt5 = null;
 	public static ResultSet rs1=null;
 	public static ResultSet rs2=null;
 	public static ResultSet rs3=null;
 	public static String query1 = null;  // (1) Show future classes.
 	public static String query2 = null;  // (2) Search current dateTime.
 	public static String query3 = null;  // (3) Search the trainer ID of the current member.
-	public static String query4 = null;  // (3) Reserve the selected class.
+	public static String query4 = null;  // (3) Reserve a new class.
+	public static String query5 = null;  // (3) Reserve a cancelled class again.
 
 
 	
@@ -288,8 +289,9 @@ public class M_reserveClass extends JFrame {
 					
 					try {			
 						query2 = "SELECT NOW()";
-						query3 = "SELECT 담당트레이너 FROM DB2022_회원 USE INDEX(회원번호인덱스) WHERE 회원번호 = ?";
+						query3 = "SELECT 담당트레이너 FROM DB2022_회원 WHERE 회원번호 = ?";
 						query4 = "INSERT IGNORE INTO DB2022_수업 " + "VALUES(?, ?, ?, ?)";  // Ignore insertion if duplicated.
+						query5 = "UPDATE DB2022_수업 " + "SET 수업진행현황 = '예약확인중' " + "WHERE 회원번호 = ? AND 수업시간 = ? AND 수업진행현황 = '취소'";  // Reserve a cancelled class again.
 	
 						pStmt2 = conn.prepareStatement(query2);
 						rs2 = pStmt2.executeQuery();
@@ -306,10 +308,15 @@ public class M_reserveClass extends JFrame {
 							pStmt4.setString(1, ID);
 							pStmt4.setString(2, trainerId);
 							pStmt4.setTimestamp(3, Timestamp.valueOf(dateTime));  // '수업시간'
-							pStmt4.setString(4, "예약확인중"); 
+							pStmt4.setString(4, "예약확인중"); 							
+							
+							pStmt5 = conn.prepareStatement(query5);
+							pStmt5.setString(1, ID);
+							pStmt5.setTimestamp(2, Timestamp.valueOf(dateTime));  // '수업시간'
 										
 							/* Update DB. */
 							int row = pStmt4.executeUpdate();
+							int row2 = pStmt5.executeUpdate();
 							
 							/* 예약한 경우에는 수업횟수 차감이 일어나지 않는다.
 							// 남은 수업횟수 -= 1
@@ -323,7 +330,7 @@ public class M_reserveClass extends JFrame {
 							*/
 					
 							// Update the JTable.
-							if(row > 0) {
+							if(row > 0 || row2 > 0) {
 								tModel.setNumRows(0);  // Erase all the columns.
 								pStmt1 = conn.prepareStatement(query1);  // Execute query1.
 								pStmt1.setString(1, ID);  // '회원번호'
