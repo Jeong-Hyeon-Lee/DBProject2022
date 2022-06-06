@@ -172,6 +172,10 @@ public class TrainerMenuJDBC {
 
 	public void rejectClass(JTable class_jt, String student_no, String class_t, String status, String trainer_pk) {
 		// 예약 거절 (숫자 불변 / 수업 삭제)
+		if (status.equals("예약확인주")==false){
+			JOptionPane.showMessageDialog(class_jt, "예약 확인 중인 수업만 거절하실 수 있습니다.");
+			return;
+		}
 		try {
 			pst = con.prepareStatement("DELETE FROM DB2022_수업 WHERE(회원번호=? AND 수업시간=? AND 강사번호=?)");
 			pst.setString(1, student_no);pst.setString(2, class_t);pst.setString(3, trainer_pk);
