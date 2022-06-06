@@ -93,28 +93,6 @@ public class TrainerMenuJDBC {
 	}
 
 	
-	// trainer의 모든 예약 완료 수업 내역 조회 (불참 / 완료 로 바꾸기 위해)
-	public void trainerClassAll(DefaultTableModel class_table, String tID) {
-		String query1 = "SELECT DB2022_회원.이름, DB2022_수업.수업시간, DB2022_수업.수업진행현황 FROM DB2022_수업 INNER JOIN DB2022_회원 ON DB2022_회원.회원번호=DB2022_수업.회원번호 WHERE(DB2022_수업.강사번호=? AND DB2022_회원.담당트레이너=? AND DB2022_수업.수업진행현황='예약확인중')";
-
-		for (int i = 0;i<class_table.getRowCount();i++) {
-			class_table.removeRow(0);
-		}
-		try {
-			pst = con.prepareStatement(query1);
-			pst.setString(1, tID);
-			pst.setString(2,  tID);
-			rs = pst.executeQuery();
-			while (rs.next()) {
-				Object info[] = {rs.getString(1), rs.getString(2), rs.getString(3),};
-				class_table.addRow(info); // DefaultTableModel에 row 추가 (데이터 보여주기 위해서)
-			}
-		}catch(SQLException e) {
-			e.getStackTrace();
-		}finally {
-			closeDB();
-		}
-	}
 	// trainer의 모든 수입 계산
 	public void calculateSalary(DefaultTableModel salary_table, String tID) {
 		ResultSet students = null; // 담당하고 있는 모든 학생
