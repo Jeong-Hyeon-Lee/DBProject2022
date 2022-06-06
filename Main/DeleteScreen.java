@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 
-//import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
-//import DB2022Team03.Gym.G_selectMenu;
-//import DB2022Team03.MemberInfo.M_MainScreen;
+import DB2022Team03.TrainerWithGUI.TrainerMenuJTable;
+import DB2022Team03.Gym.G_selectMenu;
+import DB2022Team03.MemberInfo.M_MainScreen;
 
 public class DeleteScreen extends JFrame {
 
@@ -337,11 +337,16 @@ public class DeleteScreen extends JFrame {
 
 				// 다시 각자 메뉴 페이지로 돌아가기
 				if (userType.equals("회원")) {
-					// new M_MainScreen(conn, ID);
+					new M_MainScreen(conn, ID);
 				} else if (userType.equals("트레이너")) {
-					// new TrainerMenuJTable(ID);
+					new TrainerMenuJTable(ID);
 				} else if (userType.equals("관장")) {
-
+					try {
+						new G_selectMenu(ID, owner_name);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				dispose();
 
