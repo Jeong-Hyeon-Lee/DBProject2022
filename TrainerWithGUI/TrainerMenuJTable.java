@@ -135,10 +135,10 @@ public class TrainerMenuJTable extends JFrame implements ActionListener {
 				String student_no = (String) class_jt.getValueAt(row, 3);
 			
 				switch(fieldName) {
-				case "거절" : tmdb.rejectClass(student_no, class_t, status, trainer_pk);break;
-				case "예약완료" : tmdb.acceptClass(student_name, student_no,class_t , status, trainer_pk);break;
-				case "불참" : tmdb.noshowClass(student_no, class_t, status, trainer_pk);break;
-				case "완료" : tmdb.endClass(student_no, class_t, status, trainer_pk);break;
+				case "거절" : tmdb.rejectClass(class_jt, student_no, class_t, status, trainer_pk);break;
+				case "예약완료" : tmdb.acceptClass(class_jt, student_name, student_no,class_t , status, trainer_pk);break;
+				case "불참" : tmdb.noshowClass(class_jt, student_no, class_t, status, trainer_pk);break;
+				case "완료" : tmdb.endClass(class_jt, student_no, class_t, status, trainer_pk);break;
 				}
 			}
 
