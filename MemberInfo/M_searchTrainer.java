@@ -351,8 +351,25 @@ public class M_searchTrainer extends JFrame {
 												
 						//남은 횟수가 0인지 확인
 						int check[] = M_totalLeft.M_totalLeft(conn, ID);
+
+						if(check[1]!=0 ) { //남은수업횟수 0이 아닐 때 변경X
+							//안내문구 빨간색으로 표시
+							infoText.setText("트레이너 등록 및 변경은 남은수업회차가 0일 때만 가능합니다.");
+							infoText.setForeground(new Color(153,0,5));
+							btnGroup.revalidate();
+							btnGroup.repaint();
+							return;
+			            }
 						
-						if(check[1]==0) { //남은 횟수가 0이라면
+						//남은수업횟수가 0이면
+			            //예약된 수업 개수가 0인지 확인
+			            str = "SELECT COUNT(*) FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+			            pstmt = conn.prepareStatement(str);
+			            pstmt.setString(1, ID);
+			            rset = pstmt.executeQuery();
+			            int reservedClass = rset.getInt(1);
+			            
+						if(reservedClass==0) { //예약된 수업 개수==0
 							//소속헬스장과 선택한 트레이너 소속 헬스장이 같은지 확인 (이름으로 확인)
 							if(nowGymName.equals(Gname)) { //둘이 같다면 등록 가능!
 								str = "select 담당트레이너 from db2022_회원 use index(회원번호인덱스) where 회원번호=?";
@@ -439,9 +456,8 @@ public class M_searchTrainer extends JFrame {
 								btnGroup.revalidate();
 								btnGroup.repaint();
 							}
-						} else { //남은 횟수가 0이 아니라면 
-							//textfield띄우기
-							infoText.setText("아직 수업횟수가 남아서 트레이너를 변경할 수 없습니다.");
+						} else { //예약된 수업이 남아있다면
+							infoText.setText("예약확인중이거나 예약완료된 수업이 남아있어 트레이너를 변경할 수 없습니다.");
 							infoText.setForeground(new Color(153,0,5));
 							btnGroup.revalidate();
 							btnGroup.repaint();

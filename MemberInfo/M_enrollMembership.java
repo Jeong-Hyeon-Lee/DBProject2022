@@ -259,9 +259,27 @@ public class M_enrollMembership extends JFrame {
 				}	
 	
 				
-				try { //남은수업횟수가 0인지 확인
+				try { 
+					//남은수업횟수가 0인지 확인
 					int check[] = M_totalLeft.M_totalLeft(conn, ID);
-					if(check[1]==0) { //남은수업횟수 == 0
+		            if(check[1]!=0 ) { //남은수업횟수 0이 아닐 때 변경X
+						//안내문구 빨간색으로 표시
+						infoText.setText("회원권 등록 및 변경은 남은수업회차가 0일 때만 가능합니다.");
+						infoText.setForeground(new Color(153,0,5));
+						btnGroup.revalidate();
+						btnGroup.repaint();
+						return;
+		            }
+		            
+		            //남은수업횟수가 0이면
+		            //예약된 수업 개수가 0인지 확인
+		            str = "SELECT COUNT(*) FROM DB2022_수업 USE INDEX(회원번호인덱스) WHERE 회원번호 = ? AND 수업진행현황 IN ('예약확인중', '예약완료')";
+		            pstmt = conn.prepareStatement(str);
+		            pstmt.setString(1, ID);
+		            rset = pstmt.executeQuery();
+		            int reservedClass = rset.getInt(1);
+		            
+					if(reservedClass==0) { //예약된 수업 개수==0
 						
 						try{ //update
 						
@@ -325,12 +343,12 @@ public class M_enrollMembership extends JFrame {
 								se2.printStackTrace();
 							}
 						}	
-					} else {
-						//안내문구 빨간색으로 표시
-						infoText.setText("회원권 등록 및 변경은 남은수업회차가 0일 때만 가능합니다.");
+					} else { //예약된 수업이 남아있다면
+						infoText.setText("예약확인중이거나 예약완료된 수업이 남아있어 회원권을 변경할 수 없습니다.");
 						infoText.setForeground(new Color(153,0,5));
 						btnGroup.revalidate();
 						btnGroup.repaint();
+						return;
 					}
 					
 				} catch (SQLException e1) {
