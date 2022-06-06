@@ -30,7 +30,7 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 		
 		this.tm = tm;
 		if (index.equals("로그아웃")) {
-			MessageBox(this, trainer_name + "트레이너 님이 로그아웃 합니다.");
+			MessageBox(this.tm, trainer_name + "트레이너 님이 로그아웃 합니다.");
 			tm.dispose();
 			return;
 		}
@@ -67,7 +67,7 @@ public class TrainerJDialogGUI extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String btnLabel = e.getActionCommand();
 		if (btnLabel.equals("로그아웃")) {
-			MessageBox(this, "로그아웃 합니다.");
+			MessageBox(this.tm, "로그아웃 합니다.");
 			tm.dispose();
 			System.exit(0);
 		}
