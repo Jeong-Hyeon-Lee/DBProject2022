@@ -84,6 +84,7 @@ public class DeleteScreen extends JFrame {
 						// transaction 시작
 						conn.setAutoCommit(false);
 
+						// 회원: '예약확인중'이거나 '예약완료'인 수업이 있으면 탈퇴할 수 없다.
 						String leftclass = "SELECT * FROM DB2022_수업 WHERE(회원번호=? AND 수업진행현황 IN ('예약확인중', '예약완료')) ";
 						PreparedStatement st = conn.prepareStatement(leftclass);
 						st.setString(1, ID);
