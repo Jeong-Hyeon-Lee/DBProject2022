@@ -86,7 +86,7 @@ public class G_changePriceInformation extends JFrame {
 					int newPrice = 0;
 					try {
 						//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같다면 1회가격 값을 위에서 입력받은 값으로 update
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 10회가격 = ? where 헬스장번호 = ?");
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 1회가격 = ? where 헬스장번호 = ?");
 						try {
 							newPrice = Integer.parseInt(s);
 						} catch (NumberFormatException e2) {
@@ -162,7 +162,7 @@ public class G_changePriceInformation extends JFrame {
 					int newPrice = 0;
 					try {
 						//DB2022_가격 테이블에서 헬스장 번호가 'gymID'와 같다면 20회가격 값을 위에서 입력받은 값으로 update
-						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 10회가격 = ? where 헬스장번호 = ?");
+						PreparedStatement pStmt2 = conn.prepareStatement("update DB2022_가격 set 20회가격 = ? where 헬스장번호 = ?");
 						try {
 							newPrice = Integer.parseInt(s);
 						} catch (NumberFormatException e2) {

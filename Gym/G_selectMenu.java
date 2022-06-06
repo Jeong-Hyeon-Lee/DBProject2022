@@ -126,7 +126,7 @@ public class G_selectMenu extends JFrame {
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						try {
-							new G_countTrainees(conn, gymID);
+							new G_countTrainees(conn, gymID, rootPane);
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
