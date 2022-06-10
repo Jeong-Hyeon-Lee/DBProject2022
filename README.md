@@ -36,5 +36,5 @@
 |__ `Main.java` : Main() for total program  
 |__ `StartScreen.java` : StartScreen to select "회원 member" "트레이너 trainer" "관장 gym_owner"  
 |__ `LoginScreen.java` : Login screen for each user type
-|__ `JoinScreen.java` : Join screen for each user type 
+|__ `JoinScreen.java` : Join screen for each user type\
 |__ `DeleteScreen.java` : Membership withdraw screen for each user type
