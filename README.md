@@ -38,3 +38,5 @@
 |__ `LoginScreen.java` : Login screen for each user type\
 |__ `JoinScreen.java` : Join screen for each user type\
 |__ `DeleteScreen.java` : Membership withdraw screen for each user type
+
+[DB2022Team03_ppt.pptx](https://github.com/Jeong-Hyeon-Lee/DBProject2022/files/9059700/DB2022Team03_ppt.pptx)
