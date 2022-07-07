@@ -39,4 +39,11 @@
 |__ `JoinScreen.java` : Join screen for each user type\
 |__ `DeleteScreen.java` : Membership withdraw screen for each user type
 
-[DB2022Team03_ppt.pptx](https://github.com/Jeong-Hyeon-Lee/DBProject2022/files/9059714/DB2022Team03_ppt.pptx)
+![image](https://user-images.githubusercontent.com/90602936/177673705-58f6ccb7-476a-4c0a-a1a1-876d91775ab4.png)
+![image](https://user-images.githubusercontent.com/90602936/177673729-fce39976-7fa1-4e33-885d-b8a4be41d599.png)
+![image](https://user-images.githubusercontent.com/90602936/177673746-26805697-ccd3-48bb-9cd3-3fa6fb52868a.png)
+![image](https://user-images.githubusercontent.com/90602936/177673769-78e00ee6-af84-43e1-93a9-d12cc82da8ac.png)
+![image](https://user-images.githubusercontent.com/90602936/177673796-380c68d7-d395-43b0-8873-b65c7cb5236a.png)
+![image](https://user-images.githubusercontent.com/90602936/177673817-92aff119-d261-43eb-9dea-1622c537b56b.png)
+![image](https://user-images.githubusercontent.com/90602936/177673842-4daa2605-7a3e-492a-b6a6-7a164c2c5f0c.png)
+![image](https://user-images.githubusercontent.com/90602936/177673874-0c0fa8f9-71ec-40ef-90fe-13fb4ba48f93.png)
