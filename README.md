@@ -39,6 +39,7 @@
 |__ `JoinScreen.java` : Join screen for each user type\
 |__ `DeleteScreen.java` : Membership withdraw screen for each user type
 
+### Screenshots
 ![image](https://user-images.githubusercontent.com/90602936/177673705-58f6ccb7-476a-4c0a-a1a1-876d91775ab4.png)
 ![image](https://user-images.githubusercontent.com/90602936/177673729-fce39976-7fa1-4e33-885d-b8a4be41d599.png)
 ![image](https://user-images.githubusercontent.com/90602936/177673746-26805697-ccd3-48bb-9cd3-3fa6fb52868a.png)
